@@ -9,8 +9,11 @@
 #include "nuevodialog.h"
 //inclusion del formulario nuevo catos monitoreo
 #include "nuevaestmonitoreodialog.h"
-// cabecera autocompletado
-#include <QCompleter>
+
+//cabecera para cambio de tema oscuro
+#include "qeasysettings.hpp"
+#include<QComboBox>
+#include <QListWidgetItem>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,21 +31,32 @@ public:
 
   void loadGpoMinerolist();
   void loadDataListCliente();
+  void loadDataEstMonitoreo();
 //  int getIdGrupo(QString name);
-  //metodo autocompleter
-  void setCompleter();
+
+  void loadCboTemas();
+
+
 
 private slots:
   void on_toolButton_clicked();
   void on_toolButton_2_clicked();
   void on_cboGrupo_activated(int index);
-  void setUpBusqueda();
-  void on_rbPorFecha_clicked();
-  void on_rbPorNombre_clicked(bool checked);
+
+//  void on_rbPorFecha_clicked();
+
   void on_actionNuevo_punto_de_monitoreo_triggered();
   void on_toolButton_3_clicked();
   void on_cboUnidad_activated(int index);
-  void on_dePorFecha_userDateChanged(const QDate &date);
+//  void on_dePorFecha_userDateChanged(const QDate &date);
+  void on_cboMeses_activated(int index);
+  void on_cboAnios_activated(int index);
+
+  void on_lwEstaciones_itemClicked(QListWidgetItem *item);
+
+
+
+  void on_lwFotos_itemClicked(QListWidgetItem *item);
 
 private:
   Ui::MainWindow *ui;
@@ -55,7 +69,17 @@ private:
   NuevaEstMonitoreoDialog *nuevaEstFrm;
   QHash<int,QString> dataList;
   QHash<int,QString> dataListCliente;
-  //autocompletar
-  QCompleter *completer;
+
+  QComboBox *cboTemas;
+
+  QHash<int,QString> meses;
+  QHash<int,QString> dataList_2;
+  int anio;
+  QByteArray foto_1;
+  QByteArray foto_2;
+  QByteArray foto_3;
+
+  //funciones y metodos privados
+  void loadMesesAnios();
 };
 #endif // MAINWINDOW_H

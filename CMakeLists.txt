@@ -48,6 +48,9 @@ set(PROJECT_SOURCES
         nuevaestmonitoreodialog.cpp
         nuevaestmonitoreodialog.h
         nuevaestmonitoreodialog.ui
+        #libreria para modo oscuro de la aplicacion
+        qeasysettings.cpp
+        qeasysettings.hpp
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

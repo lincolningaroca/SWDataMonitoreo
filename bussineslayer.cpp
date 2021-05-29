@@ -140,7 +140,7 @@ bool BussinesLayer::monitoreoMineroAction(QVariantList param, TypeStm modo)
         _errorCode=qry.lastError().nativeErrorCode();
         return false;
       }
-//      qry.next();
+      //      qry.next();
       _lInsertId=qry.lastInsertId();
       break;
 
@@ -316,6 +316,46 @@ QVariantList BussinesLayer::selectData(QVariant id, Table info)
 
 }
 
+QVariantList BussinesLayer::dataEstMonitoreo(int nro)
+{
+  QVariantList dataList;
+  if(!db.getConection()){
+    _errorMessage=db.errorMessage();
+
+    return dataList;
+  }
+  QSqlQuery qry;
+  qry.prepare("SELECT codigo_estacion,fecha_muestra,hora_muestra,descripcion,"
+              "foto_1,foto_2,foto3,id_cliente,nro,ph,tem,od,ce,id_est FROM "
+              "datos_monitoreo dm  INNER JOIN parametro_campo pc "
+              "ON dm.id_estacion=pc.id_est AND nro=?");
+  //  qry.addBindValue(idEstacion);
+  qry.addBindValue(nro);
+
+  //  qry.addBindValue(fecha);
+  if(!qry.exec()){
+    _errorMessage=qry.lastError().text();
+    _errorCode=qry.lastError().nativeErrorCode();
+    return dataList;
+  }
+  qry.next();
+  dataList.append(qry.value(0));
+  dataList.append(qry.value(1));
+  dataList.append(qry.value(2));
+  dataList.append(qry.value(3));
+  dataList.append(qry.value(4));
+  dataList.append(qry.value(5));
+  dataList.append(qry.value(6));
+  dataList.append(qry.value(7));
+  dataList.append(qry.value(8));
+  dataList.append(qry.value(9));
+  dataList.append(qry.value(10));
+  dataList.append(qry.value(11));
+  dataList.append(qry.value(12));
+  dataList.append(qry.value(13));
+  return dataList;
+}
+
 QHash<int,QString> BussinesLayer::selectCodEstacion(int cod)
 {
   QHash<int,QString> dataList;
@@ -327,7 +367,7 @@ QHash<int,QString> BussinesLayer::selectCodEstacion(int cod)
   QSqlQuery qry;
   qry.prepare("SELECT id_estacion,codigo_estacion FROM datos_monitoreo WHERE id_cliente=?");
   qry.addBindValue(cod);
-//  qry.addBindValue(fecha);
+  //  qry.addBindValue(fecha);
   if(!qry.exec()){
     _errorMessage=qry.lastError().text();
     _errorCode=qry.lastError().nativeErrorCode();
@@ -355,6 +395,35 @@ QHash<int, QString> BussinesLayer::selectCodEstacion(int cod, QString fecha)
               " AND fecha_muestra=?");
   qry.addBindValue(cod);
   qry.addBindValue(fecha);
+  if(!qry.exec()){
+    _errorMessage=qry.lastError().text();
+    _errorCode=qry.lastError().nativeErrorCode();
+    return dataList;
+  }
+  while(qry.next()){
+    dataList.insert(qry.value(0).toInt(),qry.value(1).toString());
+  }
+
+  qry.finish();
+  db.closeConection();
+  return dataList;
+}
+
+QHash<int, QString> BussinesLayer::selectCodEstacion(int anio, int mes,int id_cliente)
+{
+  QHash<int,QString> dataList;
+  if(!db.getConection()){
+    _errorMessage=db.errorMessage();
+
+    return dataList;
+  }
+  QSqlQuery qry;
+  qry.prepare("SELECT id_estacion, codigo_estacion FROM datos_monitoreo "
+              " WHERE EXTRACT(YEAR FROM fecha_muestra)=? AND"
+              " EXTRACT(MONTH FROM fecha_muestra)=? AND id_cliente=?");
+  qry.addBindValue(anio);
+  qry.addBindValue(mes);
+  qry.addBindValue(id_cliente);
   if(!qry.exec()){
     _errorMessage=qry.lastError().text();
     _errorCode=qry.lastError().nativeErrorCode();
@@ -418,6 +487,28 @@ QHash<int,QString> BussinesLayer::gpoMineroList(Table t, int id)
 
   return dataList;
 
+}
+
+int BussinesLayer::nro(int codEstacion)
+{
+  int nro=0;
+  if(!db.getConection()){
+    _errorMessage=db.errorMessage();
+
+    return nro;
+  }
+  QSqlQuery qry;
+  qry.prepare("SELECT nro FROM parametro_campo WHERE id_est=?");
+  qry.addBindValue(codEstacion);
+
+  if(!qry.exec()){
+    _errorMessage=qry.lastError().text();
+    _errorCode=qry.lastError().nativeErrorCode();
+    return nro;
+  }
+  qry.next();
+  nro=qry.value(0).toInt();
+  return nro;
 }
 
 QStringList BussinesLayer::completerList()

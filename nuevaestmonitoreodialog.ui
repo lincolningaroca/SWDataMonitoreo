@@ -243,6 +243,9 @@
              <property name="readOnly">
               <bool>false</bool>
              </property>
+             <property name="maximum">
+              <double>999.990000000000009</double>
+             </property>
             </widget>
            </item>
           </layout>
@@ -278,6 +281,9 @@
             <widget class="QDoubleSpinBox" name="dsbCond">
              <property name="readOnly">
               <bool>false</bool>
+             </property>
+             <property name="maximum">
+              <double>999999999.990000009536743</double>
              </property>
             </widget>
            </item>

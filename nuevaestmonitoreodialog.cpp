@@ -8,6 +8,7 @@ NuevaEstMonitoreoDialog::NuevaEstMonitoreoDialog(QWidget *parent) :
   ui(new Ui::NuevaEstMonitoreoDialog)
 {
   ui->setupUi(this);
+  setWindowFlags(Qt::Dialog|Qt::MSWindowsFixedSizeDialogHint);
   ui->deFecha->setDate(QDate::currentDate());
   ui->teHora->setTime(QTime::currentTime());
   loadGpoMinerolist();
