@@ -13,6 +13,11 @@ NuevaEstMonitoreoDialog::NuevaEstMonitoreoDialog(QWidget *parent) :
   ui->teHora->setTime(QTime::currentTime());
   loadGpoMinerolist();
   //  qDebug()<<bLayer.lInsertId();
+
+  ui->btnFoto2->setDisabled(true);
+  ui->btnFoto3->setDisabled(true);
+
+  setUpToolBtnClear();
 }
 
 NuevaEstMonitoreoDialog::~NuevaEstMonitoreoDialog()
@@ -27,28 +32,40 @@ void NuevaEstMonitoreoDialog::on_btnGuardar_clicked()
     ui->txtCodigo->setFocus(Qt::OtherFocusReason);
     return;
   }
+  if(ui->txtPath1->text().isEmpty()){
+    QMessageBox::warning(this,qApp->applicationName(),"Debe ingresar al menos una foto.\n");
+    ui->btnFoto1->setFocus(Qt::OtherFocusReason);
+    return;
+  }
+
   QVariantList param;
   param.append(ui->txtCodigo->text());
   param.append(ui->deFecha->date());
   param.append(ui->teHora->time());
   param.append(ui->teDescripcion->toPlainText());
   //agregar las tres imagenes
+
   param.append(imagen_1);
   param.append(imagen_2);
   param.append(imagen_3);
+
+//  param.append(imagen_3);
   //agreagr el codigo del cliene
   param.append(dataListCliente.key(ui->cboUnidad->currentText()));
 
 
   if(!bLayer.monitoreoMineroAction(param,BussinesLayer::INSERT)){
-    //    if(bLayer.errorCode()=="23505"){
-    //      QMessageBox::warning(this,qApp->applicationName(),
-    //                           "Este código ya esta registrado en la base de datos.\n"
-    //                           "Por favor intente con uno nuevo.");
-    //      ui->txtCodigo->selectAll();
-    //      ui->txtCodigo->setFocus(Qt::OtherFocusReason);
-    //      return;
-    //    }
+        if(bLayer.errorCode()=="23503"){
+          QMessageBox::warning(this,qApp->applicationName(),
+                               "No existe algun registro donde se pueda almacenar esta información.\n\n"
+                               "Esto se debe a que no existen datos en el campo, unidad minera.\n"
+                               "* salga de ésta ventana y agregue una nueva unidad minera,"
+                               "en el boton que se \n  muestra al lado de la lista desplegable"
+                               " Unidad minera, del formulario principal.");
+          ui->txtCodigo->selectAll();
+          ui->txtCodigo->setFocus(Qt::OtherFocusReason);
+          return;
+        }
     QMessageBox::critical(this,qApp->applicationName(),bLayer.errorMessage());
     return;
   }
@@ -60,11 +77,13 @@ void NuevaEstMonitoreoDialog::on_btnGuardar_clicked()
   param_1.append(ui->dsbCond->value());
   param_1.append(_idEstacion);
 
+
   if(!bLayer.parametroAction(param_1,BussinesLayer::INSERT)){
     QMessageBox::critical(this,qApp->applicationName(),"Error al insertar los datos.\n"+
                                                            bLayer.errorMessage());
     return;
   }
+
   QMessageBox::information(this,qApp->applicationName(),"Datos guardados.");
   //  qDebug()<<bLayer.lInsertId();
   accept();
@@ -81,6 +100,30 @@ void NuevaEstMonitoreoDialog::loadDataListCliente()
 {
   dataListCliente=bLayer.gpoMineroList(BussinesLayer::CLIENTE,dataList.key(ui->cboGrupo->currentText()));
   ui->cboUnidad->addItems(dataListCliente.values());
+
+}
+
+void NuevaEstMonitoreoDialog::setUpToolBtnClear()
+{
+  QAction *closeAction=ui->txtPath1->addAction(QIcon(":/img/Yes-128.png"),
+                                                 QLineEdit::TrailingPosition);
+  connect(closeAction,&QAction::triggered,this,[=](){
+    ui->txtPath1->clear();
+    ui->txtPath2->clear();
+    ui->txtPath3->clear();
+  });
+  QAction *closeAction1=ui->txtPath2->addAction(QIcon(":/img/Yes-128.png"),
+                                                 QLineEdit::TrailingPosition);
+  connect(closeAction1,&QAction::triggered,this,[=](){
+    ui->txtPath2->clear();
+    ui->txtPath3->clear();
+  });
+  QAction *closeAction2=ui->txtPath3->addAction(QIcon(":/img/Yes-128.png"),
+                                                  QLineEdit::TrailingPosition);
+  connect(closeAction2,&QAction::triggered,this,[=](){
+    ui->txtPath3->clear();
+
+  });
 
 }
 
@@ -123,8 +166,11 @@ void NuevaEstMonitoreoDialog::on_btnFoto2_clicked()
 {
   QString fileName=QFileDialog::getOpenFileName(this,"Abrir una foto.",QDir::currentPath(),
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
-  if(fileName.isEmpty())
+  if(fileName.isEmpty()){
+    imagen_2=QByteArray();
     return;
+  }
+
   QFile file(fileName);
   if(!file.open(QFile::ReadOnly)){
     QMessageBox::critical(this,qApp->applicationName(),
@@ -143,8 +189,10 @@ void NuevaEstMonitoreoDialog::on_btnFoto3_clicked()
 {
   QString fileName=QFileDialog::getOpenFileName(this,"Abrir una foto.",QDir::currentPath(),
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
-  if(fileName.isEmpty())
+  if(fileName.isEmpty()){
+    imagen_3=QByteArray();
     return;
+  }
   QFile file(fileName);
   if(!file.open(QFile::ReadOnly)){
     QMessageBox::critical(this,qApp->applicationName(),
@@ -156,5 +204,23 @@ void NuevaEstMonitoreoDialog::on_btnFoto3_clicked()
   file.close();
   file.flush();
   //  qDebug()<<imagen_1.size();
+}
+
+
+void NuevaEstMonitoreoDialog::on_txtPath1_textChanged(const QString &arg1)
+{
+  if(!arg1.isEmpty()){
+    ui->btnFoto2->setEnabled(true);
+  }else
+    ui->btnFoto2->setDisabled(true);
+}
+
+
+void NuevaEstMonitoreoDialog::on_txtPath2_textChanged(const QString &arg1)
+{
+  if(!arg1.isEmpty()){
+    ui->btnFoto3->setEnabled(true);
+  }else
+    ui->btnFoto3->setDisabled(true);
 }
 

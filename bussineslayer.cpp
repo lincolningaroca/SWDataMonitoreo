@@ -5,7 +5,7 @@ BussinesLayer::BussinesLayer(QObject *parent) : QObject(parent)
 
 }
 
-bool BussinesLayer::gpoMineroAction(QStringList param, TypeStm modo)
+bool BussinesLayer::gpoMineroAction(QVariantList param, TypeStm modo)
 {
   if(!db.getConection()){
     _errorMessage=db.errorMessage();
@@ -85,7 +85,7 @@ bool BussinesLayer::clienteMineroAction(QVariantList param, TypeStm modo)
       break;
 
     case UPDATE:
-      qry.prepare("UPDATE cliente SET nombre_grupo=?,descripcion=?, id_grupo=? WHERE id=?");
+      qry.prepare("UPDATE cliente SET nombre_unidad=?,descripcion=?, id_grupo=? WHERE id=?");
       for(int i=0;i<param.size();++i){
         qry.addBindValue(param[i]);
         //        if(i==param.size())

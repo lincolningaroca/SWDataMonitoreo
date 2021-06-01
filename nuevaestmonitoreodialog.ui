@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>336</width>
-    <height>604</height>
+    <width>406</width>
+    <height>642</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -64,18 +64,25 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Codigo de estacion:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="txtCodigo">
-        <property name="readOnly">
-         <bool>false</bool>
-        </property>
-       </widget>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Codigo de estacion:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="txtCodigo">
+          <property name="readOnly">
+           <bool>false</bool>
+          </property>
+          <property name="placeholderText">
+           <string>Ingrese aqui el codigo de estación</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -146,6 +153,9 @@
              <property name="readOnly">
               <bool>true</bool>
              </property>
+             <property name="placeholderText">
+              <string>Primera foto</string>
+             </property>
             </widget>
            </item>
            <item>
@@ -167,6 +177,9 @@
              <property name="readOnly">
               <bool>true</bool>
              </property>
+             <property name="placeholderText">
+              <string>Segunda foto</string>
+             </property>
             </widget>
            </item>
            <item>
@@ -187,6 +200,9 @@
             <widget class="QLineEdit" name="txtPath3">
              <property name="readOnly">
               <bool>true</bool>
+             </property>
+             <property name="placeholderText">
+              <string>Tercera foto</string>
              </property>
             </widget>
            </item>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>383</width>
-    <height>249</height>
+    <height>344</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -27,6 +27,9 @@
       <widget class="QComboBox" name="cboLista"/>
      </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QListWidget" name="lwUnidades"/>
    </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_2">

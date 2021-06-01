@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "bussineslayer.h"
 #include <QFile>
+#include <QAction>
 
 namespace Ui {
 class NuevaEstMonitoreoDialog;
@@ -18,18 +19,17 @@ public:
   ~NuevaEstMonitoreoDialog();
   void loadGpoMinerolist();
   void loadDataListCliente();
+  void setUpToolBtnClear();
 
 private slots:
   void on_btnGuardar_clicked();
   void on_cboGrupo_activated(int index);
-
   void on_btnFoto1_clicked();
-
   void on_btnCancelar_clicked();
-
   void on_btnFoto2_clicked();
-
   void on_btnFoto3_clicked();
+  void on_txtPath1_textChanged(const QString &arg1);
+  void on_txtPath2_textChanged(const QString &arg1);
 
 private:
   Ui::NuevaEstMonitoreoDialog *ui;

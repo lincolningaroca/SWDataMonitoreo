@@ -1,12 +1,13 @@
 <RCC>
     <qresource prefix="/">
-        <file>img/camera.png</file>
-        <file>img/drawsomething (2).png</file>
-        <file>img/drawsomething.png</file>
-        <file>img/photo_lab_editor.png</file>
         <file>img/logoEmpresa.png</file>
         <file>img/logoEmpresa_1.png</file>
-        <file>img/Camera-128.png</file>
-        <file>img/Lab_tube.png</file>
+        <file>img/Yes-128.png</file>
+        <file>img/15551 - bottom view.png</file>
+        <file>img/15552 - choose view.png</file>
+        <file>img/15553 - detailed view.png</file>
+        <file>img/15700 - information.png</file>
+        <file>img/ui-11-128.png</file>
+        <file>img/ui_-42-128.png</file>
     </qresource>
 </RCC>

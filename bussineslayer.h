@@ -5,6 +5,7 @@
 #include <QSqlError>
 
 #include <QObject>
+//#include <LimeReport>
 
 class BussinesLayer : public QObject
 {
@@ -24,7 +25,7 @@ public:
 
   explicit BussinesLayer(QObject *parent = nullptr);
 
-  bool gpoMineroAction(QStringList param, TypeStm modo);
+  bool gpoMineroAction(QVariantList param, TypeStm modo);
   bool clienteMineroAction(QVariantList param, TypeStm modo);
   bool monitoreoMineroAction(QVariantList param, TypeStm modo);
   bool parametroAction(QVariantList param, TypeStm modo);

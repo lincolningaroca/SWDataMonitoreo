@@ -46,7 +46,7 @@ private slots:
 //  void on_rbPorFecha_clicked();
 
   void on_actionNuevo_punto_de_monitoreo_triggered();
-  void on_toolButton_3_clicked();
+//  void on_toolButton_3_clicked();
   void on_cboUnidad_activated(int index);
 //  void on_dePorFecha_userDateChanged(const QDate &date);
   void on_cboMeses_activated(int index);
@@ -57,6 +57,10 @@ private slots:
 
 
   void on_lwFotos_itemClicked(QListWidgetItem *item);
+
+  void on_actionActualizar_datos_triggered();
+
+  void on_actionEditar_datos_unidad_minera_triggered();
 
 private:
   Ui::MainWindow *ui;
@@ -81,5 +85,15 @@ private:
 
   //funciones y metodos privados
   void loadMesesAnios();
+  void loadSettings();
+  void datosMonitoreo();
+
+  // QPaintDevice interface
+public:
+  virtual QPaintEngine *paintEngine() const override;
+
+  // QWidget interface
+protected:
+  virtual void closeEvent(QCloseEvent *event) override;
 };
 #endif // MAINWINDOW_H

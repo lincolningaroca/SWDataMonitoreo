@@ -197,6 +197,7 @@ void QEasySettings::changePalette(QEasySettings::Palette _palette) {
     mPalette.setColor(QPalette::ToolTipBase, QColor(53, 53, 53));
     mPalette.setColor(QPalette::ToolTipText, Qt::white);
     mPalette.setColor(QPalette::Text, Qt::white);
+    mPalette.setColor(QPalette::PlaceholderText,QColor(127,127,127));
     mPalette.setColor(QPalette::Button, QColor(53, 53, 53));
     mPalette.setColor(QPalette::ButtonText, Qt::white);
     mPalette.setColor(QPalette::BrightText, Qt::red);
@@ -218,6 +219,7 @@ void QEasySettings::changePalette(QEasySettings::Palette _palette) {
   }
 
   QToolTip::setPalette(mPalette);
+
   qApp->setPalette(mPalette);
 }
 #endif

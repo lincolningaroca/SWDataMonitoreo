@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QDebug>
 
+
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -10,7 +11,7 @@ MainWindow::MainWindow(QWidget *parent)
   QPixmap defaultImage(":/img/logoEmpresa.png");
   ui->lblfoto->setPixmap(defaultImage);
   ui->lblfoto->setScaledContents(true);
-  ui->lblfoto->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
+  ui->lblfoto->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
   loadGpoMinerolist();
   ui->deFecha->setDate(QDate::currentDate());
@@ -18,6 +19,8 @@ MainWindow::MainWindow(QWidget *parent)
   loadMesesAnios();
   loadCboTemas();
   loadDataEstMonitoreo();
+
+  loadSettings();
 
 
 }
@@ -44,14 +47,14 @@ void MainWindow::loadGpoMinerolist()
 void MainWindow::loadDataListCliente()
 {
 
-  dataListCliente=bLayer.gpoMineroList(BussinesLayer::CLIENTE,dataList.key(ui->cboGrupo->currentText()));
+  dataListCliente=bLayer.gpoMineroList(BussinesLayer::CLIENTE,
+                                         dataList.key(ui->cboGrupo->currentText()));
   if(dataListCliente.isEmpty()){
     //    QMessageBox::critical(this,qApp->applicationName(),"Error al cargar los datos\n"+
     //                                                           bLayer.errorMessage());
     return;
   }
   ui->cboUnidad->addItems(dataListCliente.values());
-
 
 }
 
@@ -62,12 +65,14 @@ void MainWindow::loadDataEstMonitoreo()
                                         meses.key(ui->cboMeses->currentText()),
                                         dataListCliente.key(ui->cboUnidad->currentText()));
 
-//  ui->lwEstaciones->addItems(dataList_2.values());
+  //  ui->lwEstaciones->addItems(dataList_2.values());
   QStringList l=dataList_2.values();
   for(int i=0;i<dataList_2.count();++i){
-    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/Lab_tube.png"),l.value(i));
+    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui-11-128.png"),l.value(i));
     ui->lwEstaciones->addItem(item);
   }
+
+
 
 }
 
@@ -99,7 +104,7 @@ void MainWindow::loadCboTemas()
 
 void MainWindow::on_toolButton_clicked()
 {
-  nuevoFrm=new NuevoDialog(NuevoDialog::GRUPO,this);
+  nuevoFrm=new NuevoDialog(NuevoDialog::GRUPO,QVariantList(),this);
   nuevoFrm->setWindowTitle(tr("Nuevo consorcio o grupo minero"));
   if(nuevoFrm->exec()==QDialog::Accepted){
     ui->cboGrupo->clear();
@@ -109,7 +114,7 @@ void MainWindow::on_toolButton_clicked()
 
 void MainWindow::on_toolButton_2_clicked()
 {
-  nuevoFrm=new NuevoDialog(NuevoDialog::UNIDAD, this);
+  nuevoFrm=new NuevoDialog(NuevoDialog::UNIDAD,QVariantList(), this);
   nuevoFrm->setWindowTitle(tr("Nueva unidad minera"));
   if(nuevoFrm->exec()==QDialog::Accepted){
     ui->cboUnidad->clear();
@@ -134,38 +139,14 @@ void MainWindow::on_cboGrupo_activated(int index)
 void MainWindow::on_actionNuevo_punto_de_monitoreo_triggered()
 {
   nuevaEstFrm=new NuevaEstMonitoreoDialog(this);
-  nuevaEstFrm->exec();
-  //    loadDataEstMonitoreo();
-}
-
-void MainWindow::on_toolButton_3_clicked()
-{
-  db.getConection();
-  QSqlQuery qry;
-  qry.prepare("SELECT foto_1 FROM datos_monitoreo where codigo_estacion=?");
-  qry.addBindValue("P-07");
-  if(!qry.exec()){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "Error\n"+qry.lastError().text());
-    return;
+  nuevaEstFrm->setWindowTitle(qApp->applicationName().append(" - Nuevo"));
+  if(nuevaEstFrm->exec()==QDialog::Accepted){
+    ui->lwEstaciones->clear();
+    loadDataEstMonitoreo();
   }
-  qry.next();
-  QByteArray imagen=qry.value(0).toByteArray();
-  QPixmap pixMap;
-  pixMap.loadFromData(imagen);
-
-  ui->lblfoto->setPixmap(pixMap);
-  ui->lblfoto->setScaledContents(true);
-  ui->lblfoto->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
-  QImage foto=pixMap.toImage();
-  qDebug()<<imagen.size();
-  qDebug()<<foto.size();
-  //  qDebug()<<foto.sizeInBytes();
-  qDebug()<<pixMap.toImage().sizeInBytes();
-
-  qry.finish();
-  db.closeConection();
 }
+
+
 
 void MainWindow::on_cboUnidad_activated(int index)
 {
@@ -174,15 +155,6 @@ void MainWindow::on_cboUnidad_activated(int index)
   loadDataEstMonitoreo();
   //    qDebug()<<dataListCliente.key(ui->cboUnidad->currentText());
 }
-
-
-//void MainWindow::on_dePorFecha_userDateChanged(const QDate &date)
-//{
-//  ui->lwEstaciones->clear();
-//  QHash<int,QString> dataList=bLayer.selectCodEstacion(
-//    dataListCliente.key(ui->cboUnidad->currentText()),date.toString());
-//  ui->lwEstaciones->addItems(dataList.values());
-//}
 
 void MainWindow::loadMesesAnios()
 {
@@ -205,6 +177,70 @@ void MainWindow::loadMesesAnios()
   ui->cboAnios->setCurrentIndex(ui->cboAnios->count()-1);
 }
 
+void MainWindow::loadSettings()
+{
+  QEasySettings::init(QEasySettings::Format::regFormat,qApp->organizationName());
+  setGeometry(QEasySettings::readSettings("w_setting","w_pos_geometry").toRect());
+  QEasySettings::setStyle(QEasySettings::readStyle());
+  if(QEasySettings::readStyle()==QEasySettings::Style::lightFusion)
+    cboTemas->setCurrentIndex(0);
+  else
+    cboTemas->setCurrentIndex(1);
+}
+
+void MainWindow::datosMonitoreo()
+{
+  int nro=bLayer.nro(dataList_2.key(ui->lwEstaciones->currentItem()->data(Qt::DisplayRole).toString()));
+  QVariantList dataList=bLayer.dataEstMonitoreo(nro);
+  ui->txtEstacion->setText(dataList.value(0).toString());
+  ui->deFecha->setDate(dataList.value(1).toDate());
+  ui->teHora->setTime(dataList.value(2).toTime());
+  ui->txtDescripcion->setPlainText(dataList.value(3).toString());
+  ui->lwFotos->clear();
+
+  if(dataList.value(4).toByteArray().size()!=0){
+    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui_-42-128.png"),"Foto 1");
+    ui->lwFotos->addItem(item);
+    foto_1=dataList.value(4).toByteArray();
+  }
+  if(dataList.value(5).toByteArray().size()!=0){
+    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui_-42-128.png"),"Foto 2");
+    ui->lwFotos->addItem(item);
+    foto_2=dataList.value(5).toByteArray();
+  }else{
+    foto_2=QByteArray(":/img/logoEmpresa.png");
+
+  }
+  if(dataList.value(6).toByteArray().size()!=0){
+    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui_-42-128.png"),"Foto 3");
+    ui->lwFotos->addItem(item);
+    foto_3=dataList.value(5).toByteArray();
+  }else{
+    foto_3=QByteArray(":/img/logoEmpresa.png").constData();
+  }
+
+  ui->dsbPh->setValue(dataList.value(9).toDouble());
+  ui->dsbTemp->setValue(dataList.value(10).toDouble());
+  ui->dsbOd->setValue(dataList.value(11).toDouble());
+  ui->dsbCond->setValue(dataList.value(12).toDouble());
+
+}
+
+QPaintEngine *MainWindow::paintEngine() const
+{
+  return MainWindow::paintEngine();
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+  QEasySettings::writeSettings("w_setting","w_pos_geometry",this->geometry());
+  if(cboTemas->currentText().compare("Tema claro")==0)
+    QEasySettings::writeStyle(QEasySettings::Style::lightFusion);
+  else
+    QEasySettings::writeStyle(QEasySettings::Style::darkFusion);
+  event->accept();
+}
+
 void MainWindow::on_cboMeses_activated(int index)
 {
   Q_UNUSED(index)
@@ -216,15 +252,9 @@ void MainWindow::on_cboMeses_activated(int index)
   //  ui->lwEstaciones->addItems(dataList_2.values());
   QStringList l=dataList_2.values();
   for(int i=0;i<dataList_2.count();++i){
-    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/Lab_tube.png"),l.value(i));
+    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui-11-128.png"),l.value(i));
     ui->lwEstaciones->addItem(item);
   }
-
-
-
-  //  qDebug()<<meses.key(ui->cboMeses->currentText());
-  //  qDebug()<<dataList.values();
-  //  qDebug()<<ui->cboAnios->currentData(Qt::DisplayRole).toInt();
 }
 
 void MainWindow::on_cboAnios_activated(int index)
@@ -246,44 +276,8 @@ void MainWindow::on_cboAnios_activated(int index)
 
 void MainWindow::on_lwEstaciones_itemClicked(QListWidgetItem *item)
 {
-  int nro=bLayer.nro(dataList_2.key(item->data(Qt::DisplayRole).toString()));
-  QVariantList dataList=bLayer.dataEstMonitoreo(nro);
-  qDebug()<<dataList.value(3);
-  qDebug()<<item->data(Qt::DisplayRole).toString();
-  qDebug()<<dataList_2.key(item->data(Qt::DisplayRole).toString());
-  qDebug()<<nro;
 
-
-  ui->txtEstacion->setText(dataList.value(0).toString());
-  ui->deFecha->setDate(dataList.value(1).toDate());
-  ui->teHora->setTime(dataList.value(2).toTime());
-  ui->txtDescripcion->setPlainText(dataList.value(3).toString());
-  ui->lwFotos->clear();
-  if(dataList.value(4).toByteArray().size()!=0){
-    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/Camera-128.png"),"Foto 1");
-    ui->lwFotos->addItem(item);
-    foto_1=dataList.value(4).toByteArray();
-  }
-  if(dataList.value(5).toByteArray().size()!=0){
-    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/Camera-128.png"),"Foto 2");
-    ui->lwFotos->addItem(item);
-    foto_2=dataList.value(5).toByteArray();
-  }else{
-    foto_2=QByteArray(":/img/logoEmpresa.png");
-
-  }
-  if(dataList.value(6).toByteArray().size()!=0){
-    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/Camera-128.png"),"Foto 3");
-    ui->lwFotos->addItem(item);
-    foto_3=dataList.value(5).toByteArray();
-  }else{
-    foto_3=QByteArray(":/img/logoEmpresa.png").constData();
-  }
-
-  ui->dsbPh->setValue(dataList.value(9).toDouble());
-  ui->dsbTemp->setValue(dataList.value(10).toDouble());
-  ui->dsbOd->setValue(dataList.value(11).toDouble());
-  ui->dsbCond->setValue(dataList.value(12).toDouble());
+  datosMonitoreo();
 }
 
 void MainWindow::on_lwFotos_itemClicked(QListWidgetItem *item)
@@ -301,5 +295,27 @@ void MainWindow::on_lwFotos_itemClicked(QListWidgetItem *item)
     pixMap.loadFromData(foto_3);
     ui->lblfoto->setPixmap(pixMap);
   }
+}
+
+void MainWindow::on_actionActualizar_datos_triggered()
+{
+  QVariantList data=bLayer.selectData(dataList.key(ui->cboGrupo->currentText()),
+                                        BussinesLayer::GPO_MINERO);
+  NuevoDialog *dlgEditGrupo=new NuevoDialog(NuevoDialog::UPDATE_GPO ,data,this);
+  dlgEditGrupo->setWindowTitle("Editar datos - consorcio minero");
+  if(dlgEditGrupo->exec()==QDialog::Accepted){
+    ui->cboGrupo->clear();
+    loadGpoMinerolist();
+    ui->cboUnidad->clear();
+    loadDataListCliente();
+  }
+
+}
+
+void MainWindow::on_actionEditar_datos_unidad_minera_triggered()
+{
+  NuevoDialog *dlgEditUnidad=new NuevoDialog(NuevoDialog::UPDATE_UNIDAD ,QVariantList(),this);
+  dlgEditUnidad->setWindowTitle("Editar datos - unidad minera");
+  dlgEditUnidad->exec();
 }
 
