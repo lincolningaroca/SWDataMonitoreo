@@ -32,7 +32,7 @@ private slots:
   void on_btnGuardar_clicked();
   void on_btnCancelar_clicked();
   void on_cboLista_activated(int index);
-//  void on_lwUnidades_itemClicked(QListWidgetItem *item);
+  void on_lwUnidades_itemClicked(QListWidgetItem *item);
 
 private:
   Ui::NuevoDialog *ui;

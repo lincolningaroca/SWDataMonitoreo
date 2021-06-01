@@ -134,13 +134,7 @@ void NuevoDialog::loadDataListCliente()
                                                 values.value(i));
     ui->lwUnidades->addItem(item);
   }
-  connect(ui->lwUnidades->selectionModel(),&QItemSelectionModel::currentChanged,
-          [&](){
-            QVariantList dataCte=bussines.selectData(
-              dataListCliente.key(ui->lwUnidades->currentItem()->data(Qt::DisplayRole).toString()),BussinesLayer::CLIENTE);
-            ui->txtNombre->setText(dataCte.value(1).toString());
-            ui->teDescripcion->setPlainText(dataCte.value(2).toString());
-          });
+
 
 }
 
@@ -150,6 +144,7 @@ void NuevoDialog::on_cboLista_activated(int index)
   loadDataListCliente();
   //  qDebug()<<dataList.key(ui->cboLista->currentText());
   //  qDebug()<<dataListCliente.value(1);
+
 }
 
 void NuevoDialog::setUpForm()
@@ -194,11 +189,11 @@ void NuevoDialog::setUpForm()
 
 
 
-//void NuevoDialog::on_lwUnidades_itemClicked(QListWidgetItem *item)
-//{
-//  QVariantList dataCte=bussines.selectData(
-//    dataListCliente.key(item->data(Qt::DisplayRole).toString()),BussinesLayer::CLIENTE);
-//  ui->txtNombre->setText(dataCte.value(1).toString());
-//  ui->teDescripcion->setPlainText(dataCte.value(2).toString());
-//}
+void NuevoDialog::on_lwUnidades_itemClicked(QListWidgetItem *item)
+{
+  QVariantList dataCte=bussines.selectData(
+    dataListCliente.key(item->data(Qt::DisplayRole).toString()),BussinesLayer::CLIENTE);
+  ui->txtNombre->setText(dataCte.value(1).toString());
+  ui->teDescripcion->setPlainText(dataCte.value(2).toString());
+}
 
