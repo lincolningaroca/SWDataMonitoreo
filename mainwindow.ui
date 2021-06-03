@@ -371,6 +371,7 @@
    </attribute>
    <addaction name="actionActualizar_datos"/>
    <addaction name="actionEditar_datos_unidad_minera"/>
+   <addaction name="actioneditar_datos_monitoreo"/>
    <addaction name="separator"/>
    <addaction name="actionNuevo_punto_de_monitoreo"/>
    <addaction name="separator"/>
@@ -422,6 +423,18 @@
    </property>
    <property name="toolTip">
     <string>Acerca de</string>
+   </property>
+  </action>
+  <action name="actioneditar_datos_monitoreo">
+   <property name="icon">
+    <iconset resource="rsc.qrc">
+     <normaloff>:/img/15559 - sidetree view.png</normaloff>:/img/15559 - sidetree view.png</iconset>
+   </property>
+   <property name="text">
+    <string>editar datos monitoreo</string>
+   </property>
+   <property name="toolTip">
+    <string>Editar datos - estación de monitoreo</string>
    </property>
   </action>
  </widget>
