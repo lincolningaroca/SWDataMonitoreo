@@ -4,6 +4,7 @@
 #include <QDebug>
 
 
+
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -317,5 +318,12 @@ void MainWindow::on_actionEditar_datos_unidad_minera_triggered()
   NuevoDialog *dlgEditUnidad=new NuevoDialog(NuevoDialog::UPDATE_UNIDAD ,QVariantList(),this);
   dlgEditUnidad->setWindowTitle("Editar datos - unidad minera");
   dlgEditUnidad->exec();
+}
+
+
+void MainWindow::on_actioneditar_datos_monitoreo_triggered()
+{
+  EditDataDialog *editDialog=new EditDataDialog(this);
+  editDialog->exec();
 }
 

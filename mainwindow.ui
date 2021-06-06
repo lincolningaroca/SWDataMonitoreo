@@ -379,7 +379,7 @@
   </widget>
   <action name="actionActualizar_datos">
    <property name="icon">
-    <iconset resource="rsc.qrc">
+    <iconset>
      <normaloff>:/img/15552 - choose view.png</normaloff>:/img/15552 - choose view.png</iconset>
    </property>
    <property name="text">
@@ -391,7 +391,7 @@
   </action>
   <action name="actionEditar_datos_unidad_minera">
    <property name="icon">
-    <iconset resource="rsc.qrc">
+    <iconset>
      <normaloff>:/img/15553 - detailed view.png</normaloff>:/img/15553 - detailed view.png</iconset>
    </property>
    <property name="text">
@@ -403,7 +403,7 @@
   </action>
   <action name="actionNuevo_punto_de_monitoreo">
    <property name="icon">
-    <iconset resource="rsc.qrc">
+    <iconset>
      <normaloff>:/img/15551 - bottom view.png</normaloff>:/img/15551 - bottom view.png</iconset>
    </property>
    <property name="text">
@@ -415,7 +415,7 @@
   </action>
   <action name="actionayuda">
    <property name="icon">
-    <iconset resource="rsc.qrc">
+    <iconset>
      <normaloff>:/img/15700 - information.png</normaloff>:/img/15700 - information.png</iconset>
    </property>
    <property name="text">
@@ -427,7 +427,7 @@
   </action>
   <action name="actioneditar_datos_monitoreo">
    <property name="icon">
-    <iconset resource="rsc.qrc">
+    <iconset>
      <normaloff>:/img/15559 - sidetree view.png</normaloff>:/img/15559 - sidetree view.png</iconset>
    </property>
    <property name="text">
@@ -438,9 +438,6 @@
    </property>
   </action>
  </widget>
- <resources>
-  <include location="rsc.qrc"/>
-  <include location="rsc.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

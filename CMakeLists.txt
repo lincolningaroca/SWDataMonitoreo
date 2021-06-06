@@ -67,6 +67,10 @@ set(PROJECT_SOURCES
         #libreria para modo oscuro de la aplicacion
         qeasysettings.cpp
         qeasysettings.hpp
+        #formulario de actualizacion de datos para punto de monitoreo
+        editdatadialog.cpp
+        editdatadialog.h
+        editdatadialog.ui
         #icono de la aplicacion
         AppIcon/appIcon.rc
         ${APPICON}

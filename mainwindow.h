@@ -12,8 +12,10 @@
 
 //cabecera para cambio de tema oscuro
 #include "qeasysettings.hpp"
+#include "editdatadialog.h"
 #include<QComboBox>
 #include <QListWidgetItem>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -61,6 +63,8 @@ private slots:
   void on_actionActualizar_datos_triggered();
 
   void on_actionEditar_datos_unidad_minera_triggered();
+
+  void on_actioneditar_datos_monitoreo_triggered();
 
 private:
   Ui::MainWindow *ui;
