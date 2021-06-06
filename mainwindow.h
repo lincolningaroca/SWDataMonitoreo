@@ -53,17 +53,10 @@ private slots:
 //  void on_dePorFecha_userDateChanged(const QDate &date);
   void on_cboMeses_activated(int index);
   void on_cboAnios_activated(int index);
-
   void on_lwEstaciones_itemClicked(QListWidgetItem *item);
-
-
-
   void on_lwFotos_itemClicked(QListWidgetItem *item);
-
   void on_actionActualizar_datos_triggered();
-
   void on_actionEditar_datos_unidad_minera_triggered();
-
   void on_actioneditar_datos_monitoreo_triggered();
 
 private:

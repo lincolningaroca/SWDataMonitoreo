@@ -46,52 +46,52 @@ find_package(Qt${QT_VERSION_MAJOR} COMPONENTS Sql REQUIRED)
 #link_libraries(LIMEREPO)
 
 set(PROJECT_SOURCES
-        main.cpp
-        mainwindow.cpp
-        mainwindow.h
-        mainwindow.ui
-        rsc.qrc
-        dbconection.cpp
-        dbconection.h
-        #capa de negocios
-        bussineslayer.cpp
-        bussineslayer.h
-        #formulario para agregar nuevos clientes
-        nuevodialog.cpp
-        nuevodialog.h
-        nuevodialog.ui
-        #formulario para agregar nueva estacion de monitoreo
-        nuevaestmonitoreodialog.cpp
-        nuevaestmonitoreodialog.h
-        nuevaestmonitoreodialog.ui
-        #libreria para modo oscuro de la aplicacion
-        qeasysettings.cpp
-        qeasysettings.hpp
-        #formulario de actualizacion de datos para punto de monitoreo
-        editdatadialog.cpp
-        editdatadialog.h
-        editdatadialog.ui
-        #icono de la aplicacion
-        AppIcon/appIcon.rc
-        ${APPICON}
-)
+  main.cpp
+  mainwindow.cpp
+  mainwindow.h
+  mainwindow.ui
+  rsc.qrc
+  dbconection.cpp
+  dbconection.h
+  #capa de negocios
+  bussineslayer.cpp
+  bussineslayer.h
+  #formulario para agregar nuevos clientes
+  nuevodialog.cpp
+  nuevodialog.h
+  nuevodialog.ui
+  #formulario para agregar nueva estacion de monitoreo
+  nuevaestmonitoreodialog.cpp
+  nuevaestmonitoreodialog.h
+  nuevaestmonitoreodialog.ui
+  #libreria para modo oscuro de la aplicacion
+  qeasysettings.cpp
+  qeasysettings.hpp
+  #formulario de actualizacion de datos para punto de monitoreo
+  editdatadialog.cpp
+  editdatadialog.h
+  editdatadialog.ui
+  #icono de la aplicacion
+  AppIcon/appIcon.rc
+  ${APPICON}
+  )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    qt_add_executable("${PROJECT_NAME}"
-        MANUAL_FINALIZATION
-        ${PROJECT_SOURCES}
+  qt_add_executable("${PROJECT_NAME}"
+    MANUAL_FINALIZATION
+    ${PROJECT_SOURCES}
 
     )
 else()
-    if(ANDROID)
-        add_library("${PROJECT_NAME}" SHARED
-            ${PROJECT_SOURCES}
-        )
-    else()
-        add_executable("${PROJECT_NAME}"
-            ${PROJECT_SOURCES}
-        )
-    endif()
+  if(ANDROID)
+    add_library("${PROJECT_NAME}" SHARED
+      ${PROJECT_SOURCES}
+      )
+  else()
+    add_executable("${PROJECT_NAME}"
+      ${PROJECT_SOURCES}
+      )
+  endif()
 endif()
 
 target_link_libraries("${PROJECT_NAME}" PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
@@ -104,12 +104,12 @@ target_link_libraries("${PROJECT_NAME}" PRIVATE Qt${QT_VERSION_MAJOR}::Sql)
 #target_link_libraries("${PROJECT_NAME}" PRIVATE LIMEREPO)
 
 set_target_properties("${PROJECT_NAME}" PROPERTIES
-    MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
-    MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
-    MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
-)
+  MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com
+  MACOSX_BUNDLE_BUNDLE_VERSION ${PROJECT_VERSION}
+  MACOSX_BUNDLE_SHORT_VERSION_STRING ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}
+  )
 set_property(TARGET "${PROJECT_NAME}" PROPERTY WIN32_EXECUTABLE true)
 
 if(QT_VERSION_MAJOR EQUAL 6)
-    qt_finalize_executable("${PROJECT_NAME}")
+  qt_finalize_executable("${PROJECT_NAME}")
 endif()

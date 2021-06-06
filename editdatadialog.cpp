@@ -3,10 +3,10 @@
 #include <QDebug>
 
 EditDataDialog::EditDataDialog(QWidget *parent) :
-  QDialog(parent),
-  ui(new Ui::EditDataDialog)
+  QDialog(parent), ui(new Ui::EditDataDialog)
 {
   ui->setupUi(this);
+  setWindowFlags(Qt::Dialog|Qt::MSWindowsFixedSizeDialogHint);
 }
 
 EditDataDialog::~EditDataDialog()
