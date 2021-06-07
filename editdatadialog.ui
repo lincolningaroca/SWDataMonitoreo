@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>790</width>
-    <height>543</height>
+    <width>835</width>
+    <height>604</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -41,7 +41,14 @@
        </widget>
       </item>
       <item row="2" column="0" colspan="3">
-       <widget class="QTableView" name="tableView"/>
+       <widget class="QTableView" name="twEstaciones">
+        <property name="alternatingRowColors">
+         <bool>true</bool>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+       </widget>
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="label_3">
@@ -74,12 +81,12 @@
          </widget>
         </item>
         <item>
-         <widget class="QPlainTextEdit" name="plainTextEdit"/>
+         <widget class="QPlainTextEdit" name="txtDescripcion"/>
         </item>
        </layout>
       </item>
       <item row="7" column="0" colspan="2">
-       <widget class="QLineEdit" name="lineEdit_2"/>
+       <widget class="QLineEdit" name="txtFoto_1"/>
       </item>
       <item row="7" column="2">
        <widget class="QToolButton" name="toolButton">
@@ -89,7 +96,7 @@
        </widget>
       </item>
       <item row="8" column="0" colspan="2">
-       <widget class="QLineEdit" name="lineEdit_3"/>
+       <widget class="QLineEdit" name="txtFoto_2"/>
       </item>
       <item row="8" column="2">
        <widget class="QToolButton" name="toolButton_2">
@@ -99,7 +106,7 @@
        </widget>
       </item>
       <item row="9" column="0" colspan="2">
-       <widget class="QLineEdit" name="lineEdit_4"/>
+       <widget class="QLineEdit" name="txtFoto_3"/>
       </item>
       <item row="9" column="2">
        <widget class="QToolButton" name="toolButton_3">
@@ -109,19 +116,19 @@
        </widget>
       </item>
       <item row="3" column="1" colspan="2">
-       <widget class="QLineEdit" name="lineEdit"/>
+       <widget class="QLineEdit" name="txtCodigo"/>
       </item>
       <item row="4" column="1" colspan="2">
-       <widget class="QDateEdit" name="dateEdit"/>
+       <widget class="QDateEdit" name="deFecha"/>
       </item>
       <item row="5" column="1" colspan="2">
-       <widget class="QTimeEdit" name="timeEdit"/>
+       <widget class="QTimeEdit" name="teHora"/>
       </item>
       <item row="1" column="1" colspan="2">
-       <widget class="QComboBox" name="comboBox_2"/>
+       <widget class="QComboBox" name="cboUnidad"/>
       </item>
       <item row="0" column="1" colspan="2">
-       <widget class="QComboBox" name="comboBox"/>
+       <widget class="QComboBox" name="cboGrupo"/>
       </item>
      </layout>
     </widget>
@@ -164,21 +171,21 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="btnGuardar">
        <property name="text">
         <string>Guardar cambios</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="btnEliminar">
        <property name="text">
         <string>Eliminar</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="btnCancelar">
        <property name="text">
         <string>Cancelar</string>
        </property>

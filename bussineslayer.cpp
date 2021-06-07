@@ -128,11 +128,9 @@ bool BussinesLayer::monitoreoMineroAction(QVariantList param, TypeStm modo)
       qry.prepare("INSERT INTO datos_monitoreo(codigo_estacion, fecha_muestra,hora_muestra,"
                   " descripcion, foto_1, foto_2, foto3, id_cliente)"
                   "VALUES(?,?,?,?,?,?,?,?)");
-      //      qry.prepare("select datos_monit(?,?,?,?,?,?,?,?)");
+
       for(int i=0;i<param.size();i++){
         qry.addBindValue(param[i]);
-        //        if(i==param.size())
-        //          qry.addBindValue(param[i].toInt());
 
       }
       if(!qry.exec()){
@@ -308,7 +306,6 @@ QVariantList BussinesLayer::selectData(QVariant id, Table info)
         dataList.append(qry.value(5));
       }
       break;
-
   }
   qry.finish();
   db.closeConection();
@@ -376,7 +373,6 @@ QHash<int,QString> BussinesLayer::selectCodEstacion(int cod)
   while(qry.next()){
     dataList.insert(qry.value(0).toInt(),qry.value(1).toString());
   }
-
   qry.finish();
   db.closeConection();
   return dataList;
@@ -432,7 +428,6 @@ QHash<int, QString> BussinesLayer::selectCodEstacion(int anio, int mes,int id_cl
   while(qry.next()){
     dataList.insert(qry.value(0).toInt(),qry.value(1).toString());
   }
-
   qry.finish();
   db.closeConection();
   return dataList;
@@ -484,8 +479,28 @@ QHash<int,QString> BussinesLayer::gpoMineroList(Table t, int id)
   }
   qry.finish();
   db.closeConection();
-
   return dataList;
+}
+
+QSqlQueryModel *BussinesLayer::data(int id)
+{
+  model=new QSqlQueryModel(nullptr);
+  if(!db.getConection()){
+    _errorMessage=db.errorMessage();
+
+    return model;
+  }
+  QSqlQuery qry;
+  qry.prepare("SELECT id_estacion, codigo_estacion, fecha_muestra, id_cliente "
+              "FROM datos_monitoreo WHERE id_cliente=?;");
+  qry.addBindValue(id);
+  if(!qry.exec()){
+    _errorMessage=qry.lastError().text();
+    _errorCode=qry.lastError().nativeErrorCode();
+    return model;
+  }
+  model->setQuery(qry);
+  return model;
 
 }
 

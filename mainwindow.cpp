@@ -18,11 +18,7 @@ MainWindow::MainWindow(QWidget *parent)
   loadMesesAnios();
   loadCboTemas();
   loadDataEstMonitoreo();
-
   loadSettings();
-
-
-
 }
 
 MainWindow::~MainWindow()
