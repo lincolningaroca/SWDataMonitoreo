@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
   loadCboTemas();
   loadDataEstMonitoreo();
   loadSettings();
+//  setMinimumSize(800,600);
 }
 
 MainWindow::~MainWindow()

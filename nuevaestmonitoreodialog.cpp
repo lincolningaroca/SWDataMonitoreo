@@ -49,23 +49,23 @@ void NuevaEstMonitoreoDialog::on_btnGuardar_clicked()
   param.append(imagen_2);
   param.append(imagen_3);
 
-//  param.append(imagen_3);
+  //  param.append(imagen_3);
   //agreagr el codigo del cliene
   param.append(dataListCliente.key(ui->cboUnidad->currentText()));
 
 
   if(!bLayer.monitoreoMineroAction(param,BussinesLayer::INSERT)){
-        if(bLayer.errorCode()=="23503"){
-          QMessageBox::warning(this,qApp->applicationName(),
-                               "No existe algun registro donde se pueda almacenar esta información.\n\n"
-                               "Esto se debe a que no existen datos en el campo, unidad minera.\n"
-                               "* salga de ésta ventana y agregue una nueva unidad minera,"
-                               "en el boton que se \n  muestra al lado de la lista desplegable"
-                               " Unidad minera, del formulario principal.");
-          ui->txtCodigo->selectAll();
-          ui->txtCodigo->setFocus(Qt::OtherFocusReason);
-          return;
-        }
+    if(bLayer.errorCode()=="23503"){
+      QMessageBox::warning(this,qApp->applicationName(),
+                           "No existe algun registro donde se pueda almacenar esta información.\n\n"
+                           "Esto se debe a que no existen datos en el campo, unidad minera.\n"
+                           "* salga de ésta ventana y agregue una nueva unidad minera,"
+                           "en el boton que se \n  muestra al lado de la lista desplegable"
+                           " Unidad minera, del formulario principal.");
+      ui->txtCodigo->selectAll();
+      ui->txtCodigo->setFocus(Qt::OtherFocusReason);
+      return;
+    }
     QMessageBox::critical(this,qApp->applicationName(),bLayer.errorMessage());
     return;
   }
@@ -113,7 +113,7 @@ void NuevaEstMonitoreoDialog::setUpToolBtnClear()
     ui->txtPath3->clear();
   });
   QAction *closeAction1=ui->txtPath2->addAction(QIcon(":/img/Yes-128.png"),
-                                                 QLineEdit::TrailingPosition);
+                                                  QLineEdit::TrailingPosition);
   connect(closeAction1,&QAction::triggered,this,[=](){
     ui->txtPath2->clear();
     ui->txtPath3->clear();
@@ -141,6 +141,15 @@ void NuevaEstMonitoreoDialog::on_btnFoto1_clicked()
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
   if(fileName.isEmpty())
     return;
+  QFileInfo info(fileName);
+  if((info.size()/1024)>2048){
+    QMessageBox::critical(this,qApp->applicationName(),
+                          "El archivo que está intentando guardar es muy grande.\n"
+                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
+    return;
+  }
+
+
   QFile file(fileName);
   if(!file.open(QFile::ReadOnly)){
     QMessageBox::critical(this,qApp->applicationName(),
@@ -152,6 +161,7 @@ void NuevaEstMonitoreoDialog::on_btnFoto1_clicked()
   file.close();
   file.flush();
   //  qDebug()<<imagen_1.size();
+  //  qDebug()<<info.size()/1024;
 
 }
 
@@ -168,6 +178,13 @@ void NuevaEstMonitoreoDialog::on_btnFoto2_clicked()
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
   if(fileName.isEmpty()){
     imagen_2=QByteArray();
+    return;
+  }
+  QFileInfo info(fileName);
+  if((info.size()/1024)>2048){
+    QMessageBox::critical(this,qApp->applicationName(),
+                          "El archivo que está intentando guardar es muy grande.\n"
+                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
     return;
   }
 
@@ -191,6 +208,13 @@ void NuevaEstMonitoreoDialog::on_btnFoto3_clicked()
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
   if(fileName.isEmpty()){
     imagen_3=QByteArray();
+    return;
+  }
+  QFileInfo info(fileName);
+  if((info.size()/1024)>2048){
+    QMessageBox::critical(this,qApp->applicationName(),
+                          "El archivo que está intentando guardar es muy grande.\n"
+                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
     return;
   }
   QFile file(fileName);
