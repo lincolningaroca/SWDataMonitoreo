@@ -124,7 +124,11 @@
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
-         <widget class="QLineEdit" name="txtFoto_1"/>
+         <widget class="QLineEdit" name="txtFoto_1">
+          <property name="placeholderText">
+           <string>Foto 1</string>
+          </property>
+         </widget>
         </item>
         <item row="0" column="1">
          <widget class="QToolButton" name="toolButton">
@@ -134,7 +138,11 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLineEdit" name="txtFoto_2"/>
+         <widget class="QLineEdit" name="txtFoto_2">
+          <property name="placeholderText">
+           <string>Foto 2</string>
+          </property>
+         </widget>
         </item>
         <item row="1" column="1">
          <widget class="QToolButton" name="toolButton_2">
@@ -144,7 +152,11 @@
          </widget>
         </item>
         <item row="2" column="0">
-         <widget class="QLineEdit" name="txtFoto_3"/>
+         <widget class="QLineEdit" name="txtFoto_3">
+          <property name="placeholderText">
+           <string>Foto 3</string>
+          </property>
+         </widget>
         </item>
         <item row="2" column="1">
          <widget class="QToolButton" name="toolButton_3">
@@ -189,6 +201,9 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="maximum">
+           <double>99999999.989999994635582</double>
+          </property>
          </widget>
         </item>
         <item row="0" column="0">
@@ -213,6 +228,12 @@
             <height>16777215</height>
            </size>
           </property>
+          <property name="suffix">
+           <string>  (m.s.n.m)</string>
+          </property>
+          <property name="maximum">
+           <double>99999999999.990005493164063</double>
+          </property>
          </widget>
         </item>
         <item row="0" column="3">
@@ -228,6 +249,9 @@
             <width>150</width>
             <height>16777215</height>
            </size>
+          </property>
+          <property name="maximum">
+           <double>99999999.989999994635582</double>
           </property>
          </widget>
         </item>

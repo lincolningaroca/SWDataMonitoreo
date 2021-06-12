@@ -241,6 +241,18 @@
         </item>
         <item row="0" column="1">
          <widget class="QDoubleSpinBox" name="dsbPh">
+          <property name="minimumSize">
+           <size>
+            <width>133</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>133</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="readOnly">
            <bool>false</bool>
           </property>
@@ -259,6 +271,18 @@
         </item>
         <item row="0" column="1">
          <widget class="QDoubleSpinBox" name="dsbTemp">
+          <property name="minimumSize">
+           <size>
+            <width>133</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>133</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="readOnly">
            <bool>false</bool>
           </property>
@@ -280,6 +304,18 @@
         </item>
         <item row="0" column="1">
          <widget class="QDoubleSpinBox" name="dsbOd">
+          <property name="minimumSize">
+           <size>
+            <width>133</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>133</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="readOnly">
            <bool>false</bool>
           </property>
@@ -298,6 +334,18 @@
         </item>
         <item row="0" column="1">
          <widget class="QDoubleSpinBox" name="dsbCond">
+          <property name="minimumSize">
+           <size>
+            <width>133</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>133</width>
+            <height>16777215</height>
+           </size>
+          </property>
           <property name="readOnly">
            <bool>false</bool>
           </property>
@@ -325,18 +373,21 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox">
+       <widget class="QDoubleSpinBox" name="dsbEste">
         <property name="minimumSize">
          <size>
-          <width>110</width>
+          <width>120</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>110</width>
+          <width>120</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="maximum">
+         <double>9999999999.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -348,18 +399,21 @@
        </widget>
       </item>
       <item row="0" column="3">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_2">
+       <widget class="QDoubleSpinBox" name="dsbNorte">
         <property name="minimumSize">
          <size>
-          <width>110</width>
+          <width>120</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>110</width>
+          <width>120</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="maximum">
+         <double>9999999999.000000000000000</double>
         </property>
        </widget>
       </item>
@@ -371,18 +425,35 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QDoubleSpinBox" name="doubleSpinBox_3">
+       <widget class="QDoubleSpinBox" name="dsbCota">
         <property name="minimumSize">
          <size>
-          <width>110</width>
+          <width>150</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>110</width>
+          <width>150</width>
           <height>16777215</height>
          </size>
+        </property>
+        <property name="suffix">
+         <string>  (m.s.n.m)</string>
+        </property>
+        <property name="maximum">
+         <double>9999999999.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QPushButton" name="pushButton">
+        <property name="text">
+         <string>Descripción del punto</string>
+        </property>
+        <property name="icon">
+         <iconset resource="rsc.qrc">
+          <normaloff>:/img/ui_-09-128.png</normaloff>:/img/ui_-09-128.png</iconset>
         </property>
        </widget>
       </item>
@@ -422,6 +493,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="rsc.qrc"/>
+  <include location="rsc.qrc"/>
+ </resources>
  <connections/>
 </ui>

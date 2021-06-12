@@ -2,6 +2,7 @@
 #include "ui_nuevaestmonitoreodialog.h"
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QInputDialog>
 
 NuevaEstMonitoreoDialog::NuevaEstMonitoreoDialog(QWidget *parent) :
   QDialog(parent),
@@ -49,9 +50,15 @@ void NuevaEstMonitoreoDialog::on_btnGuardar_clicked()
   param.append(imagen_2);
   param.append(imagen_3);
 
+
   //  param.append(imagen_3);
   //agreagr el codigo del cliene
   param.append(dataListCliente.key(ui->cboUnidad->currentText()));
+  //agregar las coordenadas
+  param.append(ui->dsbEste->value());
+  param.append(ui->dsbNorte->value());
+  param.append(ui->dsbCota->value());
+  param.append(desc_punto);
 
 
   if(!bLayer.monitoreoMineroAction(param,BussinesLayer::INSERT)){
@@ -75,6 +82,7 @@ void NuevaEstMonitoreoDialog::on_btnGuardar_clicked()
   param_1.append(ui->dsbTemp->value());
   param_1.append(ui->dsbOd->value());
   param_1.append(ui->dsbCond->value());
+
   param_1.append(_idEstacion);
 
 
@@ -246,5 +254,13 @@ void NuevaEstMonitoreoDialog::on_txtPath2_textChanged(const QString &arg1)
     ui->btnFoto3->setEnabled(true);
   }else
     ui->btnFoto3->setDisabled(true);
+}
+
+
+void NuevaEstMonitoreoDialog::on_pushButton_clicked()
+{
+  desc_punto=QInputDialog::getMultiLineText(this,"Descripción del punto",
+                                 "Ingrese una descripción para el punto: ",
+                                              "ingresa algo carajo!!");
 }
 

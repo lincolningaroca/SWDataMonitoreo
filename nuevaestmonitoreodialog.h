@@ -31,6 +31,8 @@ private slots:
   void on_txtPath1_textChanged(const QString &arg1);
   void on_txtPath2_textChanged(const QString &arg1);
 
+  void on_pushButton_clicked();
+
 private:
   Ui::NuevaEstMonitoreoDialog *ui;
   BussinesLayer bLayer;
@@ -43,6 +45,8 @@ private:
   QByteArray imagen_3;
 
   QVariant _idEstacion;
+
+  QString desc_punto;
 };
 
 #endif // NUEVAESTMONITOREODIALOG_H

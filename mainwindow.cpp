@@ -2,6 +2,7 @@
 #include "./ui_mainwindow.h"
 #include <QMessageBox>
 #include <QDebug>
+#include "desc_pdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent), ui(new Ui::MainWindow)
@@ -20,6 +21,12 @@ MainWindow::MainWindow(QWidget *parent)
   loadDataEstMonitoreo();
   loadSettings();
 //  setMinimumSize(800,600);
+  QObject::connect(ui->txtDesc_punto,&SWCustomTxt::clicked,this,
+                   [&](){
+                     Desc_pDialog *desc_dialog=new Desc_pDialog(ui->txtDesc_punto->text(),this);
+                     desc_dialog->exec();
+
+                   });
 }
 
 MainWindow::~MainWindow()
@@ -68,9 +75,6 @@ void MainWindow::loadDataEstMonitoreo()
     QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui-11-128.png"),l.value(i));
     ui->lwEstaciones->addItem(item);
   }
-
-
-
 }
 
 void MainWindow::loadCboTemas()
@@ -215,12 +219,20 @@ void MainWindow::datosMonitoreo()
   }else{
     foto_3=QByteArray(":/img/logoEmpresa.png").constData();
   }
+  //coordenas}
+  ui->dsbEste->setValue(dataList.value(8).toDouble());
+  ui->dsbNorte->setValue(dataList.value(9).toDouble());
+  ui->dsbCota->setValue(dataList.value(10).toDouble());
+  //descripcion del punto
+  ui->txtDesc_punto->setText(dataList.value(11).toString());
+  ui->txtDesc_punto->setToolTip(dataList.value(11).toString());
 
-  ui->dsbPh->setValue(dataList.value(9).toDouble());
-  ui->dsbTemp->setValue(dataList.value(10).toDouble());
-  ui->dsbOd->setValue(dataList.value(11).toDouble());
-  ui->dsbCond->setValue(dataList.value(12).toDouble());
 
+//datos de campo
+  ui->dsbPh->setValue(dataList.value(12).toDouble());
+  ui->dsbTemp->setValue(dataList.value(13).toDouble());
+  ui->dsbOd->setValue(dataList.value(14).toDouble());
+  ui->dsbCond->setValue(dataList.value(15).toDouble());
 }
 
 QPaintEngine *MainWindow::paintEngine() const

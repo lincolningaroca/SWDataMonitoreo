@@ -74,6 +74,14 @@ set(PROJECT_SOURCES
   #icono de la aplicacion
   AppIcon/appIcon.rc
   ${APPICON}
+  #clase personalizada pa un lineedit
+  swcustomtxt.cpp
+  swcustomtxt.h
+  #formulario para mostrar descripcion del punto
+  Desc_pdialog.ui
+  desc_pdialog.cpp
+  desc_pdialog.h
+
   )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)

@@ -126,8 +126,8 @@ bool BussinesLayer::monitoreoMineroAction(QVariantList param, TypeStm modo)
   switch (modo) {
     case INSERT:
       qry.prepare("INSERT INTO datos_monitoreo(codigo_estacion, fecha_muestra,hora_muestra,"
-                  " descripcion, foto_1, foto_2, foto3, id_cliente)"
-                  "VALUES(?,?,?,?,?,?,?,?)");
+                  " descripcion, foto_1, foto_2, foto3, id_cliente, coor_este, coor_norte, cota,"
+                  "desc_punto) VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
 
       for(int i=0;i<param.size();i++){
         qry.addBindValue(param[i]);
@@ -323,7 +323,8 @@ QVariantList BussinesLayer::dataEstMonitoreo(int nro)
   }
   QSqlQuery qry;
   qry.prepare("SELECT codigo_estacion,fecha_muestra,hora_muestra,descripcion,"
-              "foto_1,foto_2,foto3,id_cliente,nro,ph,tem,od,ce,id_est FROM "
+              "foto_1,foto_2,foto3,id_cliente,coor_este,coor_norte,cota,"
+              "desc_punto,nro,ph,tem,od,ce,id_est FROM "
               "datos_monitoreo dm  INNER JOIN parametro_campo pc "
               "ON dm.id_estacion=pc.id_est AND nro=?");
   //  qry.addBindValue(idEstacion);
@@ -350,6 +351,9 @@ QVariantList BussinesLayer::dataEstMonitoreo(int nro)
   dataList.append(qry.value(11));
   dataList.append(qry.value(12));
   dataList.append(qry.value(13));
+  dataList.append(qry.value(14));
+  dataList.append(qry.value(15));
+  dataList.append(qry.value(16));
   return dataList;
 }
 
