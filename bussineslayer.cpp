@@ -143,9 +143,10 @@ bool BussinesLayer::monitoreoMineroAction(QVariantList param, TypeStm modo)
       break;
 
     case UPDATE:
-      qry.prepare("UPDATE datos_monitoreo SET fecha_muestra=?, hora_muestra=?, "
-                  "descripcion=?, foto_1=?, foto_2=?, foto_3=?, id_cliente=? "
-                  "WHERE codigo_estacion=?");
+      qry.prepare("UPDATE datos_monitoreo SET codigo_estacion=?,fecha_muestra=?,hora_muestra=?,"
+                  "descripcion=?,foto_1=?,foto_2=?,foto3=?,id_cliente=?,"
+                  "coor_este=?,coor_norte=?,cota=?,desc_punto=? "
+                  "WHERE id_estacion=?");
       for(int i=0;i<param.size();++i){
         qry.addBindValue(param[i]);
         //        if(i==param.size())
@@ -159,7 +160,7 @@ bool BussinesLayer::monitoreoMineroAction(QVariantList param, TypeStm modo)
       break;
 
     case DELETE:
-      qry.prepare("DELETE FROM datos_monitoreo WHERE codigo_estacion=?");
+      qry.prepare("DELETE FROM datos_monitoreo WHERE id_estacion=?");
       qry.addBindValue(param[0].toInt(),QSql::In);
 
       if(!qry.exec()){
@@ -201,13 +202,15 @@ bool BussinesLayer::parametroAction(QVariantList param, TypeStm modo)
       break;
 
     case UPDATE:
-      qry.prepare("UPDATE parametro_campo SET ph=?, tem=?, od=?, ce=?, id_estacion=? "
-                  "WHERE nro=? and id_estacion=?");
+      qry.prepare("UPDATE parametro_campo SET ph=?,tem=?,od=?,ce=? "
+                  "WHERE nro=? and id_est=?");
+
       for(int i=0;i<param.size();++i){
         qry.addBindValue(param[i]);
         //        if(i==param.size())
         //          qry.addBindValue(param[i].toInt());
       }
+
       if(!qry.exec()){
         _errorMessage=qry.lastError().text();
         _errorCode=qry.lastError().nativeErrorCode();
@@ -485,10 +488,9 @@ QHash<int,QString> BussinesLayer::gpoMineroList(Table t, int id)
   db.closeConection();
   return dataList;
 }
-
 QSqlQueryModel *BussinesLayer::data(int id)
 {
-  model=new QSqlQueryModel(nullptr);
+  model=new QSqlQueryModel;
   if(!db.getConection()){
     _errorMessage=db.errorMessage();
 
@@ -504,6 +506,7 @@ QSqlQueryModel *BussinesLayer::data(int id)
     return model;
   }
   model->setQuery(qry);
+  qry.next();
   return model;
 
 }

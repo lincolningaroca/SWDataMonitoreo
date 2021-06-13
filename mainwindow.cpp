@@ -23,7 +23,8 @@ MainWindow::MainWindow(QWidget *parent)
 //  setMinimumSize(800,600);
   QObject::connect(ui->txtDesc_punto,&SWCustomTxt::clicked,this,
                    [&](){
-                     Desc_pDialog *desc_dialog=new Desc_pDialog(ui->txtDesc_punto->text(),this);
+                     Desc_pDialog *desc_dialog=new Desc_pDialog(
+                       1,ui->txtDesc_punto->text(),this);
                      desc_dialog->exec();
 
                    });
@@ -75,6 +76,10 @@ void MainWindow::loadDataEstMonitoreo()
     QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui-11-128.png"),l.value(i));
     ui->lwEstaciones->addItem(item);
   }
+
+//  ui->lwEstaciones->setCurrentRow(0);
+//  on_lwEstaciones_itemClicked();
+//  datosMonitoreo();
 }
 
 void MainWindow::loadCboTemas()
@@ -215,7 +220,7 @@ void MainWindow::datosMonitoreo()
   if(dataList.value(6).toByteArray().size()!=0){
     QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui_-42-128.png"),"Foto 3");
     ui->lwFotos->addItem(item);
-    foto_3=dataList.value(5).toByteArray();
+    foto_3=dataList.value(6).toByteArray();
   }else{
     foto_3=QByteArray(":/img/logoEmpresa.png").constData();
   }
@@ -229,10 +234,10 @@ void MainWindow::datosMonitoreo()
 
 
 //datos de campo
-  ui->dsbPh->setValue(dataList.value(12).toDouble());
-  ui->dsbTemp->setValue(dataList.value(13).toDouble());
-  ui->dsbOd->setValue(dataList.value(14).toDouble());
-  ui->dsbCond->setValue(dataList.value(15).toDouble());
+  ui->dsbPh->setValue(dataList.value(13).toDouble());
+  ui->dsbTemp->setValue(dataList.value(14).toDouble());
+  ui->dsbOd->setValue(dataList.value(15).toDouble());
+  ui->dsbCond->setValue(dataList.value(16).toDouble());
 }
 
 QPaintEngine *MainWindow::paintEngine() const
@@ -283,10 +288,11 @@ void MainWindow::on_cboAnios_activated(int index)
 }
 
 
-void MainWindow::on_lwEstaciones_itemClicked(QListWidgetItem *item)
+void MainWindow::on_lwEstaciones_itemClicked()
 {
-
+//  Q_UNUSED(item)
   datosMonitoreo();
+
 }
 
 void MainWindow::on_lwFotos_itemClicked(QListWidgetItem *item)
@@ -332,6 +338,9 @@ void MainWindow::on_actionEditar_datos_unidad_minera_triggered()
 void MainWindow::on_actioneditar_datos_monitoreo_triggered()
 {
   EditDataDialog *editDialog=new EditDataDialog(this);
-  editDialog->exec();
+  if(editDialog->exec()==QDialog::Accepted){
+    ui->lwEstaciones->clear();
+    loadDataEstMonitoreo();
+  }
 }
 

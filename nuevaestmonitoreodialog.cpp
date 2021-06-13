@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QInputDialog>
+#include "desc_pdialog.h"
 
 NuevaEstMonitoreoDialog::NuevaEstMonitoreoDialog(QWidget *parent) :
   QDialog(parent),
@@ -259,8 +260,11 @@ void NuevaEstMonitoreoDialog::on_txtPath2_textChanged(const QString &arg1)
 
 void NuevaEstMonitoreoDialog::on_pushButton_clicked()
 {
-  desc_punto=QInputDialog::getMultiLineText(this,"Descripción del punto",
-                                 "Ingrese una descripción para el punto: ",
-                                              "ingresa algo carajo!!");
+  //  desc_punto=QInputDialog::getMultiLineText(this,"Descripción del punto",
+  //                                 "Ingrese una descripción para el punto: ",
+  //                                              "ingresa algo carajo!!");
+  Desc_pDialog *descDialog=new Desc_pDialog(2);
+  if(descDialog->exec()==QDialog::Accepted)
+    desc_punto=descDialog->desc();
 }
 

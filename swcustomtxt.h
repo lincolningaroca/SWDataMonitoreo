@@ -3,12 +3,13 @@
 
 #include <QLineEdit>
 #include <QMouseEvent>
+#include <QWidget>
 
 class SWCustomTxt : public QLineEdit
 {
   Q_OBJECT
 public:
-  SWCustomTxt();
+  SWCustomTxt(QWidget *parent=nullptr);
 signals:
   void clicked();
 

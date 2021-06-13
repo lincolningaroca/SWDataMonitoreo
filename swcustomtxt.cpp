@@ -1,6 +1,6 @@
 #include "swcustomtxt.h"
 
-SWCustomTxt::SWCustomTxt()
+SWCustomTxt::SWCustomTxt(QWidget *parent):QLineEdit(parent)
 {
 
 }
