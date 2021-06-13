@@ -288,7 +288,7 @@ void MainWindow::on_cboAnios_activated(int index)
 }
 
 
-void MainWindow::on_lwEstaciones_itemClicked()
+void MainWindow::on_lwEstaciones_itemClicked(QListWidgetItem *item)
 {
 //  Q_UNUSED(item)
   datosMonitoreo();
