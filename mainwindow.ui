@@ -97,7 +97,20 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="cboMeses"/>
+             <widget class="QComboBox" name="cboMeses">
+              <property name="minimumSize">
+               <size>
+                <width>68</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>68</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
             </item>
             <item>
              <widget class="QLabel" name="label_14">
@@ -107,7 +120,20 @@
              </widget>
             </item>
             <item>
-             <widget class="QComboBox" name="cboAnios"/>
+             <widget class="QComboBox" name="cboAnios">
+              <property name="minimumSize">
+               <size>
+                <width>68</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>68</width>
+                <height>16777215</height>
+               </size>
+              </property>
+             </widget>
             </item>
            </layout>
           </item>
