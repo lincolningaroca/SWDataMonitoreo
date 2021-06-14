@@ -2,9 +2,10 @@
 #include "ui_editdatadialog.h"
 #include <QDebug>
 #include <QMessageBox>
-#include <QSqlQuery>
-#include <QSqlError>
+//#include <QSqlQuery>
+//#include <QSqlError>
 #include "desc_pdialog.h"
+#include "fotodialog.h"
 
 EditDataDialog::EditDataDialog(QWidget *parent) :
   QDialog(parent), ui(new Ui::EditDataDialog)
@@ -22,7 +23,25 @@ EditDataDialog::EditDataDialog(QWidget *parent) :
 
   QObject::connect(ui->twEstaciones->selectionModel(),&QItemSelectionModel::currentChanged,
                    this,&EditDataDialog::datosMonitoreo);
-
+  QObject::connect(ui->lineEdit_2,&SWCustomTxt::clicked,this,[&](){
+    FotoDialog *fDialog=new FotoDialog(imagen_1,this);
+    fDialog->exec();
+  });
+  QObject::connect(ui->lineEdit_3,&SWCustomTxt::clicked,this,[&](){
+    if(imagen_2.size()!=0){
+      FotoDialog *fDialog=new FotoDialog(imagen_2,this);
+      fDialog->exec();
+    }
+  });
+  QObject::connect(ui->lineEdit_4,&SWCustomTxt::clicked,this,[&](){
+    if(imagen_3.size()!=0){
+      FotoDialog *fDialog=new FotoDialog(imagen_3,this);
+      fDialog->exec();
+    }
+  });
+  setUpToolBtnClear();
+  ui->dateEdit->setDate(QDate::currentDate());
+  ui->timeEdit->setTime(QTime::currentTime());
 
 }
 
@@ -60,6 +79,9 @@ void EditDataDialog::loadDataListCliente()
 void EditDataDialog::datosMonitoreo()
 {
   //  list.clear();
+  imagen_1.clear();
+  imagen_2.clear();
+  imagen_3.clear();
   int nro=bLayer.nro(model->index(ui->twEstaciones->currentIndex().row(),0).data().toInt());
   list=bLayer.dataEstMonitoreo(nro);
   if(list.isEmpty()){
@@ -143,7 +165,7 @@ void EditDataDialog::dataModel()
   }
   QModelIndex index=ui->twEstaciones->model()->index(0,0);
   ui->twEstaciones->setCurrentIndex(index);
-//  ui->twEstaciones->selectionModel()->select(index,QItemSelectionModel::Select);
+  //  ui->twEstaciones->selectionModel()->select(index,QItemSelectionModel::Select);
   datosMonitoreo();
 }
 
@@ -296,4 +318,68 @@ void EditDataDialog::on_toolButton_3_clicked()
   file.close();
   file.flush();
 }
+void EditDataDialog::setUpToolBtnClear()
+{
+  QAction *closeAction=ui->lineEdit_2->addAction(QIcon(":/img/1916591.png"),
+                                                   QLineEdit::TrailingPosition);
+  closeAction->setToolTip("Quitar foto");
+  connect(closeAction,&QAction::triggered,this,[=](){
+    QMessageBox::warning(this,qApp->applicationName(),"No puede quitar ésta imagen.\n"
+                                                        "La primera imagen siempre es requerida.\n"
+                                                        "Recuerde que tiene que guardar los datos con una imagen como minimo.");
+    return;
+    //    ui->lineEdit_2->clear();
+
+  });
+
+  QAction *closeAction1=ui->lineEdit_3->addAction(QIcon(":/img/1916591.png"),
+                                                    QLineEdit::TrailingPosition);
+  closeAction1->setToolTip("Quitar foto");
+  connect(closeAction1,&QAction::triggered,this,[&](){
+
+    if(ui->lineEdit_3->text().isEmpty()){
+      return;
+    }
+    QMessageBox mBox;
+    mBox.setText("Seguro que desea quitar ésta imagen?");
+    mBox.setIcon(QMessageBox::Question);
+    mBox.addButton(new QPushButton("Quitar imagen"),QMessageBox::AcceptRole);
+    mBox.addButton(new QPushButton("Cancelar"),QMessageBox::RejectRole);
+    if(mBox.exec()==QMessageBox::AcceptRole){
+      //      qDebug()<<"Aceptaste tu muerte";
+      //      return;
+      imagen_2.clear();
+      ui->lineEdit_3->clear();
+    }else{
+      //      qDebug()<<"Te salvaste";
+      return;
+    }
+  });
+
+  QAction *closeAction2=ui->lineEdit_4->addAction(QIcon(":/img/1916591.png"),
+                                                    QLineEdit::TrailingPosition);
+  closeAction2->setToolTip("Quitar foto");
+  connect(closeAction2,&QAction::triggered,this,[=](){
+    if(ui->lineEdit_4->text().isEmpty()){
+      return;
+    }
+    QMessageBox mBox;
+    mBox.setText("Seguro que desea quitar ésta imagen?");
+    mBox.setIcon(QMessageBox::Question);
+    mBox.addButton(new QPushButton("Quitar imagen"),QMessageBox::AcceptRole);
+    mBox.addButton(new QPushButton("Cancelar"),QMessageBox::RejectRole);
+    if(mBox.exec()==QMessageBox::AcceptRole){
+      //      qDebug()<<"Aceptaste tu muerte";
+      //      return;
+      imagen_3.clear();
+      ui->lineEdit_4->clear();
+    }else{
+      //      qDebug()<<"Te salvaste";
+      return;
+    }
+
+  });
+
+}
+
 

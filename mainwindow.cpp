@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
   loadCboTemas();
   loadDataEstMonitoreo();
   loadSettings();
-//  setMinimumSize(800,600);
+  //  setMinimumSize(800,600);
   QObject::connect(ui->txtDesc_punto,&SWCustomTxt::clicked,this,
                    [&](){
                      Desc_pDialog *desc_dialog=new Desc_pDialog(
@@ -77,9 +77,9 @@ void MainWindow::loadDataEstMonitoreo()
     ui->lwEstaciones->addItem(item);
   }
 
-//  ui->lwEstaciones->setCurrentRow(0);
-//  on_lwEstaciones_itemClicked();
-//  datosMonitoreo();
+  //  ui->lwEstaciones->setCurrentRow(0);
+  //  on_lwEstaciones_itemClicked();
+  //  datosMonitoreo();
 }
 
 void MainWindow::loadCboTemas()
@@ -233,7 +233,7 @@ void MainWindow::datosMonitoreo()
   ui->txtDesc_punto->setToolTip(dataList.value(11).toString());
 
 
-//datos de campo
+  //datos de campo
   ui->dsbPh->setValue(dataList.value(13).toDouble());
   ui->dsbTemp->setValue(dataList.value(14).toDouble());
   ui->dsbOd->setValue(dataList.value(15).toDouble());
@@ -290,7 +290,7 @@ void MainWindow::on_cboAnios_activated(int index)
 
 void MainWindow::on_lwEstaciones_itemClicked(QListWidgetItem *item)
 {
-//  Q_UNUSED(item)
+  //  Q_UNUSED(item)
   datosMonitoreo();
 
 }
@@ -338,6 +338,7 @@ void MainWindow::on_actionEditar_datos_unidad_minera_triggered()
 void MainWindow::on_actioneditar_datos_monitoreo_triggered()
 {
   EditDataDialog *editDialog=new EditDataDialog(this);
+  editDialog->setWindowTitle(qApp->applicationName().append(" - Editar información"));
   if(editDialog->exec()==QDialog::Accepted){
     ui->lwEstaciones->clear();
     loadDataEstMonitoreo();

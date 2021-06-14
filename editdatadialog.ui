@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>761</width>
-    <height>483</height>
+    <height>549</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -67,7 +67,11 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QDateEdit" name="dateEdit"/>
+        <widget class="QDateEdit" name="dateEdit">
+         <property name="calendarPopup">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_5">
@@ -115,7 +119,10 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="lineEdit_2">
+         <widget class="SWCustomTxt" name="lineEdit_2">
+          <property name="toolTip">
+           <string>Click para ver la foto</string>
+          </property>
           <property name="readOnly">
            <bool>true</bool>
           </property>
@@ -136,7 +143,10 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="lineEdit_3">
+         <widget class="SWCustomTxt" name="lineEdit_3">
+          <property name="toolTip">
+           <string>Click para ver la foto</string>
+          </property>
           <property name="readOnly">
            <bool>true</bool>
           </property>
@@ -157,7 +167,10 @@
          </widget>
         </item>
         <item row="2" column="1">
-         <widget class="QLineEdit" name="lineEdit_4">
+         <widget class="SWCustomTxt" name="lineEdit_4">
+          <property name="toolTip">
+           <string>Click para ver la foto</string>
+          </property>
           <property name="readOnly">
            <bool>true</bool>
           </property>
@@ -476,6 +489,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>SWCustomTxt</class>
+   <extends>QLineEdit</extends>
+   <header location="global">swcustomtxt.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="rsc.qrc"/>
   <include location="rsc.qrc"/>

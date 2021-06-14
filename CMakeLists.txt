@@ -82,6 +82,10 @@ set(PROJECT_SOURCES
   Desc_pdialog.ui
   desc_pdialog.cpp
   desc_pdialog.h
+  #formulario para mostrar una sola foto
+  fotodialog.cpp
+  fotodialog.h
+  fotodialog.ui
 
   )
 

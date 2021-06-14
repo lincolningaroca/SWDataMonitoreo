@@ -13,7 +13,7 @@
 //cabecera para cambio de tema oscuro
 #include "qeasysettings.hpp"
 #include "editdatadialog.h"
-#include<QComboBox>
+#include <QComboBox>
 #include <QListWidgetItem>
 
 
@@ -26,8 +26,6 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 public:
-
-
   MainWindow(QWidget *parent = nullptr);
   ~MainWindow();
 
@@ -37,16 +35,11 @@ public:
 //  int getIdGrupo(QString name);
 
   void loadCboTemas();
-
-
-
 private slots:
   void on_toolButton_clicked();
   void on_toolButton_2_clicked();
   void on_cboGrupo_activated(int index);
-
 //  void on_rbPorFecha_clicked();
-
   void on_actionNuevo_punto_de_monitoreo_triggered();
 //  void on_toolButton_3_clicked();
   void on_cboUnidad_activated(int index);
