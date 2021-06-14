@@ -11,12 +11,8 @@ NuevoDialog::NuevoDialog(DialogMode mode, QVariantList data, QWidget *parent) :
   _data=data;
 
   setUpForm();
+
   loadDataListCliente();
-
-
-
-  //  regex.setPattern("^\\S[\\w\\w]+$");
-  //  regex.setPattern("^([a-zA-ZñÑ.-]\\s?)+\\S$");
 }
 
 NuevoDialog::~NuevoDialog()
@@ -135,6 +131,14 @@ void NuevoDialog::loadDataListCliente()
     ui->lwUnidades->addItem(item);
   }
 
+  if(_mode==UPDATE_UNIDAD){
+    ui->lwUnidades->setCurrentRow(0);
+    on_lwUnidades_itemClicked(ui-> lwUnidades->currentItem());
+//    QObject::connect(ui->lwUnidades->selectionModel(),&QItemSelectionModel::currentChanged,this,
+//                     [&](){
+//                       on_lwUnidades_itemClicked(ui->lwUnidades->currentItem());
+//                     });
+  }
 
 }
 
@@ -195,5 +199,11 @@ void NuevoDialog::on_lwUnidades_itemClicked(QListWidgetItem *item)
     dataListCliente.key(item->data(Qt::DisplayRole).toString()),BussinesLayer::CLIENTE);
   ui->txtNombre->setText(dataCte.value(1).toString());
   ui->teDescripcion->setPlainText(dataCte.value(2).toString());
+}
+
+
+void NuevoDialog::on_txtNombre_textChanged(const QString &arg1)
+{
+  ui->txtNombre->setText(arg1.toUpper());
 }
 

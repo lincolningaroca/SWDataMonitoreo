@@ -34,6 +34,8 @@ private slots:
   void on_cboLista_activated(int index);
   void on_lwUnidades_itemClicked(QListWidgetItem *item);
 
+  void on_txtNombre_textChanged(const QString &arg1);
+
 private:
   Ui::NuevoDialog *ui;
   BussinesLayer bussines;

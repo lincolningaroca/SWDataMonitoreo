@@ -6,6 +6,7 @@
 //#include <QSqlError>
 #include "desc_pdialog.h"
 #include "fotodialog.h"
+#include <QRegularExpression>
 
 EditDataDialog::EditDataDialog(QWidget *parent) :
   QDialog(parent), ui(new Ui::EditDataDialog)
@@ -20,6 +21,10 @@ EditDataDialog::EditDataDialog(QWidget *parent) :
   ui->twEstaciones->setHorizontalHeaderLabels(titulos);
 
   dataModel();
+  if(dataListCliente.isEmpty() || model->rowCount()==0)
+    manageControls(1);
+  else
+    manageControls(2);
 
   QObject::connect(ui->twEstaciones->selectionModel(),&QItemSelectionModel::currentChanged,
                    this,&EditDataDialog::datosMonitoreo);
@@ -53,25 +58,27 @@ EditDataDialog::~EditDataDialog()
 void EditDataDialog::loadGpoMinerolist()
 {
   dataList=bLayer.gpoMineroList(BussinesLayer::GPO_MINERO);
-  if(dataList.isEmpty()){
-    QMessageBox::critical(this,qApp->applicationName(),"Error al cargar los datos\n"+
-                                                           bLayer.errorMessage());
-    return;
-  }
+//  if(dataList.isEmpty()){
+////    QMessageBox::critical(this,qApp->applicationName(),"Error al cargar los datos\n"+
+////                                                           bLayer.errorMessage());
+//    return;
+//  }
 
   ui->cboGrupo->addItems(dataList.values());
   loadDataListCliente();
+
+
 }
 
 void EditDataDialog::loadDataListCliente()
 {
+//  dataListCliente.clear();
   dataListCliente=bLayer.gpoMineroList(BussinesLayer::CLIENTE,
                                          dataList.key(ui->cboGrupo->currentText()));
-  if(dataListCliente.isEmpty()){
-    QMessageBox::critical(this,qApp->applicationName(),"Error al cargar los datos\n"+
-                                                           bLayer.errorMessage());
-    return;
-  }
+  if(dataListCliente.isEmpty())
+    manageControls(1);
+  else
+    manageControls(2);
   ui->cboUnidad->addItems(dataListCliente.values());
 
 }
@@ -119,10 +126,10 @@ void EditDataDialog::datosMonitoreo()
   ui->dsbCota->setValue(list.value(10).toDouble());
 }
 
-void EditDataDialog::on_txtPath1_returnPressed()
-{
-  qDebug()<<"presionaste el control";
-}
+//void EditDataDialog::on_txtPath1_returnPressed()
+//{
+//  qDebug()<<"presionaste el control";
+//}
 
 void EditDataDialog::on_btnCancelar_clicked()
 {
@@ -152,6 +159,12 @@ void EditDataDialog::dataModel()
   model=new QSqlQueryModel(this);
   int id=dataListCliente.key(ui->cboUnidad->currentText());
   model=bLayer.data(id);
+  if(model->rowCount()==0){
+    manageControls(1);
+  }else{
+    manageControls(2);
+  }
+
   for(int i=0;i<model->rowCount();++i){
     int rowCount=ui->twEstaciones->rowCount();
     ui->twEstaciones->insertRow(rowCount);
@@ -175,10 +188,46 @@ void EditDataDialog::cleanData()
     ui->twEstaciones->removeRow(i);
   }
 }
+
+void EditDataDialog::manageControls(int op)
+{
+  if(op==1){
+    ui->twEstaciones->setDisabled(true);
+    ui->lineEdit->setDisabled(true);
+    ui->dateEdit->setDisabled(true);
+    ui->timeEdit->setDisabled(true);
+    ui->plainTextEdit->setDisabled(true);
+    ui->groupBox_2->setDisabled(true);
+    ui->groupBox_4->setDisabled(true);
+    ui->groupBox_5->setDisabled(true);
+    ui->btnEliminar->setDisabled(true);
+    ui->btnGuardar->setDisabled(true);
+    ui->label_3->setDisabled(true);
+    ui->label_4->setDisabled(true);
+    ui->label_5->setDisabled(true);
+    ui->label_16->setDisabled(true);
+
+  }else{
+    ui->twEstaciones->setEnabled(true);
+    ui->lineEdit->setEnabled(true);
+    ui->dateEdit->setEnabled(true);
+    ui->timeEdit->setEnabled(true);
+    ui->plainTextEdit->setEnabled(true);
+    ui->groupBox_2->setEnabled(true);
+    ui->groupBox_4->setEnabled(true);
+    ui->groupBox_5->setEnabled(true);
+    ui->btnGuardar->setEnabled(true);
+    ui->btnEliminar->setEnabled(true);
+    ui->label_3->setEnabled(true);
+    ui->label_4->setEnabled(true);
+    ui->label_5->setEnabled(true);
+    ui->label_16->setEnabled(true);
+  }
+}
 void EditDataDialog::on_btnEliminar_clicked()
 {
-  ui->twEstaciones->clearContents();
-  ui->twEstaciones->model()->removeRows(0,ui->twEstaciones->rowCount());
+
+
 }
 
 void EditDataDialog::on_btnGuardar_clicked()
@@ -197,6 +246,13 @@ void EditDataDialog::on_btnGuardar_clicked()
   datos.append(ui->dsbCota->value());
   datos.append(desc_punto);
   datos.append(model->index(ui->twEstaciones->currentRow(),0).data().toInt());
+
+  if(ui->lineEdit->text().simplified().isEmpty()){
+    QMessageBox::warning(this,qApp->applicationName(),"El campo codigo de estación es requerido.");
+    ui->lineEdit->selectAll();
+    ui->lineEdit->setFocus(Qt::OtherFocusReason);
+    return;
+  }
 
   if(!bLayer.monitoreoMineroAction(datos,BussinesLayer::UPDATE)){
     QMessageBox::critical(this,qApp->applicationName(),
@@ -261,6 +317,7 @@ void EditDataDialog::on_pushButton_clicked()
 
   if(desc_dialog->exec()==QDialog::Accepted)
     desc_punto=desc_dialog->desc();
+
 }
 
 
@@ -382,4 +439,9 @@ void EditDataDialog::setUpToolBtnClear()
 
 }
 
+void EditDataDialog::on_lineEdit_textChanged(const QString &arg1)
+{
+  ui->lineEdit->setText(arg1.toUpper());
+
+}
 

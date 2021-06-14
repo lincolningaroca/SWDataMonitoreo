@@ -460,6 +460,9 @@
          </item>
          <item>
           <widget class="SWCustomTxt" name="txtDesc_punto">
+           <property name="toolTip">
+            <string>Click para ver la descripción completa</string>
+           </property>
            <property name="readOnly">
             <bool>true</bool>
            </property>
