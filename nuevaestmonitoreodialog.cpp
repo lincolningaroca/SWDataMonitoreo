@@ -114,20 +114,20 @@ void NuevaEstMonitoreoDialog::loadDataListCliente()
 
 void NuevaEstMonitoreoDialog::setUpToolBtnClear()
 {
-  QAction *closeAction=ui->txtPath1->addAction(QIcon(":/img/Yes-128.png"),
+  QAction *closeAction=ui->txtPath1->addAction(QIcon(":/img/1916591.png"),
                                                  QLineEdit::TrailingPosition);
   connect(closeAction,&QAction::triggered,this,[=](){
     ui->txtPath1->clear();
     ui->txtPath2->clear();
     ui->txtPath3->clear();
   });
-  QAction *closeAction1=ui->txtPath2->addAction(QIcon(":/img/Yes-128.png"),
+  QAction *closeAction1=ui->txtPath2->addAction(QIcon(":/img/1916591.png"),
                                                   QLineEdit::TrailingPosition);
   connect(closeAction1,&QAction::triggered,this,[=](){
     ui->txtPath2->clear();
     ui->txtPath3->clear();
   });
-  QAction *closeAction2=ui->txtPath3->addAction(QIcon(":/img/Yes-128.png"),
+  QAction *closeAction2=ui->txtPath3->addAction(QIcon(":/img/1916591.png"),
                                                   QLineEdit::TrailingPosition);
   connect(closeAction2,&QAction::triggered,this,[=](){
     ui->txtPath3->clear();

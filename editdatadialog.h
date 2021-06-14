@@ -6,6 +6,7 @@
 #include "dbconection.h"
 #include <QSqlQueryModel>
 #include <QFileDialog>
+#include <QAction>
 
 
 namespace Ui {
@@ -61,6 +62,7 @@ private:
   void setUpTableView();
   DbConection db;
   QString desc_punto;
+  void setUpToolBtnClear();
 };
 
 #endif // EDITDATADIALOG_H
