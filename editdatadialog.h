@@ -27,21 +27,17 @@ public:
   void datosMonitoreo();
 
 private slots:
-  void on_txtPath1_returnPressed();
+//  void on_txtPath1_returnPressed();
   void on_btnCancelar_clicked();
   void on_cboGrupo_activated(int index);
   void on_cboUnidad_activated(int index);
   void on_btnEliminar_clicked();
-
   void on_btnGuardar_clicked();
-
   void on_toolButton_clicked();
-
   void on_pushButton_clicked();
-
   void on_toolButton_2_clicked();
-
   void on_toolButton_3_clicked();
+  void on_lineEdit_textChanged(const QString &arg1);
 
 private:
   Ui::EditDataDialog *ui;
@@ -57,6 +53,7 @@ private:
 
   void dataModel();
   void cleanData();
+  void manageControls(int op);
 
   //funcoines privadas del programador
   void setUpTableView();

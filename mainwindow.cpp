@@ -345,3 +345,9 @@ void MainWindow::on_actioneditar_datos_monitoreo_triggered()
   }
 }
 
+
+void MainWindow::on_txtEstacion_textChanged(const QString &arg1)
+{
+  ui->txtEstacion->setText(arg1.toUpper());
+}
+

@@ -33,6 +33,8 @@ private slots:
 
   void on_pushButton_clicked();
 
+  void on_txtCodigo_textChanged(const QString &arg1);
+
 private:
   Ui::NuevaEstMonitoreoDialog *ui;
   BussinesLayer bLayer;

@@ -52,6 +52,8 @@ private slots:
   void on_actionEditar_datos_unidad_minera_triggered();
   void on_actioneditar_datos_monitoreo_triggered();
 
+  void on_txtEstacion_textChanged(const QString &arg1);
+
 private:
   Ui::MainWindow *ui;
 

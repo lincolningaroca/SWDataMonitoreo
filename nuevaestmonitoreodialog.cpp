@@ -29,8 +29,8 @@ NuevaEstMonitoreoDialog::~NuevaEstMonitoreoDialog()
 
 void NuevaEstMonitoreoDialog::on_btnGuardar_clicked()
 {
-  if(ui->txtCodigo->text().isEmpty()){
-    QMessageBox::warning(this,qApp->applicationName(),"El codigo de estación es requerido.\n");
+  if(ui->txtCodigo->text().simplified().isEmpty()){
+    QMessageBox::warning(this,qApp->applicationName(),"El código de estación es requerido.\n");
     ui->txtCodigo->setFocus(Qt::OtherFocusReason);
     return;
   }
@@ -266,5 +266,11 @@ void NuevaEstMonitoreoDialog::on_pushButton_clicked()
   Desc_pDialog *descDialog=new Desc_pDialog(2);
   if(descDialog->exec()==QDialog::Accepted)
     desc_punto=descDialog->desc();
+}
+
+
+void NuevaEstMonitoreoDialog::on_txtCodigo_textChanged(const QString &arg1)
+{
+  ui->txtCodigo->setText(arg1.toUpper());
 }
 

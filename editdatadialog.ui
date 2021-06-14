@@ -469,6 +469,16 @@
        <property name="text">
         <string>Guardar cambios</string>
        </property>
+       <property name="icon">
+        <iconset resource="rsc.qrc">
+         <normaloff>:/img/save.png</normaloff>:/img/save.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
       </widget>
      </item>
      <item>
@@ -476,12 +486,32 @@
        <property name="text">
         <string>Eliminar</string>
        </property>
+       <property name="icon">
+        <iconset resource="rsc.qrc">
+         <normaloff>:/img/807714.png</normaloff>:/img/807714.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btnCancelar">
        <property name="text">
         <string>Cancelar</string>
+       </property>
+       <property name="icon">
+        <iconset resource="rsc.qrc">
+         <normaloff>:/img/cancel.png</normaloff>:/img/cancel.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>24</width>
+         <height>24</height>
+        </size>
        </property>
       </widget>
      </item>
