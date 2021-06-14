@@ -15,5 +15,6 @@
         <file>img/1916591.png</file>
         <file>img/cancel.png</file>
         <file>img/save.png</file>
+        <file>img/door-out-128.png</file>
     </qresource>
 </RCC>

@@ -58,11 +58,11 @@ EditDataDialog::~EditDataDialog()
 void EditDataDialog::loadGpoMinerolist()
 {
   dataList=bLayer.gpoMineroList(BussinesLayer::GPO_MINERO);
-//  if(dataList.isEmpty()){
-////    QMessageBox::critical(this,qApp->applicationName(),"Error al cargar los datos\n"+
-////                                                           bLayer.errorMessage());
-//    return;
-//  }
+  //  if(dataList.isEmpty()){
+  ////    QMessageBox::critical(this,qApp->applicationName(),"Error al cargar los datos\n"+
+  ////                                                           bLayer.errorMessage());
+  //    return;
+  //  }
 
   ui->cboGrupo->addItems(dataList.values());
   loadDataListCliente();
@@ -72,7 +72,7 @@ void EditDataDialog::loadGpoMinerolist()
 
 void EditDataDialog::loadDataListCliente()
 {
-//  dataListCliente.clear();
+  //  dataListCliente.clear();
   dataListCliente=bLayer.gpoMineroList(BussinesLayer::CLIENTE,
                                          dataList.key(ui->cboGrupo->currentText()));
   if(dataListCliente.isEmpty())
@@ -133,7 +133,7 @@ void EditDataDialog::datosMonitoreo()
 
 void EditDataDialog::on_btnCancelar_clicked()
 {
-  reject();
+  accept();
 }
 
 void EditDataDialog::on_cboGrupo_activated(int index)
@@ -184,9 +184,11 @@ void EditDataDialog::dataModel()
 
 void EditDataDialog::cleanData()
 {
-  for(int i=ui->twEstaciones->rowCount()-1;i>=0;--i){
-    ui->twEstaciones->removeRow(i);
-  }
+  //  for(int i=ui->twEstaciones->rowCount()-1;i>=0;--i){
+  //    ui->twEstaciones->removeRow(i);
+  //  }
+  ui->twEstaciones->clearContents();
+  ui->twEstaciones->setRowCount(0);
 }
 
 void EditDataDialog::manageControls(int op)
@@ -227,6 +229,33 @@ void EditDataDialog::manageControls(int op)
 void EditDataDialog::on_btnEliminar_clicked()
 {
 
+
+  QVariant idEstacion=model->index(ui->twEstaciones->currentRow(),0).data();
+  QString codEstacion=list.value(0).toString();
+
+  QMessageBox msgBox;
+  msgBox.setText(QString("<p style=\"color:#CF1F25;\">Seguro que desea eliminar este registro:%1</p>").arg(
+    "<p style=\"color:#CF1F25;\"><b>"+codEstacion+"</b></p>"));
+  msgBox.setIcon(QMessageBox::Question);
+  msgBox.addButton(new QPushButton("Eliminar registro"),QMessageBox::AcceptRole);
+  msgBox.addButton(new QPushButton("Cancelar"),QMessageBox::RejectRole);
+  if(msgBox.exec()==QMessageBox::RejectRole)
+    return;
+
+  QVariantList param;
+  param.append(idEstacion);
+
+  if(!bLayer.monitoreoMineroAction(param,BussinesLayer::DELETE)){
+    QMessageBox::critical(this,qApp->applicationName(),
+                          "Error al eliminar los datos.\n"+
+                            bLayer.errorMessage()+"\n"+bLayer.errorCode());
+    return;
+  }
+  QMessageBox::information(this,qApp->applicationName(),"Registro eliminado");
+  //  accept();
+  cleanData();
+  dataModel();
+  datosMonitoreo();
 
 }
 
@@ -277,11 +306,13 @@ void EditDataDialog::on_btnGuardar_clicked()
 
   }
   QMessageBox::information(this,qApp->applicationName(),"Datos guardados.");
-  accept();
+  //  accept();
+  cleanData();
+  dataModel();
+  datosMonitoreo();
   //  qDebug()<<bLayer.nro(dataListCliente.key(ui->cboUnidad->currentText()));
 
 }
-
 
 void EditDataDialog::on_toolButton_clicked()
 {
@@ -436,6 +467,19 @@ void EditDataDialog::setUpToolBtnClear()
     }
 
   });
+
+}
+
+QPaintEngine *EditDataDialog::paintEngine() const
+{
+  return QWidget::paintEngine();
+
+}
+
+void EditDataDialog::closeEvent(QCloseEvent *event)
+{
+  accept();
+  event->accept();
 
 }
 

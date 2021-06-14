@@ -339,10 +339,13 @@ void MainWindow::on_actioneditar_datos_monitoreo_triggered()
 {
   EditDataDialog *editDialog=new EditDataDialog(this);
   editDialog->setWindowTitle(qApp->applicationName().append(" - Editar información"));
+
   if(editDialog->exec()==QDialog::Accepted){
     ui->lwEstaciones->clear();
     loadDataEstMonitoreo();
   }
+
+
 }
 
 

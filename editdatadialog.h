@@ -60,6 +60,14 @@ private:
   DbConection db;
   QString desc_punto;
   void setUpToolBtnClear();
+
+  // QPaintDevice interface
+public:
+  virtual QPaintEngine *paintEngine() const override;
+
+  // QWidget interface
+protected:
+  virtual void closeEvent(QCloseEvent *event) override;
 };
 
 #endif // EDITDATADIALOG_H

@@ -108,7 +108,7 @@
         </sizepolicy>
        </property>
        <property name="title">
-        <string>GroupBox</string>
+        <string>Fotos</string>
        </property>
        <layout class="QGridLayout" name="gridLayout_3">
         <item row="0" column="0">
@@ -435,6 +435,57 @@
       </widget>
      </item>
      <item>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>210</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnGuardar">
+         <property name="text">
+          <string>Guardar cambios</string>
+         </property>
+         <property name="icon">
+          <iconset resource="rsc.qrc">
+           <normaloff>:/img/save.png</normaloff>:/img/save.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnEliminar">
+         <property name="text">
+          <string>Eliminar</string>
+         </property>
+         <property name="icon">
+          <iconset resource="rsc.qrc">
+           <normaloff>:/img/807714.png</normaloff>:/img/807714.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
       <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -447,65 +498,38 @@
        </property>
       </spacer>
      </item>
+     <item>
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
    <item row="1" column="0" colspan="2">
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <spacer name="horizontalSpacer">
+      <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>210</width>
+         <width>40</width>
          <height>20</height>
         </size>
        </property>
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="btnGuardar">
-       <property name="text">
-        <string>Guardar cambios</string>
-       </property>
-       <property name="icon">
-        <iconset resource="rsc.qrc">
-         <normaloff>:/img/save.png</normaloff>:/img/save.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>24</width>
-         <height>24</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="btnEliminar">
-       <property name="text">
-        <string>Eliminar</string>
-       </property>
-       <property name="icon">
-        <iconset resource="rsc.qrc">
-         <normaloff>:/img/807714.png</normaloff>:/img/807714.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>24</width>
-         <height>24</height>
-        </size>
-       </property>
-      </widget>
-     </item>
-     <item>
       <widget class="QPushButton" name="btnCancelar">
        <property name="text">
-        <string>Cancelar</string>
+        <string>Salir</string>
        </property>
        <property name="icon">
         <iconset resource="rsc.qrc">
-         <normaloff>:/img/cancel.png</normaloff>:/img/cancel.png</iconset>
+         <normaloff>:/img/door-out-128.png</normaloff>:/img/door-out-128.png</iconset>
        </property>
        <property name="iconSize">
         <size>
