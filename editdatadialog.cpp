@@ -19,6 +19,8 @@ EditDataDialog::EditDataDialog(QWidget *parent) :
   titulos<<"ID_ESTACION"<<"CODIGO DE ESTCION"<<"FECHA"<<"ID_CLIENTE";
   ui->twEstaciones->setColumnCount(titulos.count());
   ui->twEstaciones->setHorizontalHeaderLabels(titulos);
+  ui->twEstaciones->hideColumn(0);
+  ui->twEstaciones->hideColumn(3);
 
   dataModel();
   if(dataListCliente.isEmpty() || model->rowCount()==0)
@@ -192,6 +194,7 @@ void EditDataDialog::cleanData()
 void EditDataDialog::manageControls(int op)
 {
   if(op==1){
+//    ui->twEstaciones->setColumnCount(0);
     ui->twEstaciones->setDisabled(true);
     ui->lineEdit->setDisabled(true);
     ui->dateEdit->setDisabled(true);
