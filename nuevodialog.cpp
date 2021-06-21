@@ -144,6 +144,7 @@ void NuevoDialog::loadDataListCliente()
 
 void NuevoDialog::on_cboLista_activated(int index)
 {
+  Q_UNUSED(index)
   ui->lwUnidades->clear();
   loadDataListCliente();
   //  qDebug()<<dataList.key(ui->cboLista->currentText());

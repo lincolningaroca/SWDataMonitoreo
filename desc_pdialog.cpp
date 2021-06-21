@@ -1,5 +1,5 @@
 #include "desc_pdialog.h"
-#include "ui_desc_pdialog.h"
+#include "ui_Desc_pdialog.h"
 #include <QPushButton>
 
 Desc_pDialog::Desc_pDialog(int mode, QString descr, QWidget *parent) :

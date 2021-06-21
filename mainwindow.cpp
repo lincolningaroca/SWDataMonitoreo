@@ -237,7 +237,7 @@ void MainWindow::datosMonitoreo()
 
 QPaintEngine *MainWindow::paintEngine() const
 {
-  return MainWindow::paintEngine();
+  return QWidget::paintEngine();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -285,7 +285,7 @@ void MainWindow::on_cboAnios_activated(int index)
 
 void MainWindow::on_lwEstaciones_itemClicked(QListWidgetItem *item)
 {
-  //  Q_UNUSED(item)
+  Q_UNUSED(item)
   datosMonitoreo();
 
 }
