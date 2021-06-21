@@ -3,9 +3,11 @@
 #include <QPushButton>
 
 Desc_pDialog::Desc_pDialog(int mode, QString descr, QWidget *parent) :
-  mo(mode),d(descr),QDialog(parent), ui(new Ui::Desc_pDialog)
+  QDialog(parent), ui(new Ui::Desc_pDialog)
 {
   ui->setupUi(this);
+  mo=mode;
+  d=descr;
   setWindowFlags(Qt::Dialog|Qt::MSWindowsFixedSizeDialogHint);
   if(mode==1){
     ui->txtDescPunto->setPlainText(d);
@@ -35,9 +37,9 @@ Desc_pDialog::Desc_pDialog(int mode, QString descr, QWidget *parent) :
 }
 
 Desc_pDialog::Desc_pDialog(QString descr, QWidget *parent):
-  d(descr),QDialog(parent)
+  QDialog(parent)
 {
-
+  d=descr;
 
 }
 
