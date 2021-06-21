@@ -2,6 +2,7 @@
 #define DESC_PDIALOG_H
 
 #include <QDialog>
+#include <QHBoxLayout>
 
 namespace Ui {
 class Desc_pDialog;
@@ -26,6 +27,7 @@ private:
   QString _desc;
   QString d;
   int mo;
+
 };
 
 #endif // DESC_PDIALOG_H

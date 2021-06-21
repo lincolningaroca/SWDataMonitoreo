@@ -22,15 +22,15 @@ Desc_pDialog::Desc_pDialog(int mode, QString descr, QWidget *parent) :
     hLayOut->addStretch();
     hLayOut->addWidget(btnGuardar);
     hLayOut->addWidget(btnCancelar);
-    this->layout()->addItem(hLayOut);
-    QObject::connect(btnGuardar,&QPushButton::clicked,this,[&](){
+    static_cast<QVBoxLayout *>(this->layout())->addLayout(hLayOut);
+//    this->layout()->addItem(hLayOut);
+
+    QObject::connect(btnGuardar,&QPushButton::clicked,[this](){
       _desc=ui->txtDescPunto->toPlainText();
       accept();
     });
     QObject::connect(btnCancelar,&QPushButton::clicked,this,&Desc_pDialog::reject);
   }
-
-
 
 }
 

@@ -21,13 +21,12 @@ MainWindow::MainWindow(QWidget *parent)
   loadDataEstMonitoreo();
   loadSettings();
   //  setMinimumSize(800,600);
-  QObject::connect(ui->txtDesc_punto,&SWCustomTxt::clicked,this,
-                   [&](){
-                     Desc_pDialog *desc_dialog=new Desc_pDialog(
-                       1,ui->txtDesc_punto->text(),this);
-                     desc_dialog->exec();
+  QObject::connect(ui->txtDesc_punto,&SWCustomTxt::clicked,this,[&](){
+    Desc_pDialog *desc_dialog=new Desc_pDialog(
+      1,ui->txtDesc_punto->text(),this);
+    desc_dialog->exec();
 
-                   });
+  });
 }
 
 MainWindow::~MainWindow()
@@ -88,7 +87,7 @@ void MainWindow::loadCboTemas()
   cboTemas->addItem("Tema claro");
   cboTemas->addItem("Tema oscuro");
   ui->toolBar->addWidget(cboTemas);
-  QObject::connect(cboTemas,&QComboBox::activated,this,[&](){
+  QObject::connect(cboTemas,QOverload<int>::of(&QComboBox::activated),this,[&](){
     if(cboTemas->currentIndex()==0){
       QEasySettings::setStyle(QEasySettings::Style::lightFusion);
       QPixmap defaultImage(":/img/logoEmpresa.png");
@@ -140,8 +139,6 @@ void MainWindow::on_cboGrupo_activated(int index)
   loadDataEstMonitoreo();
 
 }
-
-
 void MainWindow::on_actionNuevo_punto_de_monitoreo_triggered()
 {
   nuevaEstFrm=new NuevaEstMonitoreoDialog(this);
@@ -151,8 +148,6 @@ void MainWindow::on_actionNuevo_punto_de_monitoreo_triggered()
     loadDataEstMonitoreo();
   }
 }
-
-
 
 void MainWindow::on_cboUnidad_activated(int index)
 {
@@ -334,7 +329,6 @@ void MainWindow::on_actionEditar_datos_unidad_minera_triggered()
   dlgEditUnidad->exec();
 }
 
-
 void MainWindow::on_actioneditar_datos_monitoreo_triggered()
 {
   EditDataDialog *editDialog=new EditDataDialog(this);
@@ -345,9 +339,7 @@ void MainWindow::on_actioneditar_datos_monitoreo_triggered()
     loadDataEstMonitoreo();
   }
 
-
 }
-
 
 void MainWindow::on_txtEstacion_textChanged(const QString &arg1)
 {
