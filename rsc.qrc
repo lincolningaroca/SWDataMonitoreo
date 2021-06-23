@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>img/logoEmpresa.png</file>
         <file>img/logoEmpresa_1.png</file>
-        <file>img/Yes-128.png</file>
         <file>img/15551 - bottom view.png</file>
         <file>img/15552 - choose view.png</file>
         <file>img/15553 - detailed view.png</file>
@@ -16,5 +15,7 @@
         <file>img/cancel.png</file>
         <file>img/save.png</file>
         <file>img/door-out-128.png</file>
+        <file>img/download_save-02-128.webp</file>
+        <file>img/5684769.png</file>
     </qresource>
 </RCC>

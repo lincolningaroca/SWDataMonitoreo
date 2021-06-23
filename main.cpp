@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
   a.setOrganizationDomain("swsystems.com");
   MainWindow w;
   w.setWindowTitle(a.applicationName());
+//  w.setWindowState(Qt::WindowMaximized);
   w.show();
   return a.exec();
 }

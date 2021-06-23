@@ -33,7 +33,6 @@ Desc_pDialog::Desc_pDialog(int mode, QString descr, QWidget *parent) :
     });
     QObject::connect(btnCancelar,&QPushButton::clicked,this,&Desc_pDialog::reject);
   }
-
 }
 
 Desc_pDialog::Desc_pDialog(QString descr, QWidget *parent):
@@ -42,7 +41,6 @@ Desc_pDialog::Desc_pDialog(QString descr, QWidget *parent):
   d=descr;
 
 }
-
 
 Desc_pDialog::~Desc_pDialog()
 {

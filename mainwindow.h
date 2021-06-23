@@ -33,6 +33,7 @@ public:
   void loadDataListCliente();
   void loadDataEstMonitoreo();
 //  int getIdGrupo(QString name);
+  void saveImageContextMenu();
 
   void loadCboTemas();
 private slots:
@@ -51,7 +52,6 @@ private slots:
   void on_actionActualizar_datos_triggered();
   void on_actionEditar_datos_unidad_minera_triggered();
   void on_actioneditar_datos_monitoreo_triggered();
-
   void on_txtEstacion_textChanged(const QString &arg1);
 
 private:
@@ -75,10 +75,13 @@ private:
   QByteArray foto_2;
   QByteArray foto_3;
 
-  //funciones y metodos privados
+  int fotoMode=0;
+   //funciones y metodos privados
   void loadMesesAnios();
   void loadSettings();
   void datosMonitoreo();
+  void cleanControls();
+  void defaultImage();
 
   // QPaintDevice interface
 public:

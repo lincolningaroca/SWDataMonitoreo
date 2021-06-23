@@ -42,6 +42,12 @@
      </item>
      <item>
       <widget class="QTableWidget" name="twEstaciones">
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
+       <property name="alternatingRowColors">
+        <bool>true</bool>
+       </property>
        <property name="selectionBehavior">
         <enum>QAbstractItemView::SelectRows</enum>
        </property>
@@ -466,8 +472,31 @@
          </property>
         </widget>
        </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>210</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
        <item>
         <widget class="QPushButton" name="btnEliminar">
+         <property name="minimumSize">
+          <size>
+           <width>116</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="text">
           <string>Eliminar</string>
          </property>
@@ -551,7 +580,6 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="rsc.qrc"/>
   <include location="rsc.qrc"/>
  </resources>
  <connections/>

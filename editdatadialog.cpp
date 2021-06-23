@@ -231,13 +231,11 @@ void EditDataDialog::manageControls(int op)
 }
 void EditDataDialog::on_btnEliminar_clicked()
 {
-
-
   QVariant idEstacion=model->index(ui->twEstaciones->currentRow(),0).data();
   QString codEstacion=list.value(0).toString();
 
   QMessageBox msgBox;
-  msgBox.setText(QString("<p style=\"color:#CF1F25;\">Seguro que desea eliminar este registro:%1</p>").arg(
+  msgBox.setText(QString("Seguro que desea eliminar este registro:%1").arg(
     "<p style=\"color:#CF1F25;\"><b>"+codEstacion+"</b></p>"));
   msgBox.setIcon(QMessageBox::Question);
   msgBox.addButton(new QPushButton("Eliminar registro"),QMessageBox::AcceptRole);

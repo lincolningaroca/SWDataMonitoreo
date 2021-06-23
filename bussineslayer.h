@@ -43,6 +43,7 @@ public:
   QSqlQueryModel *data(int id);
   int nro(int codEstacion);
 
+
   QStringList completerList();
 //  bool nameValidate(QString name);
 

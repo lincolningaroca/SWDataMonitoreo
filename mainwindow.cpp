@@ -3,23 +3,27 @@
 #include <QMessageBox>
 #include <QDebug>
 #include "desc_pdialog.h"
+#include <QStandardPaths>
 
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent), ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
-  QPixmap defaultImage(":/img/logoEmpresa.png");
-  ui->lblfoto->setPixmap(defaultImage);
-  ui->lblfoto->setScaledContents(true);
-  ui->lblfoto->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
 
   loadGpoMinerolist();
   ui->deFecha->setDate(QDate::currentDate());
   ui->teHora->setTime(QTime::currentTime());
   loadMesesAnios();
   loadCboTemas();
-  loadDataEstMonitoreo();
   loadSettings();
+  loadDataEstMonitoreo();
+
+  saveImageContextMenu();
+  ui->actionGuardar_foto->setDisabled(true);
+  ui->actionGuardar_foto_como->setDisabled(true);
+  defaultImage();
+
   //  setMinimumSize(800,600);
   QObject::connect(ui->txtDesc_punto,&SWCustomTxt::clicked,this,[&](){
     Desc_pDialog *desc_dialog=new Desc_pDialog(
@@ -27,6 +31,11 @@ MainWindow::MainWindow(QWidget *parent)
     desc_dialog->exec();
 
   });
+
+
+  //  ui->actionGuardar_foto->setDisabled(true);
+  //  ui->actionGuardar_foto_como->setDisabled(true);
+
 }
 
 MainWindow::~MainWindow()
@@ -81,6 +90,50 @@ void MainWindow::loadDataEstMonitoreo()
   //  datosMonitoreo();
 }
 
+void MainWindow::saveImageContextMenu()
+{
+
+  ui->lblfoto->setContextMenuPolicy(Qt::ActionsContextMenu);
+  ui->lblfoto->addAction(ui->actionGuardar_foto);
+  ui->lblfoto->addAction(ui->actionGuardar_foto_como);
+  //  QImage imageWriter;
+  //  QPixmap pixmap;
+  //  pixmap=ui->lblfoto->pixmap(Qt::ReturnByValue);
+  //  if(fotoMode==0){
+  //    ui->actionGuardar_foto->setDisabled(true);
+  //    ui->actionGuardar_foto_como->setDisabled(true);
+  //  }else{
+  ui->actionGuardar_foto->setEnabled(true);
+  ui->actionGuardar_foto_como->setEnabled(true);
+  QObject::connect(ui->actionGuardar_foto,&QAction::triggered,[this](){
+    QStringList paths=QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+    QString pathToSave=paths.first();
+    pathToSave.append("/");
+    pathToSave.append(ui->lwFotos->currentItem()->data(Qt::DisplayRole).toString());
+    pathToSave.append(".jpg");
+    if(!ui->lblfoto->pixmap(Qt::ReturnByValue).save(pathToSave,"JPG")){
+      QMessageBox::critical(this,qApp->applicationName(),"Error al guardar el archivo");
+      return;
+    }
+    QMessageBox::information(this,qApp->applicationName(),"Archivo guardado en:\n"+
+                                                              pathToSave);
+  });
+  QObject::connect(ui->actionGuardar_foto_como,&QAction::triggered,[this](){
+    QStringList path=QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
+
+    QString fileName=QFileDialog::getSaveFileName(this,"Guardar foto",QDir::current().path(),
+                                                    "Imagenes (*.jpg)");
+    if(fileName.isEmpty())
+      return;
+    if(!ui->lblfoto->pixmap(Qt::ReturnByValue).save(fileName,"JPG")){
+      QMessageBox::critical(this,qApp->applicationName(),"Error al guardar el archivo");
+      return;
+    }
+    QMessageBox::information(this,qApp->applicationName(),"Archivo guardado");
+  });
+  //  }
+}
+
 void MainWindow::loadCboTemas()
 {
   cboTemas=new QComboBox(this);
@@ -92,12 +145,18 @@ void MainWindow::loadCboTemas()
       QEasySettings::setStyle(QEasySettings::Style::lightFusion);
       QPixmap defaultImage(":/img/logoEmpresa.png");
       ui->lblfoto->setPixmap(defaultImage);
+//      //      fotoMode=0;
+//      ui->actionGuardar_foto->setDisabled(true);
+//      ui->actionGuardar_foto_como->setDisabled(true);
       //      ui->lblfoto->setScaledContents(true);
       //      ui->lblfoto->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
     }else{
       QEasySettings::setStyle(QEasySettings::Style::darkFusion);
       QPixmap defaultImage(":/img/logoEmpresa_1.png");
       ui->lblfoto->setPixmap(defaultImage);
+//      //      fotoMode=0;
+//      ui->actionGuardar_foto->setDisabled(true);
+//      ui->actionGuardar_foto_como->setDisabled(true);
       //      ui->lblfoto->setScaledContents(true);
       //      ui->lblfoto->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
     }
@@ -133,6 +192,10 @@ void MainWindow::on_toolButton_2_clicked()
 void MainWindow::on_cboGrupo_activated(int index)
 {
   Q_UNUSED(index)
+  cleanControls();
+  ui->actionGuardar_foto->setDisabled(true);
+  ui->actionGuardar_foto_como->setDisabled(true);
+  defaultImage();
   ui->cboUnidad->clear();
   loadDataListCliente();
   ui->lwEstaciones->clear();
@@ -152,8 +215,17 @@ void MainWindow::on_actionNuevo_punto_de_monitoreo_triggered()
 void MainWindow::on_cboUnidad_activated(int index)
 {
   Q_UNUSED(index)
+  cleanControls();
+  defaultImage();
   ui->lwEstaciones->clear();
   loadDataEstMonitoreo();
+  if(dataList_2.isEmpty()){
+    defaultImage();
+    ui->actionGuardar_foto->setDisabled(true);
+    ui->actionGuardar_foto_como->setDisabled(true);
+
+  }
+
   //    qDebug()<<dataListCliente.key(ui->cboUnidad->currentText());
 }
 
@@ -235,6 +307,39 @@ void MainWindow::datosMonitoreo()
   ui->dsbCond->setValue(dataList.value(16).toDouble());
 }
 
+void MainWindow::cleanControls()
+{
+  ui->txtEstacion->clear();
+  ui->deFecha->setDate(QDate::currentDate());
+  ui->teHora->setTime(QTime::currentTime());
+  ui->txtDescripcion->clear();
+  ui->lwFotos->clear();
+  ui->dsbPh->setValue(0);
+  ui->dsbTemp->setValue(0);
+  ui->dsbOd->setValue(0);
+  ui->dsbCond->setValue(0);
+  ui->dsbEste->setValue(0);
+  ui->dsbNorte->setValue(0);
+  ui->dsbCota->setValue(0);
+  ui->txtDesc_punto->clear();
+//  defaultImage();
+}
+
+void MainWindow::defaultImage()
+{
+  if(cboTemas->currentText().compare("Tema claro")==0){
+    QPixmap defaultImage(":/img/logoEmpresa.png");
+    ui->lblfoto->setPixmap(defaultImage);
+  }else{
+    QPixmap defaultImage(":/img/logoEmpresa_1.png");
+    ui->lblfoto->setPixmap(defaultImage);
+
+  }
+//  ui->lblfoto->setScaledContents(true);
+//  ui->lblfoto->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+
+}
+
 QPaintEngine *MainWindow::paintEngine() const
 {
   return QWidget::paintEngine();
@@ -253,33 +358,55 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::on_cboMeses_activated(int index)
 {
   Q_UNUSED(index)
+  cleanControls();
   ui->lwEstaciones->clear();
-  dataList_2.clear();
-  dataList_2=bLayer.selectCodEstacion(ui->cboAnios->currentData(Qt::DisplayRole).toInt(),
-                                        meses.key(ui->cboMeses->currentText()),
-                                        dataListCliente.key(ui->cboUnidad->currentText()));
-  //  ui->lwEstaciones->addItems(dataList_2.values());
-  QStringList l=dataList_2.values();
-  for(int i=0;i<dataList_2.count();++i){
-    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui-11-128.png"),l.value(i));
-    ui->lwEstaciones->addItem(item);
+  loadDataEstMonitoreo();
+  if(dataList_2.isEmpty()){
+    defaultImage();
+    ui->actionGuardar_foto->setDisabled(true);
+    ui->actionGuardar_foto_como->setDisabled(true);
+
+  }else{
+    cleanControls();
+    defaultImage();
   }
+//  ui->lwEstaciones->clear();
+//  dataList_2.clear();
+//  dataList_2=bLayer.selectCodEstacion(ui->cboAnios->currentData(Qt::DisplayRole).toInt(),
+//                                        meses.key(ui->cboMeses->currentText()),
+//                                        dataListCliente.key(ui->cboUnidad->currentText()));
+//  //  ui->lwEstaciones->addItems(dataList_2.values());
+//  QStringList l=dataList_2.values();
+//  for(int i=0;i<dataList_2.count();++i){
+//    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui-11-128.png"),l.value(i));
+//    ui->lwEstaciones->addItem(item);
+//  }
 }
 
 void MainWindow::on_cboAnios_activated(int index)
 {
   Q_UNUSED(index)
+  cleanControls();
+//  defaultImage();
   ui->lwEstaciones->clear();
-  dataList_2.clear();
-  dataList_2=bLayer.selectCodEstacion(ui->cboAnios->currentData(Qt::DisplayRole).toInt(),
-                                        meses.key(ui->cboMeses->currentText()),
-                                        dataListCliente.key(ui->cboUnidad->currentText()));
-  //  ui->lwEstaciones->addItems(dataList_2.values());
-  QStringList l=dataList_2.values();
-  for(int i=0;i<dataList_2.count();++i){
-    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/Lab_tube.png"),l.value(i));
-    ui->lwEstaciones->addItem(item);
+//  dataList_2.clear();
+  loadDataEstMonitoreo();
+  if(dataList_2.isEmpty()){
+    defaultImage();
+    ui->actionGuardar_foto->setDisabled(true);
+    ui->actionGuardar_foto_como->setDisabled(true);
+
   }
+//  dataList_2=bLayer.selectCodEstacion(ui->cboAnios->currentData(Qt::DisplayRole).toInt(),
+//                                        meses.key(ui->cboMeses->currentText()),
+//                                        dataListCliente.key(ui->cboUnidad->currentText()));
+//  //  ui->lwEstaciones->addItems(dataList_2.values());
+//  QStringList l=dataList_2.values();
+//  for(int i=0;i<dataList_2.count();++i){
+//    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/Lab_tube.png"),l.value(i));
+//    ui->lwEstaciones->addItem(item);
+//  }
+
 }
 
 
@@ -296,15 +423,28 @@ void MainWindow::on_lwFotos_itemClicked(QListWidgetItem *item)
   if(item->data(Qt::DisplayRole).toString()=="Foto 1"){
     pixMap.loadFromData(foto_1);
     ui->lblfoto->setPixmap(pixMap);
+    //    fotoMode=1;
+    //    saveImageContextMenu();
+    ui->actionGuardar_foto->setEnabled(true);
+    ui->actionGuardar_foto_como->setEnabled(true);
   }
   if(item->data(Qt::DisplayRole).toString()=="Foto 2"){
     pixMap.loadFromData(foto_2);
     ui->lblfoto->setPixmap(pixMap);
+    //    fotoMode=1;
+    //    saveImageContextMenu();
+    ui->actionGuardar_foto->setEnabled(true);
+    ui->actionGuardar_foto_como->setEnabled(true);
   }
   if(item->data(Qt::DisplayRole).toString()=="Foto 3"){
     pixMap.loadFromData(foto_3);
     ui->lblfoto->setPixmap(pixMap);
+    //    fotoMode=1;
+    //    saveImageContextMenu();
+    ui->actionGuardar_foto->setEnabled(true);
+    ui->actionGuardar_foto_como->setEnabled(true);
   }
+
 }
 
 void MainWindow::on_actionActualizar_datos_triggered()
