@@ -29,7 +29,7 @@ void NuevoDialog::loadDataList()
 void NuevoDialog::on_btnGuardar_clicked()
 {
 
-  if(ui->txtNombre->text().isEmpty()){
+  if(ui->txtNombre->text().simplified().isEmpty()){
 
     QMessageBox::warning(this,qApp->applicationName(),
                          "El campo nombre no puede contener espacios en blanco al principio o al final.\n"

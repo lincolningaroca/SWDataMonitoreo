@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent), ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
-//  this->setMinimumSize(QSize(800,600));
+  //  this->setMinimumSize(QSize(800,600));
 
   loadGpoMinerolist();
   ui->deFecha->setDate(QDate::currentDate());
@@ -145,25 +145,26 @@ void MainWindow::loadCboTemas()
   cboTemas->addItem("Tema oscuro");
   ui->toolBar->addWidget(cboTemas);
   QObject::connect(cboTemas,QOverload<int>::of(&QComboBox::activated),this,[&](){
-    if(cboTemas->currentIndex()==0){
-      QEasySettings::setStyle(QEasySettings::Style::lightFusion);
-//      QPixmap defaultImage(":/img/logoEmpresa.png");
-//      ui->lblfoto->setPixmap(defaultImage);
-//      //      fotoMode=0;
-//      ui->actionGuardar_foto->setDisabled(true);
-//      ui->actionGuardar_foto_como->setDisabled(true);
-      //      ui->lblfoto->setScaledContents(true);
-      //      ui->lblfoto->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
-    }else{
-      QEasySettings::setStyle(QEasySettings::Style::darkFusion);
-//      QPixmap defaultImage(":/img/logoEmpresa_1.png");
-//      ui->lblfoto->setPixmap(defaultImage);
-//      //      fotoMode=0;
-//      ui->actionGuardar_foto->setDisabled(true);
-//      ui->actionGuardar_foto_como->setDisabled(true);
-      //      ui->lblfoto->setScaledContents(true);
-      //      ui->lblfoto->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
+
+    if(dataList_2.isEmpty()){
+      defaultImage();
+//      if(cboTemas->currentIndex()==0){
+//        QEasySettings::setStyle(QEasySettings::Style::lightFusion);
+
+//      }else{
+//        QEasySettings::setStyle(QEasySettings::Style::darkFusion);
+
+//      }
+      cboTemas->currentIndex()==0 ? QEasySettings::setStyle(QEasySettings::Style::lightFusion) : QEasySettings::setStyle(QEasySettings::Style::darkFusion);
+      return;
     }
+    cboTemas->currentIndex()==0 ? QEasySettings::setStyle(QEasySettings::Style::lightFusion) : QEasySettings::setStyle(QEasySettings::Style::darkFusion);
+//    QPixmap pix;
+//    pix.loadFromData(foto_1);
+//    ui->lblfoto->setPixmap(pix);
+//    defaultImage();
+    ui->lwEstaciones->clear();
+    loadDataEstMonitoreo();
   });
   ui->lblfoto->setScaledContents(true);
   ui->lblfoto->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
@@ -326,7 +327,7 @@ void MainWindow::cleanControls()
   ui->dsbNorte->setValue(0);
   ui->dsbCota->setValue(0);
   ui->txtDesc_punto->clear();
-//  defaultImage();
+  //  defaultImage();
 }
 
 void MainWindow::defaultImage()
@@ -339,8 +340,8 @@ void MainWindow::defaultImage()
     ui->lblfoto->setPixmap(defaultImage);
 
   }
-//  ui->lblfoto->setScaledContents(true);
-//  ui->lblfoto->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+  //  ui->lblfoto->setScaledContents(true);
+  //  ui->lblfoto->setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
 
 }
 
@@ -374,26 +375,26 @@ void MainWindow::on_cboMeses_activated(int index)
     cleanControls();
     defaultImage();
   }
-//  ui->lwEstaciones->clear();
-//  dataList_2.clear();
-//  dataList_2=bLayer.selectCodEstacion(ui->cboAnios->currentData(Qt::DisplayRole).toInt(),
-//                                        meses.key(ui->cboMeses->currentText()),
-//                                        dataListCliente.key(ui->cboUnidad->currentText()));
-//  //  ui->lwEstaciones->addItems(dataList_2.values());
-//  QStringList l=dataList_2.values();
-//  for(int i=0;i<dataList_2.count();++i){
-//    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui-11-128.png"),l.value(i));
-//    ui->lwEstaciones->addItem(item);
-//  }
+  //  ui->lwEstaciones->clear();
+  //  dataList_2.clear();
+  //  dataList_2=bLayer.selectCodEstacion(ui->cboAnios->currentData(Qt::DisplayRole).toInt(),
+  //                                        meses.key(ui->cboMeses->currentText()),
+  //                                        dataListCliente.key(ui->cboUnidad->currentText()));
+  //  //  ui->lwEstaciones->addItems(dataList_2.values());
+  //  QStringList l=dataList_2.values();
+  //  for(int i=0;i<dataList_2.count();++i){
+  //    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui-11-128.png"),l.value(i));
+  //    ui->lwEstaciones->addItem(item);
+  //  }
 }
 
 void MainWindow::on_cboAnios_activated(int index)
 {
   Q_UNUSED(index)
   cleanControls();
-//  defaultImage();
+  //  defaultImage();
   ui->lwEstaciones->clear();
-//  dataList_2.clear();
+  //  dataList_2.clear();
   loadDataEstMonitoreo();
   if(dataList_2.isEmpty()){
     defaultImage();
@@ -401,15 +402,15 @@ void MainWindow::on_cboAnios_activated(int index)
     ui->actionGuardar_foto_como->setDisabled(true);
 
   }
-//  dataList_2=bLayer.selectCodEstacion(ui->cboAnios->currentData(Qt::DisplayRole).toInt(),
-//                                        meses.key(ui->cboMeses->currentText()),
-//                                        dataListCliente.key(ui->cboUnidad->currentText()));
-//  //  ui->lwEstaciones->addItems(dataList_2.values());
-//  QStringList l=dataList_2.values();
-//  for(int i=0;i<dataList_2.count();++i){
-//    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/Lab_tube.png"),l.value(i));
-//    ui->lwEstaciones->addItem(item);
-//  }
+  //  dataList_2=bLayer.selectCodEstacion(ui->cboAnios->currentData(Qt::DisplayRole).toInt(),
+  //                                        meses.key(ui->cboMeses->currentText()),
+  //                                        dataListCliente.key(ui->cboUnidad->currentText()));
+  //  //  ui->lwEstaciones->addItems(dataList_2.values());
+  //  QStringList l=dataList_2.values();
+  //  for(int i=0;i<dataList_2.count();++i){
+  //    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/Lab_tube.png"),l.value(i));
+  //    ui->lwEstaciones->addItem(item);
+  //  }
 
 }
 
