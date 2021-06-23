@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent), ui(new Ui::MainWindow)
 {
   ui->setupUi(this);
-
+//  this->setMinimumSize(QSize(800,600));
 
   loadGpoMinerolist();
   ui->deFecha->setDate(QDate::currentDate());
@@ -109,7 +109,11 @@ void MainWindow::saveImageContextMenu()
     QStringList paths=QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
     QString pathToSave=paths.first();
     pathToSave.append("/");
-    pathToSave.append(ui->lwFotos->currentItem()->data(Qt::DisplayRole).toString());
+    pathToSave.append(ui->cboUnidad->currentText());
+    pathToSave.append("_");
+    pathToSave.append(ui->txtEstacion->text());
+    pathToSave.append("_");
+    pathToSave.append(ui->deFecha->date().toString());
     pathToSave.append(".jpg");
     if(!ui->lblfoto->pixmap(Qt::ReturnByValue).save(pathToSave,"JPG")){
       QMessageBox::critical(this,qApp->applicationName(),"Error al guardar el archivo");
@@ -143,8 +147,8 @@ void MainWindow::loadCboTemas()
   QObject::connect(cboTemas,QOverload<int>::of(&QComboBox::activated),this,[&](){
     if(cboTemas->currentIndex()==0){
       QEasySettings::setStyle(QEasySettings::Style::lightFusion);
-      QPixmap defaultImage(":/img/logoEmpresa.png");
-      ui->lblfoto->setPixmap(defaultImage);
+//      QPixmap defaultImage(":/img/logoEmpresa.png");
+//      ui->lblfoto->setPixmap(defaultImage);
 //      //      fotoMode=0;
 //      ui->actionGuardar_foto->setDisabled(true);
 //      ui->actionGuardar_foto_como->setDisabled(true);
@@ -152,8 +156,8 @@ void MainWindow::loadCboTemas()
       //      ui->lblfoto->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
     }else{
       QEasySettings::setStyle(QEasySettings::Style::darkFusion);
-      QPixmap defaultImage(":/img/logoEmpresa_1.png");
-      ui->lblfoto->setPixmap(defaultImage);
+//      QPixmap defaultImage(":/img/logoEmpresa_1.png");
+//      ui->lblfoto->setPixmap(defaultImage);
 //      //      fotoMode=0;
 //      ui->actionGuardar_foto->setDisabled(true);
 //      ui->actionGuardar_foto_como->setDisabled(true);
