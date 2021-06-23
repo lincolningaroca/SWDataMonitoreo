@@ -41,7 +41,7 @@ void NuevaEstMonitoreoDialog::on_btnGuardar_clicked()
   }
 
   QVariantList param;
-  param.append(ui->txtCodigo->text());
+  param.append(ui->txtCodigo->text().toUpper());
   param.append(ui->deFecha->date());
   param.append(ui->teHora->time());
   param.append(ui->teDescripcion->toPlainText());
@@ -267,10 +267,3 @@ void NuevaEstMonitoreoDialog::on_pushButton_clicked()
   if(descDialog->exec()==QDialog::Accepted)
     desc_punto=descDialog->desc();
 }
-
-
-void NuevaEstMonitoreoDialog::on_txtCodigo_textChanged(const QString &arg1)
-{
-  ui->txtCodigo->setText(arg1.toUpper());
-}
-

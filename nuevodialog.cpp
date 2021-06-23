@@ -55,7 +55,7 @@ void NuevoDialog::on_btnGuardar_clicked()
     //      accept();
   }else if(_mode==UNIDAD){
     QVariantList param;
-    param.append(ui->txtNombre->text());
+    param.append(ui->txtNombre->text().toUpper());
     param.append(ui->teDescripcion->toPlainText());
     param.append(dataList.key(ui->cboLista->currentText()));
 
@@ -73,7 +73,7 @@ void NuevoDialog::on_btnGuardar_clicked()
     //      accept();
   }else if(_mode==UPDATE_GPO){
     QVariantList paramg;
-    paramg.append(ui->txtNombre->text());
+    paramg.append(ui->txtNombre->text().toUpper());
     paramg.append(ui->teDescripcion->toPlainText());
     paramg.append(_data.value(0));
     if(!bussines.gpoMineroAction(paramg,BussinesLayer::UPDATE)){
@@ -90,7 +90,7 @@ void NuevoDialog::on_btnGuardar_clicked()
     //      accept();
   }else{
     QVariantList param;
-    param.append(ui->txtNombre->text());
+    param.append(ui->txtNombre->text().toUpper());
     param.append(ui->teDescripcion->toPlainText());
     param.append(dataList.key(ui->cboLista->currentText()));
     param.append(dataListCliente.key(ui->lwUnidades->currentItem()->data(
@@ -200,11 +200,5 @@ void NuevoDialog::on_lwUnidades_itemClicked(QListWidgetItem *item)
     dataListCliente.key(item->data(Qt::DisplayRole).toString()),BussinesLayer::CLIENTE);
   ui->txtNombre->setText(dataCte.value(1).toString());
   ui->teDescripcion->setPlainText(dataCte.value(2).toString());
-}
-
-
-void NuevoDialog::on_txtNombre_textChanged(const QString &arg1)
-{
-  ui->txtNombre->setText(arg1.toUpper());
 }
 

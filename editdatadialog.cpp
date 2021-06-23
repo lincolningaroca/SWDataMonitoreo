@@ -263,7 +263,7 @@ void EditDataDialog::on_btnEliminar_clicked()
 void EditDataDialog::on_btnGuardar_clicked()
 {
   QVariantList datos;
-  datos.append(ui->lineEdit->text());
+  datos.append(ui->lineEdit->text().toUpper());
   datos.append(ui->dateEdit->date());
   datos.append(ui->timeEdit->time());
   datos.append(ui->plainTextEdit->toPlainText());
@@ -483,10 +483,3 @@ void EditDataDialog::closeEvent(QCloseEvent *event)
   event->accept();
 
 }
-
-void EditDataDialog::on_lineEdit_textChanged(const QString &arg1)
-{
-  ui->lineEdit->setText(arg1.toUpper());
-
-}
-
