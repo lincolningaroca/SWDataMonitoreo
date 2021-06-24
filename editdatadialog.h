@@ -3,7 +3,6 @@
 
 #include <QDialog>
 #include "bussineslayer.h"
-#include "dbconection.h"
 #include <QSqlQueryModel>
 #include <QFileDialog>
 #include <QAction>
@@ -38,7 +37,6 @@ private slots:
   void on_toolButton_2_clicked();
   void on_toolButton_3_clicked();
 
-
 private:
   Ui::EditDataDialog *ui;
   BussinesLayer bLayer;
@@ -57,7 +55,6 @@ private:
 
   //funcoines privadas del programador
   void setUpTableView();
-  DbConection db;
   QString desc_punto;
   void setUpToolBtnClear();
 

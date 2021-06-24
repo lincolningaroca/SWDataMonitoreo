@@ -1,6 +1,6 @@
 #include "dbconection.h"
 
-DbConection::DbConection(QObject *parent) : QObject(parent)
+DbConection::DbConection()
 {
 
 }

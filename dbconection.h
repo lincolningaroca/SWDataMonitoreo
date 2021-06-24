@@ -14,7 +14,7 @@ public:
 //    UPDATE,
 //    DELETE
 //  };
-  explicit DbConection(QObject *parent = nullptr);
+  explicit DbConection();
   bool getConection();
   void closeConection();
   QString errorMessage(){return _errorMessage;}

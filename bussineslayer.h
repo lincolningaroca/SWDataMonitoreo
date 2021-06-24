@@ -1,12 +1,14 @@
 #ifndef BUSSINESLAYER_H
 #define BUSSINESLAYER_H
-#include "dbconection.h"
+
 #include <QSqlQuery>
 #include <QSqlError>
-
+//#include <QSqlDatabase>
 #include <QObject>
 #include <QSqlQueryModel>
 #include <QSqlQuery>
+#include "dbconection.h"
+
 //#include <LimeReport>
 
 class BussinesLayer : public QObject
@@ -41,20 +43,22 @@ public:
   QHash<int, QString> selectCodEstacion(int anio, int mes, int id_cliente);
   QHash<int, QString> gpoMineroList(Table t, int id=0);
   QSqlQueryModel *data(int id);
+
   int nro(int codEstacion);
 
 
   QStringList completerList();
+  bool getConnection();
 //  bool nameValidate(QString name);
 
 signals:
 private:
+//  QSqlDatabase db;
   DbConection db;
   QString _errorMessage;
   QString _errorCode;
   QVariant _lInsertId;
   QSqlQueryModel *model;
-
 
 };
 

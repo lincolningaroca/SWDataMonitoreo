@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QInputDialog>
+#include <QDebug>
 #include "desc_pdialog.h"
 
 NuevaEstMonitoreoDialog::NuevaEstMonitoreoDialog(QWidget *parent) :
@@ -154,9 +155,9 @@ void NuevaEstMonitoreoDialog::on_btnFoto1_clicked()
     QMessageBox::critical(this,qApp->applicationName(),
                           "El archivo que está intentando guardar es muy grande.\n"
                           "Puede guardar archivos con un máximo de tamaño de 2 MB.");
+
     return;
   }
-
 
   QFile file(fileName);
   if(!file.open(QFile::ReadOnly)){

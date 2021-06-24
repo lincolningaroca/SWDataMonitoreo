@@ -2,8 +2,6 @@
 #include "ui_editdatadialog.h"
 #include <QDebug>
 #include <QMessageBox>
-//#include <QSqlQuery>
-//#include <QSqlError>
 #include "desc_pdialog.h"
 #include "fotodialog.h"
 #include <QRegularExpression>
@@ -15,21 +13,22 @@ EditDataDialog::EditDataDialog(QWidget *parent) :
   setWindowFlags(Qt::Dialog|Qt::MSWindowsFixedSizeDialogHint);
   ui->btnGuardar->setDefault(true);
   loadGpoMinerolist();
-  QStringList titulos;
-  titulos<<"ID_ESTACION"<<"CODIGO DE ESTCION"<<"FECHA"<<"ID_CLIENTE";
-  ui->twEstaciones->setColumnCount(titulos.count());
-  ui->twEstaciones->setHorizontalHeaderLabels(titulos);
-  ui->twEstaciones->hideColumn(0);
-  ui->twEstaciones->hideColumn(3);
+  //  QStringList titulos;
+  //  titulos<<"ID_ESTACION"<<"CODIGO DE ESTCION"<<"FECHA"<<"ID_CLIENTE";
+  //  ui->twEstaciones->setColumnCount(titulos.count());
+  //  ui->twEstaciones->setHorizontalHeaderLabels(titulos);
+  //  ui->twEstaciones->hideColumn(0);
+  //  ui->twEstaciones->hideColumn(3);
 
   dataModel();
+  setUpTableView();
   if(dataListCliente.isEmpty() || model->rowCount()==0)
     manageControls(1);
   else
     manageControls(2);
 
-  QObject::connect(ui->twEstaciones->selectionModel(),&QItemSelectionModel::currentChanged,
-                   this,&EditDataDialog::datosMonitoreo);
+  //  QObject::connect(ui->tableView->selectionModel(),&QItemSelectionModel::currentChanged,
+  //                   this,&EditDataDialog::datosMonitoreo);
   QObject::connect(ui->lineEdit_2,&SWCustomTxt::clicked,this,[&](){
     FotoDialog *fDialog=new FotoDialog(imagen_1,this);
     fDialog->exec();
@@ -143,8 +142,6 @@ void EditDataDialog::on_cboGrupo_activated(int index)
   Q_UNUSED(index)
   ui->cboUnidad->clear();
   loadDataListCliente();
-  //  on_cboUnidad_activated(index);
-  cleanData();
   dataModel();
 }
 
@@ -152,7 +149,7 @@ void EditDataDialog::on_cboUnidad_activated(int index)
 {
   Q_UNUSED(index);
   //  model->clear();
-  cleanData();
+  //  cleanData();
   dataModel();
 
 }
@@ -167,36 +164,21 @@ void EditDataDialog::dataModel()
     manageControls(2);
   }
 
-  for(int i=0;i<model->rowCount();++i){
-    int rowCount=ui->twEstaciones->rowCount();
-    ui->twEstaciones->insertRow(rowCount);
-    ui->twEstaciones->setItem(i,0,new QTableWidgetItem(model->index(i,0).data().toString()));
-    ui->twEstaciones->setItem(i,1,new QTableWidgetItem(model->index(i,1).data().toString()));
-    ui->twEstaciones->setItem(i,2,new QTableWidgetItem(model->index(i,2).data().toString()));
-    ui->twEstaciones->setItem(i,3,new QTableWidgetItem(model->index(i,3).data().toString()));
-    ui->twEstaciones->setColumnWidth(1,150);
-    ui->twEstaciones->hideColumn(0);
-    ui->twEstaciones->hideColumn(3);
+  ui->twEstaciones->setModel(model);
+  if(model->rowCount()!=0){
+    ui->twEstaciones->selectRow(0);
+    datosMonitoreo();
   }
-  QModelIndex index=ui->twEstaciones->model()->index(0,0);
-  ui->twEstaciones->setCurrentIndex(index);
-  //  ui->twEstaciones->selectionModel()->select(index,QItemSelectionModel::Select);
-  datosMonitoreo();
-}
 
-void EditDataDialog::cleanData()
-{
-  //  for(int i=ui->twEstaciones->rowCount()-1;i>=0;--i){
-  //    ui->twEstaciones->removeRow(i);
-  //  }
-  ui->twEstaciones->clearContents();
-  ui->twEstaciones->setRowCount(0);
+  QObject::connect(ui->twEstaciones->selectionModel(),&QItemSelectionModel::currentChanged,this,
+                   &EditDataDialog::datosMonitoreo);
+  //  datosMonitoreo();
 }
 
 void EditDataDialog::manageControls(int op)
 {
   if(op==1){
-//    ui->twEstaciones->setColumnCount(0);
+    //    ui->twEstaciones->setColumnCount(0);
     ui->twEstaciones->setDisabled(true);
     ui->lineEdit->setDisabled(true);
     ui->dateEdit->setDisabled(true);
@@ -229,9 +211,20 @@ void EditDataDialog::manageControls(int op)
     ui->label_16->setEnabled(true);
   }
 }
+
+void EditDataDialog::setUpTableView()
+{
+  model->setHeaderData(1,Qt::Horizontal,"CODIGO DE ESTACION");
+  model->setHeaderData(2,Qt::Horizontal,"FECHA");
+  ui->twEstaciones->hideColumn(0);
+  ui->twEstaciones->hideColumn(3);
+  ui->twEstaciones->setColumnWidth(1,150);
+  if(model->rowCount()!=0)
+    ui->twEstaciones->selectRow(0);
+}
 void EditDataDialog::on_btnEliminar_clicked()
 {
-  QVariant idEstacion=model->index(ui->twEstaciones->currentRow(),0).data();
+  QVariant idEstacion=model->index(ui->twEstaciones->currentIndex().row(),0).data();
   QString codEstacion=list.value(0).toString();
 
   QMessageBox msgBox;
@@ -254,7 +247,7 @@ void EditDataDialog::on_btnEliminar_clicked()
   }
   QMessageBox::information(this,qApp->applicationName(),"Registro eliminado");
   //  accept();
-  cleanData();
+  //  cleanData();
   dataModel();
   datosMonitoreo();
 
@@ -275,7 +268,7 @@ void EditDataDialog::on_btnGuardar_clicked()
   datos.append(ui->dsbNorte->value());
   datos.append(ui->dsbCota->value());
   datos.append(desc_punto);
-  datos.append(model->index(ui->twEstaciones->currentRow(),0).data().toInt());
+  datos.append(model->index(ui->twEstaciones->currentIndex().row(),0).data().toInt());
 
   if(ui->lineEdit->text().simplified().isEmpty()){
     QMessageBox::warning(this,qApp->applicationName(),"El campo codigo de estación es requerido.");
@@ -296,8 +289,8 @@ void EditDataDialog::on_btnGuardar_clicked()
   datos_campo.append(ui->dsbTemp->value());
   datos_campo.append(ui->dsbOd->value());
   datos_campo.append(ui->dsbCond->value());
-  datos_campo.append(bLayer.nro(model->index(ui->twEstaciones->currentRow(),0).data().toInt()));
-  datos_campo.append(model->index(ui->twEstaciones->currentRow(),0).data().toInt());
+  datos_campo.append(bLayer.nro(model->index(ui->twEstaciones->currentIndex().row(),0).data().toInt()));
+  datos_campo.append(model->index(ui->twEstaciones->currentIndex().row(),0).data().toInt());
 
   if(!bLayer.parametroAction(datos_campo,BussinesLayer::UPDATE)){
     QMessageBox::critical(this,qApp->applicationName(),
@@ -308,7 +301,7 @@ void EditDataDialog::on_btnGuardar_clicked()
   }
   QMessageBox::information(this,qApp->applicationName(),"Datos guardados.");
   //  accept();
-  cleanData();
+  //  cleanData();
   dataModel();
   datosMonitoreo();
   //  qDebug()<<bLayer.nro(dataListCliente.key(ui->cboUnidad->currentText()));
@@ -483,3 +476,4 @@ void EditDataDialog::closeEvent(QCloseEvent *event)
   event->accept();
 
 }
+

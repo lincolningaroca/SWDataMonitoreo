@@ -24,7 +24,7 @@ Desc_pDialog::Desc_pDialog(int mode, QString descr, QWidget *parent) :
     hLayOut->addStretch();
     hLayOut->addWidget(btnGuardar);
     hLayOut->addWidget(btnCancelar);
-    static_cast<QVBoxLayout *>(this->layout())->addLayout(hLayOut);
+    qobject_cast<QVBoxLayout *>(this->layout())->addLayout(hLayOut);
 //    this->layout()->addItem(hLayOut);
 
     QObject::connect(btnGuardar,&QPushButton::clicked,[this](){
