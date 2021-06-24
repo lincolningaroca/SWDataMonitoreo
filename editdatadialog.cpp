@@ -1,27 +1,23 @@
-#include "editdatadialog.h"
 #include "ui_editdatadialog.h"
+#include "editdatadialog.h"
+
 #include <QDebug>
 #include <QMessageBox>
 #include "desc_pdialog.h"
 #include "fotodialog.h"
-#include <QRegularExpression>
+
 
 EditDataDialog::EditDataDialog(QWidget *parent) :
   QDialog(parent), ui(new Ui::EditDataDialog)
 {
   ui->setupUi(this);
   setWindowFlags(Qt::Dialog|Qt::MSWindowsFixedSizeDialogHint);
-  ui->btnGuardar->setDefault(true);
   loadGpoMinerolist();
-  //  QStringList titulos;
-  //  titulos<<"ID_ESTACION"<<"CODIGO DE ESTCION"<<"FECHA"<<"ID_CLIENTE";
-  //  ui->twEstaciones->setColumnCount(titulos.count());
-  //  ui->twEstaciones->setHorizontalHeaderLabels(titulos);
-  //  ui->twEstaciones->hideColumn(0);
-  //  ui->twEstaciones->hideColumn(3);
+  loadDataListCliente();
 
   dataModel();
   setUpTableView();
+
   if(dataListCliente.isEmpty() || model->rowCount()==0)
     manageControls(1);
   else
@@ -66,7 +62,7 @@ void EditDataDialog::loadGpoMinerolist()
   //  }
 
   ui->cboGrupo->addItems(dataList.values());
-  loadDataListCliente();
+
 
 
 }

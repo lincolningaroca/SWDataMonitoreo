@@ -3,17 +3,13 @@
 
 #include <QSqlQuery>
 #include <QSqlError>
-//#include <QSqlDatabase>
-#include <QObject>
 #include <QSqlQueryModel>
-#include <QSqlQuery>
 #include "dbconection.h"
 
-//#include <LimeReport>
 
 class BussinesLayer : public QObject
 {
-  Q_OBJECT
+
 public:
   enum TypeStm{
     INSERT,
@@ -27,7 +23,7 @@ public:
     PARAMETROS
   };
 
-  explicit BussinesLayer(QObject *parent = nullptr);
+  BussinesLayer();
 
   bool gpoMineroAction(QVariantList param, TypeStm modo);
   bool clienteMineroAction(QVariantList param, TypeStm modo);

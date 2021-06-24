@@ -2,10 +2,11 @@
 #define EDITDATADIALOG_H
 
 #include <QDialog>
-#include "bussineslayer.h"
 #include <QSqlQueryModel>
 #include <QFileDialog>
 #include <QAction>
+
+#include "bussineslayer.h"
 
 
 namespace Ui {

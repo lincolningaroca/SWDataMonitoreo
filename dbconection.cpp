@@ -24,10 +24,3 @@ bool DbConection::getConection()
   return true;
 
 }
-
-void DbConection::closeConection()
-{
-  if(db.isOpen())
-    db.close();
-
-}

@@ -1,6 +1,6 @@
 #include "bussineslayer.h"
 
-BussinesLayer::BussinesLayer(QObject *parent) : QObject(parent)
+BussinesLayer::BussinesLayer()
 {
   db.getConection();
 }
@@ -51,19 +51,12 @@ bool BussinesLayer::gpoMineroAction(QVariantList param, TypeStm modo)
       break;
 
   }
-  qry.finish();
-//  db.closeConection();
   return true;
 }
 
 bool BussinesLayer::clienteMineroAction(QVariantList param, TypeStm modo)
 {
-//  if(!db.getConection()){
-//    _errorMessage=db.errorMessage();
-//    return false;
-//  }
   QSqlQuery qry;
-
   switch (modo) {
     case INSERT:
       qry.prepare("INSERT INTO cliente(nombre_unidad, descripcion, id_grupo) "
@@ -107,17 +100,12 @@ bool BussinesLayer::clienteMineroAction(QVariantList param, TypeStm modo)
       break;
 
   }
-  qry.finish();
-//  db.closeConection();
   return true;
 }
 
 bool BussinesLayer::monitoreoMineroAction(QVariantList param, TypeStm modo)
 {
-//  if(!db.getConection()){
-//    _errorMessage=db.errorMessage();
-//    return false;
-//  }
+
   QSqlQuery qry;
 
   switch (modo) {
@@ -168,17 +156,11 @@ bool BussinesLayer::monitoreoMineroAction(QVariantList param, TypeStm modo)
       break;
 
   }
-  qry.finish();
-//  db.closeConection();
   return true;
 }
 
 bool BussinesLayer::parametroAction(QVariantList param, TypeStm modo)
 {
-//  if(!db.getConection()){
-//    _errorMessage=db.errorMessage();
-//    return false;
-//  }
   QSqlQuery qry;
 
   switch (modo) {
@@ -228,18 +210,12 @@ bool BussinesLayer::parametroAction(QVariantList param, TypeStm modo)
       break;
 
   }
-  qry.finish();
-//  db.closeConection();
   return true;
 }
 
 QVariantList BussinesLayer::selectData(QVariant id, Table info)
 {
   QVariantList dataList;
-//  if(!db.getConection()){
-//    _errorMessage=db.errorMessage();
-//    return dataList;
-//  }
   QSqlQuery qry;
 
   switch (info) {
@@ -307,8 +283,6 @@ QVariantList BussinesLayer::selectData(QVariant id, Table info)
       }
       break;
   }
-  qry.finish();
-//  db.closeConection();
   return dataList;
 
 }
@@ -316,11 +290,7 @@ QVariantList BussinesLayer::selectData(QVariant id, Table info)
 QVariantList BussinesLayer::dataEstMonitoreo(int nro)
 {
   QVariantList dataList;
-//  if(!db.getConection()){
-//    _errorMessage=db.errorMessage();
 
-//    return dataList;
-//  }
   QSqlQuery qry;
   qry.prepare("SELECT codigo_estacion,fecha_muestra,hora_muestra,descripcion,"
               "foto_1,foto_2,foto3,id_cliente,coor_este,coor_norte,cota,"
@@ -360,11 +330,7 @@ QVariantList BussinesLayer::dataEstMonitoreo(int nro)
 QHash<int,QString> BussinesLayer::selectCodEstacion(int cod)
 {
   QHash<int,QString> dataList;
-//  if(!db.getConection()){
-//    _errorMessage=db.errorMessage();
 
-//    return dataList;
-//  }
   QSqlQuery qry;
   qry.prepare("SELECT id_estacion,codigo_estacion FROM datos_monitoreo WHERE id_cliente=?");
   qry.addBindValue(cod);
@@ -377,19 +343,13 @@ QHash<int,QString> BussinesLayer::selectCodEstacion(int cod)
   while(qry.next()){
     dataList.insert(qry.value(0).toInt(),qry.value(1).toString());
   }
-  qry.finish();
-//  db.closeConection();
   return dataList;
 }
 
 QHash<int, QString> BussinesLayer::selectCodEstacion(int cod, QString fecha)
 {
   QHash<int,QString> dataList;
-//  if(!db.getConection()){
-//    _errorMessage=db.errorMessage();
 
-//    return dataList;
-//  }
   QSqlQuery qry;
   qry.prepare("SELECT id_estacion,codigo_estacion FROM datos_monitoreo WHERE id_cliente=?"
               " AND fecha_muestra=?");
@@ -403,20 +363,13 @@ QHash<int, QString> BussinesLayer::selectCodEstacion(int cod, QString fecha)
   while(qry.next()){
     dataList.insert(qry.value(0).toInt(),qry.value(1).toString());
   }
-
-  qry.finish();
-//  db.closeConection();
   return dataList;
 }
 
 QHash<int, QString> BussinesLayer::selectCodEstacion(int anio, int mes,int id_cliente)
 {
   QHash<int,QString> dataList;
-//  if(!db.getConection()){
-//    _errorMessage=db.errorMessage();
 
-//    return dataList;
-//  }
   QSqlQuery qry;
   qry.prepare("SELECT id_estacion, codigo_estacion FROM datos_monitoreo "
               " WHERE EXTRACT(YEAR FROM fecha_muestra)=? AND"
@@ -432,19 +385,13 @@ QHash<int, QString> BussinesLayer::selectCodEstacion(int anio, int mes,int id_cl
   while(qry.next()){
     dataList.insert(qry.value(0).toInt(),qry.value(1).toString());
   }
-  qry.finish();
-//  db.closeConection();
   return dataList;
 }
 
 QHash<int,QString> BussinesLayer::gpoMineroList(Table t, int id)
 {
   QHash<int,QString> dataList;
-//  if(!db.getConection()){
-//    _errorMessage=db.errorMessage();
 
-//    return dataList;
-//  }
   QSqlQuery qry;
   //  dataList.clear();
   switch (t) {
@@ -481,18 +428,10 @@ QHash<int,QString> BussinesLayer::gpoMineroList(Table t, int id)
       return dataList;
       break;
   }
-  qry.finish();
-//  db.closeConection();
   return dataList;
 }
 QSqlQueryModel *BussinesLayer::data(int id)
 {
-  model=new QSqlQueryModel;
-//  if(!db.getConection()){
-//    _errorMessage=db.errorMessage();
-
-//    return model;
-//  }
   QSqlQuery qry;
   qry.prepare("SELECT id_estacion, codigo_estacion, fecha_muestra, id_cliente "
               "FROM datos_monitoreo WHERE id_cliente=?;");
@@ -502,6 +441,7 @@ QSqlQueryModel *BussinesLayer::data(int id)
     _errorCode=qry.lastError().nativeErrorCode();
     return model;
   }
+  model=new QSqlQueryModel;
   model->setQuery(qry);
   qry.next();
   return model;
@@ -512,11 +452,7 @@ QSqlQueryModel *BussinesLayer::data(int id)
 int BussinesLayer::nro(int codEstacion)
 {
   int nro=0;
-//  if(!db.getConection()){
-//    _errorMessage=db.errorMessage();
 
-//    return nro;
-//  }
   QSqlQuery qry;
   qry.prepare("SELECT nro FROM parametro_campo WHERE id_est=?");
   qry.addBindValue(codEstacion);
@@ -534,11 +470,7 @@ int BussinesLayer::nro(int codEstacion)
 QStringList BussinesLayer::completerList()
 {
   QStringList dataList;
-//  if(!db.getConection()){
-//    _errorMessage=db.errorMessage();
 
-//    return dataList;
-//  }
   QSqlQuery qry;
   qry.prepare("SELECT codigo_estacion FROM datos_monitoreo");
 
@@ -550,27 +482,6 @@ QStringList BussinesLayer::completerList()
   while(qry.next()){
     dataList.append(qry.value(0).toString().trimmed());
   }
-  qry.finish();
-//  db.closeConection();
   return dataList;
 }
-
-//bool BussinesLayer::getConnection()
-//{
-//  db=QSqlDatabase::addDatabase("QPSQL");
-//  if(!db.isDriverAvailable("QPSQL")){
-//    _errorMessage=db.lastError().driverText();
-//    return false;
-//  }
-//  db.setDatabaseName("monitoreo_db");
-//  db.setHostName("localhost");
-//  db.setPassword("2311046");
-//  db.setPort(5432);
-//  db.setUserName("postgres");
-//  if(!db.open()){
-//    _errorMessage=db.lastError().databaseText();
-//    return false;
-//  }
-//  return true;
-//}
 

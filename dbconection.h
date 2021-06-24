@@ -3,24 +3,19 @@
 #include <QSqlDatabase>
 #include <QSqlError>
 
-#include <QObject>
-
-class DbConection : public QObject
+class DbConection
 {
-  Q_OBJECT
 public:
 //  enum typeSentences{
 //    INSERT,
 //    UPDATE,
 //    DELETE
 //  };
-  explicit DbConection();
+  DbConection();
   bool getConection();
-  void closeConection();
   QString errorMessage(){return _errorMessage;}
 //  bool execQuery(typeSentences type,QStringList param);
 
-signals:
 private:
   QSqlDatabase db;
   QString _errorMessage;

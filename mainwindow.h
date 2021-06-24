@@ -2,19 +2,16 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-
-#include "dbconection.h"
+#include <QComboBox>
+#include <QListWidgetItem>
+//cabecera para cambio de tema oscuro
+#include "qeasysettings.hpp"
+#include "editdatadialog.h"
 #include "bussineslayer.h"
 //inclusion del formulario nuevo cliente
 #include "nuevodialog.h"
 //inclusion del formulario nuevo catos monitoreo
 #include "nuevaestmonitoreodialog.h"
-
-//cabecera para cambio de tema oscuro
-#include "qeasysettings.hpp"
-#include "editdatadialog.h"
-#include <QComboBox>
-#include <QListWidgetItem>
 
 
 QT_BEGIN_NAMESPACE
@@ -32,32 +29,25 @@ public:
   void loadGpoMinerolist();
   void loadDataListCliente();
   void loadDataEstMonitoreo();
-//  int getIdGrupo(QString name);
   void saveImageContextMenu();
-
   void loadCboTemas();
+
 private slots:
   void on_toolButton_clicked();
   void on_toolButton_2_clicked();
   void on_cboGrupo_activated(int index);
-//  void on_rbPorFecha_clicked();
   void on_actionNuevo_punto_de_monitoreo_triggered();
-//  void on_toolButton_3_clicked();
   void on_cboUnidad_activated(int index);
-//  void on_dePorFecha_userDateChanged(const QDate &date);
   void on_cboMeses_activated(int index);
   void on_cboAnios_activated(int index);
-  void on_lwEstaciones_itemClicked(QListWidgetItem *item);
-  void on_lwFotos_itemClicked(QListWidgetItem *item);
   void on_actionActualizar_datos_triggered();
   void on_actionEditar_datos_unidad_minera_triggered();
   void on_actioneditar_datos_monitoreo_triggered();
-  void on_txtEstacion_textChanged(const QString &arg1);
+  void on_lwEstaciones_itemSelectionChanged();
+  void on_lwFotos_itemSelectionChanged();
 
 private:
   Ui::MainWindow *ui;
-
-  DbConection db;
   BussinesLayer bLayer;
   //puntero de tipo nuevo cliente
   NuevoDialog *nuevoFrm;
@@ -65,9 +55,7 @@ private:
   NuevaEstMonitoreoDialog *nuevaEstFrm;
   QHash<int,QString> dataList;
   QHash<int,QString> dataListCliente;
-
   QComboBox *cboTemas;
-
   QHash<int,QString> meses;
   QHash<int,QString> dataList_2;
   int anio;
@@ -75,13 +63,12 @@ private:
   QByteArray foto_2;
   QByteArray foto_3;
 
-  int fotoMode=0;
-   //funciones y metodos privados
   void loadMesesAnios();
   void loadSettings();
   void datosMonitoreo();
   void cleanControls();
   void defaultImage();
+  void showFotoToControl(QListWidgetItem *item);
 
   // QPaintDevice interface
 public:
