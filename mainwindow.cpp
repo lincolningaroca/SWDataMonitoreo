@@ -115,7 +115,7 @@ void MainWindow::saveImageContextMenu()
     pathToSave.append("_");
     pathToSave.append(ui->deFecha->date().toString());
     pathToSave.append(".jpg");
-    if(!ui->lblfoto->pixmap(Qt::ReturnByValue).save(pathToSave,"JPG")){
+    if(!ui->lblfoto->pixmap(Qt::ReturnByValue).save(pathToSave,"JPG",90)){
       QMessageBox::critical(this,qApp->applicationName(),"Error al guardar el archivo");
       return;
     }
@@ -129,7 +129,7 @@ void MainWindow::saveImageContextMenu()
                                                     "Imagenes (*.jpg)");
     if(fileName.isEmpty())
       return;
-    if(!ui->lblfoto->pixmap(Qt::ReturnByValue).save(fileName,"JPG")){
+    if(!ui->lblfoto->pixmap(Qt::ReturnByValue).save(fileName,"JPG",90)){
       QMessageBox::critical(this,qApp->applicationName(),"Error al guardar el archivo");
       return;
     }

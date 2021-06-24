@@ -6,8 +6,7 @@
 #include "desc_pdialog.h"
 
 NuevaEstMonitoreoDialog::NuevaEstMonitoreoDialog(QWidget *parent) :
-  QDialog(parent),
-  ui(new Ui::NuevaEstMonitoreoDialog)
+  QDialog(parent),ui(new Ui::NuevaEstMonitoreoDialog)
 {
   ui->setupUi(this);
   setWindowFlags(Qt::Dialog|Qt::MSWindowsFixedSizeDialogHint);
