@@ -33,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent)
     desc_dialog->exec();
 
   });
+  //  qDebug()<<"tura relativa: "<<bLayer.relativePath();
 
 }
 
@@ -253,25 +254,25 @@ void MainWindow::datosMonitoreo()
   ui->txtDescripcion->setPlainText(dataList.value(3).toString());
   ui->lwFotos->clear();
 
-  if(dataList.value(4).toByteArray().size()!=0){
+  if(!dataList.value(4).toString().isEmpty()){
     QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui_-42-128.png"),"Foto 1");
     ui->lwFotos->addItem(item);
-    foto_1=dataList.value(4).toByteArray();
+    foto_1=openPicture(dataList.value(4).toString());
   }
-  if(dataList.value(5).toByteArray().size()!=0){
+  if(!dataList.value(5).toString().isEmpty()){
     QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui_-42-128.png"),"Foto 2");
     ui->lwFotos->addItem(item);
-    foto_2=dataList.value(5).toByteArray();
+    foto_2=openPicture(dataList.value(5).toString());
   }else{
-    foto_2=QByteArray(":/img/logoEmpresa.png");
+    foto_2=QImage(":/img/default.png");
 
   }
-  if(dataList.value(6).toByteArray().size()!=0){
+  if(!dataList.value(6).toString().isEmpty()){
     QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui_-42-128.png"),"Foto 3");
     ui->lwFotos->addItem(item);
-    foto_3=dataList.value(6).toByteArray();
+    foto_3=openPicture(dataList.value(6).toString());
   }else{
-    foto_3=QByteArray(":/img/logoEmpresa.png").constData();
+    foto_3=QImage(":/img/default.png");
   }
 
   QListWidgetItem *selectedItem=ui->lwFotos->item(0);
@@ -319,24 +320,34 @@ void MainWindow::defaultImage()
 
 }
 
+QImage MainWindow::openPicture(QString f)
+{
+  QFile file(f);
+  if(!file.open(QFile::ReadOnly)){
+    return QImage();
+  }
+  QImage image(file.fileName());
+  return image;
+}
+
 void MainWindow::showFotoToControl(QListWidgetItem *item)
 {
-  QPixmap pixMap;
+//  QPixmap pixMap;
   if(item->data(Qt::DisplayRole).toString()=="Foto 1"){
-    pixMap.loadFromData(foto_1);
-    ui->lblfoto->setPixmap(pixMap);
+    //    pixMap.loadFromData(foto_1);
+    ui->lblfoto->setPixmap(QPixmap::fromImage(foto_1));
     ui->actionGuardar_foto->setEnabled(true);
     ui->actionGuardar_foto_como->setEnabled(true);
   }
   if(item->data(Qt::DisplayRole).toString()=="Foto 2"){
-    pixMap.loadFromData(foto_2);
-    ui->lblfoto->setPixmap(pixMap);
+    //    pixMap.loadFromData(foto_2);
+    ui->lblfoto->setPixmap(QPixmap::fromImage(foto_2));
     ui->actionGuardar_foto->setEnabled(true);
     ui->actionGuardar_foto_como->setEnabled(true);
   }
   if(item->data(Qt::DisplayRole).toString()=="Foto 3"){
-    pixMap.loadFromData(foto_3);
-    ui->lblfoto->setPixmap(pixMap);
+    //    pixMap.loadFromData(foto_3);
+    ui->lblfoto->setPixmap(QPixmap::fromImage(foto_3));
     ui->actionGuardar_foto->setEnabled(true);
     ui->actionGuardar_foto_como->setEnabled(true);
   }

@@ -4,8 +4,9 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlQueryModel>
+#include <QStandardPaths>
+#include <QDir>
 #include "dbconection.h"
-
 
 class BussinesLayer : public QObject
 {
@@ -39,22 +40,23 @@ public:
   QHash<int, QString> selectCodEstacion(int anio, int mes, int id_cliente);
   QHash<int, QString> gpoMineroList(Table t, int id=0);
   QSqlQueryModel *data(int id);
-
   int nro(int codEstacion);
+  bool createDirPictures();
 
 
   QStringList completerList();
-  bool getConnection();
-//  bool nameValidate(QString name);
+  QString relativePath();
 
-signals:
+
 private:
-//  QSqlDatabase db;
-  DbConection db;
+
   QString _errorMessage;
   QString _errorCode;
   QVariant _lInsertId;
   QSqlQueryModel *model;
+  QString _relativePath;
+  DbConection db;
+
 
 };
 

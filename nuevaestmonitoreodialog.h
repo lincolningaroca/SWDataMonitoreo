@@ -2,9 +2,9 @@
 #define NUEVAESTMONITOREODIALOG_H
 
 #include <QDialog>
-#include "bussineslayer.h"
 #include <QFile>
 #include <QAction>
+#include "bussineslayer.h"
 
 namespace Ui {
 class NuevaEstMonitoreoDialog;
@@ -44,6 +44,10 @@ private:
   QByteArray imagen_1;
   QByteArray imagen_2;
   QByteArray imagen_3;
+
+  QString pathImage_1;
+  QString pathImage_2;
+  QString pathImage_3;
 
   QVariant _idEstacion;
 

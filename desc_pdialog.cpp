@@ -8,6 +8,7 @@ Desc_pDialog::Desc_pDialog(int mode, QString descr, QWidget *parent) :
   ui->setupUi(this);
   mo=mode;
   d=descr;
+//  ui->txtDescPunto->setPlainText(d);
   setWindowFlags(Qt::Dialog|Qt::MSWindowsFixedSizeDialogHint);
   if(mode==1){
     ui->txtDescPunto->setPlainText(d);
@@ -15,7 +16,7 @@ Desc_pDialog::Desc_pDialog(int mode, QString descr, QWidget *parent) :
 
   }else{
     ui->txtDescPunto->setPlainText(d);
-//    ui->txtDescPunto->clear();
+    //    ui->txtDescPunto->clear();
     ui->txtDescPunto->setReadOnly(false);
     btnGuardar=new QPushButton("Aceptar",this);
     btnCancelar=new QPushButton("Cancelar",this);
@@ -25,10 +26,12 @@ Desc_pDialog::Desc_pDialog(int mode, QString descr, QWidget *parent) :
     hLayOut->addWidget(btnGuardar);
     hLayOut->addWidget(btnCancelar);
     qobject_cast<QVBoxLayout *>(this->layout())->addLayout(hLayOut);
-//    this->layout()->addItem(hLayOut);
+    //    this->layout()->addItem(hLayOut);
 
     QObject::connect(btnGuardar,&QPushButton::clicked,[this](){
       _desc=ui->txtDescPunto->toPlainText();
+//      d=ui->txtDescPunto->toPlainText();
+
       accept();
     });
     QObject::connect(btnCancelar,&QPushButton::clicked,this,&Desc_pDialog::reject);
@@ -39,6 +42,7 @@ Desc_pDialog::Desc_pDialog(QString descr, QWidget *parent):
   QDialog(parent)
 {
   d=descr;
+  ui->txtDescPunto->setPlainText(d);
 
 }
 

@@ -13,7 +13,6 @@
 //inclusion del formulario nuevo catos monitoreo
 #include "nuevaestmonitoreodialog.h"
 
-
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -59,15 +58,16 @@ private:
   QHash<int,QString> meses;
   QHash<int,QString> dataList_2;
   int anio;
-  QByteArray foto_1;
-  QByteArray foto_2;
-  QByteArray foto_3;
+  QImage foto_1;
+  QImage foto_2;
+  QImage foto_3;
 
   void loadMesesAnios();
   void loadSettings();
   void datosMonitoreo();
   void cleanControls();
   void defaultImage();
+  QImage openPicture(QString f);
   void showFotoToControl(QListWidgetItem *item);
 
   // QPaintDevice interface

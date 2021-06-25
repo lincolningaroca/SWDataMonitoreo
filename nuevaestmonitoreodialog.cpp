@@ -2,7 +2,6 @@
 #include "ui_nuevaestmonitoreodialog.h"
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QInputDialog>
 #include <QDebug>
 #include "desc_pdialog.h"
 
@@ -47,9 +46,9 @@ void NuevaEstMonitoreoDialog::on_btnGuardar_clicked()
   param.append(ui->teDescripcion->toPlainText());
   //agregar las tres imagenes
 
-  param.append(imagen_1);
-  param.append(imagen_2);
-  param.append(imagen_3);
+  param.append(pathImage_1);
+  param.append(pathImage_2);
+  param.append(pathImage_3);
 
 
   //  param.append(imagen_3);
@@ -92,6 +91,10 @@ void NuevaEstMonitoreoDialog::on_btnGuardar_clicked()
                                                            bLayer.errorMessage());
     return;
   }
+
+  QFile::copy(ui->txtPath1->text(),pathImage_1);
+  QFile::copy(ui->txtPath2->text(),pathImage_2);
+  QFile::copy(ui->txtPath3->text(),pathImage_3);
 
   QMessageBox::information(this,qApp->applicationName(),"Datos guardados.");
   //  qDebug()<<bLayer.lInsertId();
@@ -146,29 +149,34 @@ void NuevaEstMonitoreoDialog::on_cboGrupo_activated(int index)
 
 void NuevaEstMonitoreoDialog::on_btnFoto1_clicked()
 {
-  QString fileName=QFileDialog::getOpenFileName(this,"Abrir una foto.",QDir::currentPath(),
+  QString fileName=QFileDialog::getOpenFileName(this,"Cargar una imagen.",QDir::currentPath(),
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
   if(fileName.isEmpty())
     return;
   QFileInfo info(fileName);
-  if((info.size()/1024)>2048){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "El archivo que está intentando guardar es muy grande.\n"
-                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
+  QString absolutePath;
+  absolutePath.append(bLayer.relativePath());
+  absolutePath.append("/");
+  absolutePath.append(info.fileName());
+  pathImage_1=absolutePath;
+  //  if((info.size()/1024)>2048){
+  //    QMessageBox::critical(this,qApp->applicationName(),
+  //                          "El archivo que está intentando guardar es muy grande.\n"
+  //                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
 
-    return;
-  }
+  //    return;
+  //  }
 
-  QFile file(fileName);
-  if(!file.open(QFile::ReadOnly)){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "Error al abrir el archivo.\n"+file.errorString());
-    return;
-  }
-  ui->txtPath1->setText(fileName);
-  imagen_1=file.readAll();
-  file.close();
-  file.flush();
+  //  QFile file(fileName);
+  //  if(!file.open(QFile::ReadOnly)){
+  //    QMessageBox::critical(this,qApp->applicationName(),
+  //                          "Error al abrir el archivo.\n"+file.errorString());
+  //    return;
+  //  }
+    ui->txtPath1->setText(fileName);
+  //  imagen_1=file.readAll();
+  //  file.close();
+  //  file.flush();
   //  qDebug()<<imagen_1.size();
   //  qDebug()<<info.size()/1024;
 
@@ -183,59 +191,69 @@ void NuevaEstMonitoreoDialog::on_btnCancelar_clicked()
 
 void NuevaEstMonitoreoDialog::on_btnFoto2_clicked()
 {
-  QString fileName=QFileDialog::getOpenFileName(this,"Abrir una foto.",QDir::currentPath(),
+  QString fileName=QFileDialog::getOpenFileName(this,"Cargar una imagen.",QDir::currentPath(),
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
   if(fileName.isEmpty()){
-    imagen_2=QByteArray();
+    pathImage_2="";
     return;
   }
   QFileInfo info(fileName);
-  if((info.size()/1024)>2048){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "El archivo que está intentando guardar es muy grande.\n"
-                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
-    return;
-  }
+  QString absolutePath;
+  absolutePath.append(bLayer.relativePath());
+  absolutePath.append("/");
+  absolutePath.append(info.fileName());
+  pathImage_2=absolutePath;
+//  if((info.size()/1024)>2048){
+//    QMessageBox::critical(this,qApp->applicationName(),
+//                          "El archivo que está intentando guardar es muy grande.\n"
+//                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
+//    return;
+//  }
 
-  QFile file(fileName);
-  if(!file.open(QFile::ReadOnly)){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "Error al abrir el archivo.\n"+file.errorString());
-    return;
-  }
+//  QFile file(fileName);
+//  if(!file.open(QFile::ReadOnly)){
+//    QMessageBox::critical(this,qApp->applicationName(),
+//                          "Error al abrir el archivo.\n"+file.errorString());
+//    return;
+//  }
   ui->txtPath2->setText(fileName);
-  imagen_2=file.readAll();
-  file.close();
-  file.flush();
+//  imagen_2=file.readAll();
+//  file.close();
+//  file.flush();
   //  qDebug()<<imagen_1.size();
 }
 
 
 void NuevaEstMonitoreoDialog::on_btnFoto3_clicked()
 {
-  QString fileName=QFileDialog::getOpenFileName(this,"Abrir una foto.",QDir::currentPath(),
+  QString fileName=QFileDialog::getOpenFileName(this,"Cargar una imagen.",QDir::currentPath(),
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
   if(fileName.isEmpty()){
-    imagen_3=QByteArray();
+    pathImage_3="";
     return;
   }
   QFileInfo info(fileName);
-  if((info.size()/1024)>2048){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "El archivo que está intentando guardar es muy grande.\n"
-                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
-    return;
-  }
-  QFile file(fileName);
-  if(!file.open(QFile::ReadOnly)){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "Error al abrir el archivo.\n"+file.errorString());
-    return;
-  }
+  QString absolutePath;
+  absolutePath.append(bLayer.relativePath());
+  absolutePath.append("/");
+  absolutePath.append(info.fileName());
+  pathImage_3=absolutePath;
+//  if((info.size()/1024)>2048){
+//    QMessageBox::critical(this,qApp->applicationName(),
+//                          "El archivo que está intentando guardar es muy grande.\n"
+//                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
+//    return;
+//  }
+//  QFile file(fileName);
+//  if(!file.open(QFile::ReadOnly)){
+//    QMessageBox::critical(this,qApp->applicationName(),
+//                          "Error al abrir el archivo.\n"+file.errorString());
+//    return;
+//  }
   ui->txtPath3->setText(fileName);
-  imagen_3=file.readAll();
-  file.close();
-  file.flush();
+//  imagen_3=file.readAll();
+//  file.close();
+//  file.flush();
   //  qDebug()<<imagen_1.size();
 }
 
@@ -260,10 +278,7 @@ void NuevaEstMonitoreoDialog::on_txtPath2_textChanged(const QString &arg1)
 
 void NuevaEstMonitoreoDialog::on_pushButton_clicked()
 {
-  //  desc_punto=QInputDialog::getMultiLineText(this,"Descripción del punto",
-  //                                 "Ingrese una descripción para el punto: ",
-  //                                              "ingresa algo carajo!!");
-  Desc_pDialog *descDialog=new Desc_pDialog(2);
+  Desc_pDialog *descDialog=new Desc_pDialog(2,desc_punto);
   if(descDialog->exec()==QDialog::Accepted)
     desc_punto=descDialog->desc();
 }

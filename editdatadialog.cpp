@@ -26,17 +26,18 @@ EditDataDialog::EditDataDialog(QWidget *parent) :
   //  QObject::connect(ui->tableView->selectionModel(),&QItemSelectionModel::currentChanged,
   //                   this,&EditDataDialog::datosMonitoreo);
   QObject::connect(ui->lineEdit_2,&SWCustomTxt::clicked,this,[&](){
+
     FotoDialog *fDialog=new FotoDialog(imagen_1,this);
     fDialog->exec();
   });
   QObject::connect(ui->lineEdit_3,&SWCustomTxt::clicked,this,[&](){
-    if(imagen_2.size()!=0){
+    if(!list.value(5).toString().isEmpty()){
       FotoDialog *fDialog=new FotoDialog(imagen_2,this);
       fDialog->exec();
     }
   });
   QObject::connect(ui->lineEdit_4,&SWCustomTxt::clicked,this,[&](){
-    if(imagen_3.size()!=0){
+    if(!list.value(6).toString().isEmpty()){
       FotoDialog *fDialog=new FotoDialog(imagen_3,this);
       fDialog->exec();
     }
@@ -62,9 +63,6 @@ void EditDataDialog::loadGpoMinerolist()
   //  }
 
   ui->cboGrupo->addItems(dataList.values());
-
-
-
 }
 
 void EditDataDialog::loadDataListCliente()
@@ -82,10 +80,6 @@ void EditDataDialog::loadDataListCliente()
 
 void EditDataDialog::datosMonitoreo()
 {
-  //  list.clear();
-  imagen_1.clear();
-  imagen_2.clear();
-  imagen_3.clear();
   int nro=bLayer.nro(model->index(ui->twEstaciones->currentIndex().row(),0).data().toInt());
   list=bLayer.dataEstMonitoreo(nro);
   if(list.isEmpty()){
@@ -96,24 +90,29 @@ void EditDataDialog::datosMonitoreo()
   ui->dateEdit->setDate(list.value(1).toDate());
   ui->timeEdit->setTime(list.value(2).toTime());
   ui->plainTextEdit->setPlainText(list.value(3).toString());
-  if(list.value(4).toByteArray().size()!=0){
-    ui->lineEdit_2->setText("Imagen 1");
-    imagen_1=list.value(4).toByteArray();
+
+  if(!list.value(4).toString().isEmpty()){
+    ui->lineEdit_2->setText("Foto 1");
+    imagen_1=openPicture(list.value(4).toString());
+    //    oldPath_1=list.value(4).toString();
   }
-  else
-    ui->lineEdit_2->clear();
-  if(list.value(5).toByteArray().size()!=0){
-    ui->lineEdit_3->setText("Imagen 2");
-    imagen_2=list.value(5).toByteArray();
+  //  else
+  //    ui->lineEdit_2->clear();
+  if(!list.value(5).toString().isEmpty()){
+    ui->lineEdit_3->setText("Foto 2");
+    imagen_2=openPicture(list.value(5).toString());
+    //    oldPath_2=list.value(5).toString();
   }
   else
     ui->lineEdit_3->clear();
-  if(list.value(6).toByteArray().size()!=0){
-    ui->lineEdit_4->setText("Imagen 3");
-    imagen_3=list.value(6).toByteArray();
+  if(!list.value(6).toString().isEmpty()){
+    ui->lineEdit_4->setText("Foto 3");
+    imagen_3=openPicture(list.value(6).toString());;
+    //    oldPath_3=list.value(6).toString();
   }
   else
     ui->lineEdit_4->clear();
+
   ui->dsbPh->setValue(list.value(13).toDouble());
   ui->dsbTemp->setValue(list.value(14).toDouble());
   ui->dsbOd->setValue(list.value(15).toDouble());
@@ -208,6 +207,18 @@ void EditDataDialog::manageControls(int op)
   }
 }
 
+QImage EditDataDialog::openPicture(QString f)
+{
+  QFile file(f);
+  if(!file.open(QFile::ReadOnly)){
+    return QImage();
+  }
+  QImage image(file.fileName());
+  return image;
+}
+
+
+
 void EditDataDialog::setUpTableView()
 {
   model->setHeaderData(1,Qt::Horizontal,"CODIGO DE ESTACION");
@@ -256,9 +267,48 @@ void EditDataDialog::on_btnGuardar_clicked()
   datos.append(ui->dateEdit->date());
   datos.append(ui->timeEdit->time());
   datos.append(ui->plainTextEdit->toPlainText());
-  datos.append(imagen_1);
-  datos.append(imagen_2);
-  datos.append(imagen_3);
+  if(!newPath_1.isEmpty()){
+    datos.append(newPath_1);
+    QFile::remove(list.value(4).toString());
+  }else{
+    datos.append(list.value(4).toString());
+  }
+  if(!newPath_2.isEmpty()){
+    if(!list.value(5).toString().isEmpty()){
+      datos.append(newPath_2);
+      QFile::remove(list.value(5).toString());
+    }
+    datos.append(newPath_2);
+  }else{
+    if(!ui->lineEdit_3->text().isEmpty())
+      datos.append(list.value(5).toString());
+    else{
+      if(!list.value(5).toString().isEmpty()){
+        QFile::remove(list.value(5).toString());
+        datos.append(QString());
+      }
+      else
+        datos.append(QString());
+    }
+  }
+  if(!newPath_3.isEmpty()){
+    if(!list.value(6).toString().isEmpty()){
+      datos.append(newPath_3);
+      QFile::remove(list.value(6).toString());
+    }
+    datos.append(newPath_3);
+  }else{
+    if(!ui->lineEdit_4->text().isEmpty())
+      datos.append(list.value(6).toString());
+    else{
+      if(!list.value(6).toString().isEmpty()){
+        QFile::remove(list.value(6).toString());
+        datos.append(QString());
+      }
+      else
+        datos.append(QString());
+    }
+  }
   datos.append(dataListCliente.key(ui->cboUnidad->currentText()));
   datos.append(ui->dsbEste->value());
   datos.append(ui->dsbNorte->value());
@@ -267,7 +317,7 @@ void EditDataDialog::on_btnGuardar_clicked()
   datos.append(model->index(ui->twEstaciones->currentIndex().row(),0).data().toInt());
 
   if(ui->lineEdit->text().simplified().isEmpty()){
-    QMessageBox::warning(this,qApp->applicationName(),"El campo codigo de estación es requerido.");
+    QMessageBox::warning(this,qApp->applicationName(),"El campo código de estación es requerido.");
     ui->lineEdit->selectAll();
     ui->lineEdit->setFocus(Qt::OtherFocusReason);
     return;
@@ -295,7 +345,23 @@ void EditDataDialog::on_btnGuardar_clicked()
     return;
 
   }
+  if(!newPath_1.isEmpty()){
+    QFile::copy(ui->lineEdit_2->text(),newPath_1);
+  }
+  if(!newPath_2.isEmpty()){
+    QFile::copy(ui->lineEdit_3->text(),newPath_2);
+  }
+  if(!newPath_3.isEmpty()){
+    QFile::copy(ui->lineEdit_4->text(),newPath_3);
+  }
+
+
+
+
   QMessageBox::information(this,qApp->applicationName(),"Datos guardados.");
+  newPath_1.clear();
+  newPath_2.clear();
+  newPath_3.clear();
   //  accept();
   //  cleanData();
   dataModel();
@@ -306,35 +372,28 @@ void EditDataDialog::on_btnGuardar_clicked()
 
 void EditDataDialog::on_toolButton_clicked()
 {
+
   QString fileName=QFileDialog::getOpenFileName(this,"Cargar una imagen.",QDir::currentPath(),
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
-  if(fileName.isEmpty()){
-    //    imagen_1=QByteArray();
+  if(fileName.isEmpty())
     return;
-  }
   QFileInfo info(fileName);
-  if((info.size()/1024)>2048){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "El archivo que está intentando guardar es muy grande.\n"
-                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
-    return;
-  }
-  QFile file(fileName);
-  if(!file.open(QFile::ReadOnly)){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "Error al abrir el archivo.\n"+file.errorString());
-    return;
-  }
+  QString absolutePath;
+  absolutePath.append(bLayer.relativePath());
+  absolutePath.append("/");
+  absolutePath.append(info.fileName());
+  newPath_1=absolutePath;
   ui->lineEdit_2->setText(fileName);
-  imagen_1=file.readAll();
-  file.close();
-  file.flush();
 }
 
 
 void EditDataDialog::on_pushButton_clicked()
 {
-  Desc_pDialog *desc_dialog=new Desc_pDialog(2,list.value(11).toString());
+  Desc_pDialog *desc_dialog;
+  if(list.value(11).toString().isEmpty())
+    desc_dialog=new Desc_pDialog(2,desc_punto);
+  else
+    desc_dialog=new Desc_pDialog(2,list.value(11).toString());
 
   if(desc_dialog->exec()==QDialog::Accepted)
     desc_punto=desc_dialog->desc();
@@ -346,27 +405,17 @@ void EditDataDialog::on_toolButton_2_clicked()
 {
   QString fileName=QFileDialog::getOpenFileName(this,"Cargar una imagen.",QDir::currentPath(),
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
-  if(fileName.isEmpty()){
-    //    imagen_1=QByteArray();
+  if(fileName.isEmpty())
     return;
-  }
+
   QFileInfo info(fileName);
-  if((info.size()/1024)>2048){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "El archivo que está intentando guardar es muy grande.\n"
-                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
-    return;
-  }
-  QFile file(fileName);
-  if(!file.open(QFile::ReadOnly)){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "Error al abrir el archivo.\n"+file.errorString());
-    return;
-  }
+  QString absolutePath;
+  absolutePath.append(bLayer.relativePath());
+  absolutePath.append("/");
+  absolutePath.append(info.fileName());
+  newPath_2=absolutePath;
   ui->lineEdit_3->setText(fileName);
-  imagen_2=file.readAll();
-  file.close();
-  file.flush();
+
 }
 
 
@@ -374,27 +423,16 @@ void EditDataDialog::on_toolButton_3_clicked()
 {
   QString fileName=QFileDialog::getOpenFileName(this,"Cargar una imagen.",QDir::currentPath(),
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
-  if(fileName.isEmpty()){
-    //    imagen_1=QByteArray();
+  if(fileName.isEmpty())
     return;
-  }
+
   QFileInfo info(fileName);
-  if((info.size()/1024)>2048){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "El archivo que está intentando guardar es muy grande.\n"
-                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
-    return;
-  }
-  QFile file(fileName);
-  if(!file.open(QFile::ReadOnly)){
-    QMessageBox::critical(this,qApp->applicationName(),
-                          "Error al abrir el archivo.\n"+file.errorString());
-    return;
-  }
+  QString absolutePath;
+  absolutePath.append(bLayer.relativePath());
+  absolutePath.append("/");
+  absolutePath.append(info.fileName());
+  newPath_3=absolutePath;
   ui->lineEdit_4->setText(fileName);
-  imagen_3=file.readAll();
-  file.close();
-  file.flush();
 }
 void EditDataDialog::setUpToolBtnClear()
 {
@@ -423,15 +461,12 @@ void EditDataDialog::setUpToolBtnClear()
     mBox.setIcon(QMessageBox::Question);
     mBox.addButton(new QPushButton("Quitar imagen"),QMessageBox::AcceptRole);
     mBox.addButton(new QPushButton("Cancelar"),QMessageBox::RejectRole);
-    if(mBox.exec()==QMessageBox::AcceptRole){
-      //      qDebug()<<"Aceptaste tu muerte";
-      //      return;
-      imagen_2.clear();
-      ui->lineEdit_3->clear();
-    }else{
-      //      qDebug()<<"Te salvaste";
+    if(mBox.exec()==QMessageBox::RejectRole)
       return;
-    }
+    if(!newPath_2.isEmpty())
+      newPath_2.clear();
+    ui->lineEdit_3->clear();
+
   });
 
   QAction *closeAction2=ui->lineEdit_4->addAction(QIcon(":/img/1916591.png"),
@@ -446,15 +481,11 @@ void EditDataDialog::setUpToolBtnClear()
     mBox.setIcon(QMessageBox::Question);
     mBox.addButton(new QPushButton("Quitar imagen"),QMessageBox::AcceptRole);
     mBox.addButton(new QPushButton("Cancelar"),QMessageBox::RejectRole);
-    if(mBox.exec()==QMessageBox::AcceptRole){
-      //      qDebug()<<"Aceptaste tu muerte";
-      //      return;
-      imagen_3.clear();
-      ui->lineEdit_4->clear();
-    }else{
-      //      qDebug()<<"Te salvaste";
+    if(mBox.exec()==QMessageBox::RejectRole)
       return;
-    }
+    if(!newPath_3.isEmpty())
+      newPath_3.clear();
+    ui->lineEdit_4->clear();
 
   });
 

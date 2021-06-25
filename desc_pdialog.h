@@ -19,6 +19,7 @@ public:
   ~Desc_pDialog();
 
   QString desc(){return _desc;}
+  void setDesc(QString d){this->d=d;}
 
 private:
   Ui::Desc_pDialog *ui;

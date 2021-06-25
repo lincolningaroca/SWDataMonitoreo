@@ -12,7 +12,7 @@ public:
 //    DELETE
 //  };
   DbConection();
-  bool getConection();
+  QSqlDatabase getConection();
   QString errorMessage(){return _errorMessage;}
 //  bool execQuery(typeSentences type,QStringList param);
 

@@ -1,6 +1,9 @@
 #include "mainwindow.h"
 
 #include <QApplication>
+#include <QStandardPaths>
+#include <QDebug>
+#include "bussineslayer.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,6 +16,14 @@ int main(int argc, char *argv[])
   MainWindow w;
   w.setWindowTitle(a.applicationName());
 //  w.setWindowState(Qt::WindowMaximized);
+  BussinesLayer b;
+  if(!b.createDirPictures())
+    qDebug()<<"La carpeta ya existe";
+  else
+    qDebug()<<"La carpeta fue creada";
+
+
   w.show();
   return a.exec();
+
 }

@@ -5,12 +5,12 @@ DbConection::DbConection()
 
 }
 
-bool DbConection::getConection()
+QSqlDatabase DbConection::getConection()
 {
   db=QSqlDatabase::addDatabase("QPSQL");
   if(!db.isDriverAvailable("QPSQL")){
-    _errorMessage=db.lastError().driverText();
-    return false;
+    _errorMessage=db.lastError().text();
+    return db;
   }
   db.setDatabaseName("monitoreo_db");
   db.setHostName("localhost");
@@ -19,8 +19,8 @@ bool DbConection::getConection()
   db.setUserName("postgres");
   if(!db.open()){
     _errorMessage=db.lastError().databaseText();
-    return false;
+    return db;
   }
-  return true;
+  return db;
 
 }

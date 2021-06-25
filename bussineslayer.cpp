@@ -467,6 +467,23 @@ int BussinesLayer::nro(int codEstacion)
   return nro;
 }
 
+bool BussinesLayer::createDirPictures()
+{
+  QStringList list=QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation);
+  QString relativePath=list.first();
+  relativePath.append("/");
+  relativePath.append("pictures_folder");
+  QDir dir;
+  dir.setPath(relativePath);
+  if(dir.exists()){
+    //    _relativePath.clear();
+    return false;
+  }
+
+  return dir.mkpath(relativePath);
+
+}
+
 QStringList BussinesLayer::completerList()
 {
   QStringList dataList;
@@ -484,4 +501,16 @@ QStringList BussinesLayer::completerList()
   }
   return dataList;
 }
+
+QString BussinesLayer::relativePath()
+{
+  QStringList list=QStandardPaths::standardLocations(QStandardPaths::AppLocalDataLocation);
+  QString relativePath=list.first();
+  relativePath.append("/");
+  relativePath.append("pictures_folder");
+  _relativePath=relativePath;
+  return _relativePath;
+}
+
+
 

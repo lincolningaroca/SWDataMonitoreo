@@ -46,14 +46,23 @@ private:
   QSqlQueryModel *model;
   QVariantList list;
 
-  QByteArray imagen_1;
-  QByteArray imagen_2;
-  QByteArray imagen_3;
+//  QString oldPath_1;
+//  QString oldPath_2;
+//  QString oldPath_3;
+
+  QString newPath_1;
+  QString newPath_2;
+  QString newPath_3;
+
+  QImage imagen_1;
+  QImage imagen_2;
+  QImage imagen_3;
 
   void dataModel();
   void cleanData();
   void manageControls(int op);
-
+  QImage openPicture(QString f);
+//  QImage removePicture(QString f);
   //funcoines privadas del programador
   void setUpTableView();
   QString desc_punto;
