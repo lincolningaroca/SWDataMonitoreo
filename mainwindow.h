@@ -30,6 +30,7 @@ public:
   void loadDataEstMonitoreo();
   void saveImageContextMenu();
   void loadCboTemas();
+  static MainWindow *getInstance();
 
 private slots:
   void on_toolButton_clicked();
@@ -61,6 +62,7 @@ private:
   QImage foto_1;
   QImage foto_2;
   QImage foto_3;
+  static MainWindow *instance;
 
   void loadMesesAnios();
   void loadSettings();

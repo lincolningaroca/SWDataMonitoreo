@@ -42,12 +42,8 @@ public:
   QSqlQueryModel *data(int id);
   int nro(int codEstacion);
   bool createDirPictures();
-
-
   QStringList completerList();
   QString relativePath();
-
-
 private:
 
   QString _errorMessage;
@@ -56,8 +52,6 @@ private:
   QSqlQueryModel *model;
   QString _relativePath;
   DbConection db;
-
-
 };
 
 #endif // BUSSINESLAYER_H

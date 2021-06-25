@@ -12,8 +12,7 @@ bool BussinesLayer::gpoMineroAction(QVariantList param, TypeStm modo)
 
   switch (modo) {
     case INSERT:
-      qry.prepare("INSERT INTO grupo_minero(nombre_grupo, descripcion) "
-                  "VALUES(?,?)");
+      qry.prepare("INSERT INTO grupo_minero(nombre_grupo, descripcion) VALUES(?,?)");
       for(int i=0;i<param.size();i++){
         qry.addBindValue(param[i]);
       }
@@ -283,6 +282,7 @@ QVariantList BussinesLayer::selectData(QVariant id, Table info)
       }
       break;
   }
+
   return dataList;
 
 }
@@ -290,7 +290,6 @@ QVariantList BussinesLayer::selectData(QVariant id, Table info)
 QVariantList BussinesLayer::dataEstMonitoreo(int nro)
 {
   QVariantList dataList;
-
   QSqlQuery qry;
   qry.prepare("SELECT codigo_estacion,fecha_muestra,hora_muestra,descripcion,"
               "foto_1,foto_2,foto3,id_cliente,coor_este,coor_norte,cota,"
@@ -324,6 +323,7 @@ QVariantList BussinesLayer::dataEstMonitoreo(int nro)
   dataList.append(qry.value(14));
   dataList.append(qry.value(15));
   dataList.append(qry.value(16));
+//  db.getConection().close();
   return dataList;
 }
 

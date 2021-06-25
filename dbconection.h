@@ -6,18 +6,12 @@
 class DbConection
 {
 public:
-//  enum typeSentences{
-//    INSERT,
-//    UPDATE,
-//    DELETE
-//  };
   DbConection();
   QSqlDatabase getConection();
   QString errorMessage(){return _errorMessage;}
-//  bool execQuery(typeSentences type,QStringList param);
+//  void closeConection();
 
 private:
-  QSqlDatabase db;
   QString _errorMessage;
 
 };

@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
   else
     qDebug()<<"La carpeta fue creada";
 
-
+//  w.getInstance()->show();
   w.show();
   return a.exec();
 

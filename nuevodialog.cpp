@@ -191,9 +191,6 @@ void NuevoDialog::setUpForm()
 
 }
 
-
-
-
 void NuevoDialog::on_lwUnidades_itemClicked(QListWidgetItem *item)
 {
   QVariantList dataCte=bussines.selectData(

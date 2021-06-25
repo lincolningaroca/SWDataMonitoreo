@@ -217,8 +217,6 @@ QImage EditDataDialog::openPicture(QString f)
   return image;
 }
 
-
-
 void EditDataDialog::setUpTableView()
 {
   model->setHeaderData(1,Qt::Horizontal,"CODIGO DE ESTACION");

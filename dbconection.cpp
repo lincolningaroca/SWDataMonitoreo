@@ -1,15 +1,13 @@
 #include "dbconection.h"
 
-DbConection::DbConection()
-{
-
+QSqlDatabase db=QSqlDatabase::addDatabase("QPSQL");
+DbConection::DbConection(){
 }
 
 QSqlDatabase DbConection::getConection()
 {
-  db=QSqlDatabase::addDatabase("QPSQL");
   if(!db.isDriverAvailable("QPSQL")){
-    _errorMessage=db.lastError().text();
+    _errorMessage=db.lastError().databaseText();
     return db;
   }
   db.setDatabaseName("monitoreo_db");
@@ -21,6 +19,7 @@ QSqlDatabase DbConection::getConection()
     _errorMessage=db.lastError().databaseText();
     return db;
   }
+
   return db;
 
 }

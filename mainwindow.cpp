@@ -5,6 +5,7 @@
 #include <QStandardPaths>
 #include "desc_pdialog.h"
 
+MainWindow *MainWindow::instance=nullptr;
 MainWindow::MainWindow(QWidget *parent)
   : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -438,5 +439,10 @@ void MainWindow::on_lwEstaciones_itemSelectionChanged()
 void MainWindow::on_lwFotos_itemSelectionChanged()
 {
   showFotoToControl(ui->lwFotos->currentItem());
+}
+MainWindow *MainWindow::getInstance(){
+  if(!instance)
+    instance=new MainWindow();
+  return instance;
 }
 
