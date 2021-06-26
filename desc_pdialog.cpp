@@ -20,7 +20,7 @@ Desc_pDialog::Desc_pDialog(int mode, QString descr, QWidget *parent) :
     ui->txtDescPunto->setReadOnly(false);
     btnGuardar=new QPushButton("Aceptar",this);
     btnCancelar=new QPushButton("Cancelar",this);
-    QHBoxLayout *hLayOut=new QHBoxLayout(this);
+    QHBoxLayout *hLayOut=new QHBoxLayout(nullptr);
 
     hLayOut->addStretch();
     hLayOut->addWidget(btnGuardar);

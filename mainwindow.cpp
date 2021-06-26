@@ -516,10 +516,3 @@ void MainWindow::haveData()
 
 }
 
-//void MainWindow::haveDataCboUnidad()
-//{
-//  dataListCliente.isEmpty() ? ui->actionEditar_datos_unidad_minera->setDisabled(true) : ui->actionEditar_datos_unidad_minera->setEnabled(true);
-//  dataListCliente.isEmpty() ? ui->actionNuevo_punto_de_monitoreo->setDisabled(true) : ui->actionNuevo_punto_de_monitoreo->setEnabled(true);
-//  dataListCliente.isEmpty() ? ui->actioneditar_datos_monitoreo->setDisabled(true) : ui->actioneditar_datos_monitoreo->setEnabled(true);
-//}
-
