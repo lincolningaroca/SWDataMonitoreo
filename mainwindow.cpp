@@ -24,13 +24,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
   saveImageContextMenu();
-//  ui->actionGuardar_foto->setDisabled(true);
-//  ui->actionGuardar_foto_como->setDisabled(true);
   defaultImage();
+  haveData();
 
   QObject::connect(ui->txtDesc_punto,&SWCustomTxt::clicked,this,[&](){
-    Desc_pDialog *desc_dialog=new Desc_pDialog(
-      1,ui->txtDesc_punto->text(),this);
+    Desc_pDialog *desc_dialog=new Desc_pDialog(1,ui->txtDesc_punto->text(),this);
     desc_dialog->exec();
 
   });
@@ -106,8 +104,8 @@ void MainWindow::saveImageContextMenu()
   ui->lblfoto->addAction(ui->actionGuardar_foto);
   ui->lblfoto->addAction(ui->actionGuardar_foto_como);
 
-//  ui->actionGuardar_foto->setEnabled(true);
-//  ui->actionGuardar_foto_como->setEnabled(true);
+  //  ui->actionGuardar_foto->setEnabled(true);
+  //  ui->actionGuardar_foto_como->setEnabled(true);
   QObject::connect(ui->actionGuardar_foto,&QAction::triggered,[this](){
     QStringList paths=QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
     QString pathToSave=paths.first();
@@ -206,6 +204,7 @@ void MainWindow::on_toolButton_clicked()
   if(nuevoFrm->exec()==QDialog::Accepted){
     ui->cboGrupo->clear();
     loadGpoMinerolist();
+    haveData();
   }
 }
 
@@ -218,6 +217,7 @@ void MainWindow::on_toolButton_2_clicked()
     loadDataListCliente();
     ui->lwEstaciones->clear();
     loadDataEstMonitoreo();
+    haveData();
   }
 
 }
@@ -246,6 +246,7 @@ void MainWindow::on_actionNuevo_punto_de_monitoreo_triggered()
   if(nuevaEstFrm->exec()==QDialog::Accepted){
     ui->lwEstaciones->clear();
     loadDataEstMonitoreo();
+    haveData();
   }
 }
 
@@ -462,10 +463,17 @@ void MainWindow::on_actionActualizar_datos_triggered()
 
 void MainWindow::on_actionEditar_datos_unidad_minera_triggered()
 {
-  NuevoDialog *dlgEditUnidad=new NuevoDialog(NuevoDialog::UPDATE_UNIDAD ,QVariantList(),this);
+  QVariantList data=bLayer.selectData(dataListCliente.key(ui->cboUnidad->currentText()),
+                                        BussinesLayer::CLIENTE);
+  NuevoDialog *dlgEditUnidad=new NuevoDialog(NuevoDialog::UPDATE_UNIDAD ,data,this);
   dlgEditUnidad->setWindowTitle("Editar datos - unidad minera");
-  dlgEditUnidad->exec();
+  if(dlgEditUnidad->exec()==QDialog::Accepted){
+    ui->cboUnidad->clear();
+    loadDataListCliente();
+
+  }
 }
+
 
 void MainWindow::on_actioneditar_datos_monitoreo_triggered()
 {
@@ -495,4 +503,23 @@ MainWindow *MainWindow::getInstance(){
     instance=new MainWindow();
   return instance;
 }
+
+void MainWindow::haveData()
+{
+  dataList.isEmpty() ? ui->actionActualizar_datos->setDisabled(true) : ui->actionActualizar_datos->setEnabled(true);
+  dataList.isEmpty() ? ui->toolButton_2->setDisabled(true) : ui->toolButton_2->setEnabled(true);
+  dataListCliente.isEmpty() ? ui->actionEditar_datos_unidad_minera->setDisabled(true) : ui->actionEditar_datos_unidad_minera->setEnabled(true);
+  dataListCliente.isEmpty() ? ui->actionNuevo_punto_de_monitoreo->setDisabled(true) : ui->actionNuevo_punto_de_monitoreo->setEnabled(true);
+  dataList_2.isEmpty() ? ui->actioneditar_datos_monitoreo->setDisabled(true) : ui->actioneditar_datos_monitoreo->setEnabled(true);
+  dataList_2.isEmpty() ? ui->cboAnios->setDisabled(true) : ui->cboAnios->setEnabled(true);
+  dataList_2.isEmpty() ? ui->cboMeses->setDisabled(true) : ui->cboMeses->setEnabled(true);
+
+}
+
+//void MainWindow::haveDataCboUnidad()
+//{
+//  dataListCliente.isEmpty() ? ui->actionEditar_datos_unidad_minera->setDisabled(true) : ui->actionEditar_datos_unidad_minera->setEnabled(true);
+//  dataListCliente.isEmpty() ? ui->actionNuevo_punto_de_monitoreo->setDisabled(true) : ui->actionNuevo_punto_de_monitoreo->setEnabled(true);
+//  dataListCliente.isEmpty() ? ui->actioneditar_datos_monitoreo->setDisabled(true) : ui->actioneditar_datos_monitoreo->setEnabled(true);
+//}
 

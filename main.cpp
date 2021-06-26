@@ -15,14 +15,14 @@ int main(int argc, char *argv[])
   a.setOrganizationDomain("swsystems.com");
   MainWindow w;
   w.setWindowTitle(a.applicationName());
-//  w.setWindowState(Qt::WindowMaximized);
+  //  w.setWindowState(Qt::WindowMaximized);
   BussinesLayer b;
   if(!b.createDirPictures())
     qDebug()<<"La carpeta ya existe";
   else
     qDebug()<<"La carpeta fue creada";
 
-//  w.getInstance()->show();
+  //  w.getInstance()->show();
 
   //validar si ahy adtos en la Db--XdXdXd
 

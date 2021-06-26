@@ -31,6 +31,8 @@ public:
   void saveImageContextMenu();
   void loadCboTemas();
   static MainWindow *getInstance();
+  void haveData();
+//  void haveDataCboUnidad();
 
 private slots:
   void on_toolButton_clicked();

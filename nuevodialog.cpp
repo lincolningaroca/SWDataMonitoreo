@@ -11,8 +11,8 @@ NuevoDialog::NuevoDialog(DialogMode mode, QVariantList data, QWidget *parent) :
   _data=data;
 
   setUpForm();
-
-  loadDataListCliente();
+  if(!data.isEmpty())
+    loadDataListCliente();
 }
 
 NuevoDialog::~NuevoDialog()
@@ -108,7 +108,6 @@ void NuevoDialog::on_btnGuardar_clicked()
 
   }
 
-
   QMessageBox::information(this,qApp->applicationName(),"Datos guardados.");
   accept();
 
@@ -134,10 +133,10 @@ void NuevoDialog::loadDataListCliente()
   if(_mode==UPDATE_UNIDAD){
     ui->lwUnidades->setCurrentRow(0);
     on_lwUnidades_itemClicked(ui-> lwUnidades->currentItem());
-//    QObject::connect(ui->lwUnidades->selectionModel(),&QItemSelectionModel::currentChanged,this,
-//                     [&](){
-//                       on_lwUnidades_itemClicked(ui->lwUnidades->currentItem());
-//                     });
+    //    QObject::connect(ui->lwUnidades->selectionModel(),&QItemSelectionModel::currentChanged,this,
+    //                     [&](){
+    //                       on_lwUnidades_itemClicked(ui->lwUnidades->currentItem());
+    //                     });
   }
 
 }
