@@ -36,7 +36,7 @@
        <item>
         <widget class="QLabel" name="label">
          <property name="text">
-          <string>Consorcio o grupo minero: </string>
+          <string>Grupo o compañía minera: </string>
          </property>
         </widget>
        </item>
@@ -186,7 +186,7 @@
          <item row="0" column="0">
           <widget class="QLabel" name="label_3">
            <property name="text">
-            <string>Codigo de estacion:</string>
+            <string>Código de estacion:</string>
            </property>
           </widget>
          </item>
@@ -252,7 +252,7 @@
        <item>
         <widget class="QLabel" name="label_7">
          <property name="text">
-          <string>Descripcion:</string>
+          <string>Descripción:</string>
          </property>
         </widget>
        </item>
@@ -276,7 +276,7 @@
        <item>
         <widget class="QGroupBox" name="groupBox_4">
          <property name="title">
-          <string>Parametros de campo</string>
+          <string>Parámetros de campo</string>
          </property>
          <layout class="QGridLayout" name="gridLayout">
           <item row="0" column="0">
@@ -461,7 +461,7 @@
          <item>
           <widget class="SWCustomTxt" name="txtDesc_punto">
            <property name="toolTip">
-            <string>Click para ver la descripción completa</string>
+            <string>Click para ver la descripcion completa</string>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -545,7 +545,10 @@
     <string>Editar datos grupo o consorcio minero</string>
    </property>
    <property name="toolTip">
-    <string>Editar datos, grupo o consorcio minero</string>
+    <string>Editar datos, grupo o consorcio minero (Shift+A)</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+A</string>
    </property>
   </action>
   <action name="actionEditar_datos_unidad_minera">
@@ -557,7 +560,10 @@
     <string>Editar datos unidad minera</string>
    </property>
    <property name="toolTip">
-    <string>Editar datos unidad minera</string>
+    <string>Editar datos unidad minera (Shift+Q)</string>
+   </property>
+   <property name="shortcut">
+    <string>Shift+Q</string>
    </property>
   </action>
   <action name="actionNuevo_punto_de_monitoreo">
@@ -569,7 +575,10 @@
     <string>Nuevo punto de monitoreo</string>
    </property>
    <property name="toolTip">
-    <string>Nuevo punto de monitoreo</string>
+    <string>Nuevo punto de monitoreo (Ctrl+N)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="actionayuda">
@@ -593,7 +602,10 @@
     <string>editar datos monitoreo</string>
    </property>
    <property name="toolTip">
-    <string>Editar datos - estación de monitoreo</string>
+    <string>Editar datos - estación de monitoreo (Ctrl+E)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
   <action name="actionGuardar_foto">

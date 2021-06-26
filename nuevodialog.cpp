@@ -33,7 +33,7 @@ void NuevoDialog::on_btnGuardar_clicked()
 
     QMessageBox::warning(this,qApp->applicationName(),
                          "El campo nombre no puede contener espacios en blanco al principio o al final.\n"
-                         "Asi mismo, Verifique que el campo no este vacío.");
+                         "Así mismo, Verifique que el campo no este vacío.");
     ui->txtNombre->selectAll();
     ui->txtNombre->setFocus();
     return;
@@ -155,13 +155,13 @@ void NuevoDialog::setUpForm()
 {
   switch (_mode) {
     case GRUPO:
-      ui->lblNombre->setText("Nombre consorcio o grupo minero: ");
+      ui->lblNombre->setText("Nombre - Grupo o compañía minera: ");
       ui->lblGrupo->setVisible(false);
       ui->cboLista->setVisible(false);
       ui->lwUnidades->setVisible(false);
       break;
     case UPDATE_GPO:
-      ui->lblNombre->setText("Nombre consorcio o grupo minero: ");
+      ui->lblNombre->setText("Nombre - Grupo o compañía minera: ");
       ui->lblGrupo->setVisible(false);
       ui->cboLista->setVisible(false);
       ui->lwUnidades->setVisible(false);
@@ -170,14 +170,14 @@ void NuevoDialog::setUpForm()
       break;
 
     case UNIDAD:
-      ui->lblNombre->setText("Nombre unidad minera: ");
+      ui->lblNombre->setText("Nombre - unidad minera: ");
       ui->lblGrupo->setVisible(true);
       ui->cboLista->setVisible(true);
       ui->lwUnidades->setVisible(false);
       loadDataList();
       break;
     case UPDATE_UNIDAD:
-      ui->lblNombre->setText("Nombre unidad minera: ");
+      ui->lblNombre->setText("Nombre - unidad minera: ");
       ui->lblGrupo->setVisible(true);
       ui->cboLista->setVisible(true);
       loadDataList();

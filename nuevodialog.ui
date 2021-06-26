@@ -19,7 +19,7 @@
      <item>
       <widget class="QLabel" name="lblGrupo">
        <property name="text">
-        <string>Grupo minero:</string>
+        <string>Grupo o compañía minera:</string>
        </property>
       </widget>
      </item>
@@ -76,6 +76,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="btnGuardar">
+       <property name="toolTip">
+        <string>(Ctrl+S)</string>
+       </property>
        <property name="text">
         <string>Guardar</string>
        </property>
@@ -89,10 +92,16 @@
          <height>24</height>
         </size>
        </property>
+       <property name="shortcut">
+        <string>Ctrl+S</string>
+       </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="btnCancelar">
+       <property name="toolTip">
+        <string>(Esc)</string>
+       </property>
        <property name="text">
         <string>Cancelar</string>
        </property>
@@ -106,6 +115,9 @@
          <height>24</height>
         </size>
        </property>
+       <property name="shortcut">
+        <string>Esc</string>
+       </property>
       </widget>
      </item>
     </layout>
@@ -113,7 +125,6 @@
   </layout>
  </widget>
  <resources>
-  <include location="rsc.qrc"/>
   <include location="rsc.qrc"/>
  </resources>
  <connections/>

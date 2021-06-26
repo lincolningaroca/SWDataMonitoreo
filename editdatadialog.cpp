@@ -65,7 +65,7 @@ void EditDataDialog::datosMonitoreo()
   int nro=bLayer.nro(model->index(ui->twEstaciones->currentIndex().row(),0).data().toInt());
   list=bLayer.dataEstMonitoreo(nro);
   if(list.isEmpty()){
-    QMessageBox::information(this,qApp->applicationName(),"no hay datos");
+//    QMessageBox::information(this,qApp->applicationName(),"No hay datos");
     return;
   }
   ui->lineEdit->setText(list.value(0).toString());
@@ -120,6 +120,7 @@ void EditDataDialog::on_cboGrupo_activated(int index)
   ui->cboUnidad->clear();
   loadDataListCliente();
   dataModel();
+  setUpTableView();
 }
 
 void EditDataDialog::on_cboUnidad_activated(int index)
@@ -128,6 +129,7 @@ void EditDataDialog::on_cboUnidad_activated(int index)
   //  model->clear();
   //  cleanData();
   dataModel();
+  setUpTableView();
 
 }
 void EditDataDialog::dataModel()
@@ -438,7 +440,7 @@ void EditDataDialog::setUpToolBtnClear()
   connect(closeAction,&QAction::triggered,this,[=](){
     QMessageBox::warning(this,qApp->applicationName(),"No puede quitar ésta imagen.\n"
                                                         "La primera imagen siempre es requerida.\n"
-                                                        "Recuerde que tiene que guardar los datos con una imagen como minimo.");
+                                                        "Recuerde que tiene que guardar los datos con una imagen como mínimo.");
     return;
     //    ui->lineEdit_2->clear();
 

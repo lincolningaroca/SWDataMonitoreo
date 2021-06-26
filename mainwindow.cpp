@@ -451,7 +451,7 @@ void MainWindow::on_actionActualizar_datos_triggered()
   QVariantList data=bLayer.selectData(dataList.key(ui->cboGrupo->currentText()),
                                         BussinesLayer::GPO_MINERO);
   NuevoDialog *dlgEditGrupo=new NuevoDialog(NuevoDialog::UPDATE_GPO ,data,this);
-  dlgEditGrupo->setWindowTitle("Editar datos - consorcio minero");
+  dlgEditGrupo->setWindowTitle("Editar datos - Grupo o compañía minera");
   if(dlgEditGrupo->exec()==QDialog::Accepted){
     ui->cboGrupo->clear();
     loadGpoMinerolist();
@@ -466,7 +466,7 @@ void MainWindow::on_actionEditar_datos_unidad_minera_triggered()
   QVariantList data=bLayer.selectData(dataListCliente.key(ui->cboUnidad->currentText()),
                                         BussinesLayer::CLIENTE);
   NuevoDialog *dlgEditUnidad=new NuevoDialog(NuevoDialog::UPDATE_UNIDAD ,data,this);
-  dlgEditUnidad->setWindowTitle("Editar datos - unidad minera");
+  dlgEditUnidad->setWindowTitle("Editar datos - Unidad minera");
   if(dlgEditUnidad->exec()==QDialog::Accepted){
     ui->cboUnidad->clear();
     loadDataListCliente();

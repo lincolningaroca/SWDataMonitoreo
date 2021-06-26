@@ -19,6 +19,7 @@ Desc_pDialog::Desc_pDialog(int mode, QString descr, QWidget *parent) :
     //    ui->txtDescPunto->clear();
     ui->txtDescPunto->setReadOnly(false);
     btnGuardar=new QPushButton("Aceptar",this);
+    btnGuardar->setShortcut(QKeySequence(Qt::CTRL+Qt::Key_S));
     btnCancelar=new QPushButton("Cancelar",this);
     QHBoxLayout *hLayOut=new QHBoxLayout(nullptr);
 

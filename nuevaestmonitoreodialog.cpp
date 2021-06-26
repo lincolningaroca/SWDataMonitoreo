@@ -64,10 +64,10 @@ void NuevaEstMonitoreoDialog::on_btnGuardar_clicked()
   if(!bLayer.monitoreoMineroAction(param,BussinesLayer::INSERT)){
     if(bLayer.errorCode()=="23503"){
       QMessageBox::warning(this,qApp->applicationName(),
-                           "No existe algun registro donde se pueda almacenar esta información.\n\n"
+                           "No existe algún registro donde se pueda almacenar esta información.\n\n"
                            "Esto se debe a que no existen datos en el campo, unidad minera.\n"
                            "* salga de ésta ventana y agregue una nueva unidad minera,"
-                           "en el boton que se \n  muestra al lado de la lista desplegable"
+                           "en el botón que se \n  muestra al lado de la lista desplegable"
                            " Unidad minera, del formulario principal.");
       ui->txtCodigo->selectAll();
       ui->txtCodigo->setFocus(Qt::OtherFocusReason);
