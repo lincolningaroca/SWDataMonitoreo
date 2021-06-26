@@ -54,6 +54,7 @@ private:
   //puntero de tipo nuevo datos monitoreo
   NuevaEstMonitoreoDialog *nuevaEstFrm;
   QHash<int,QString> dataList;
+  QVariantList dataList_monitoreo;
   QHash<int,QString> dataListCliente;
   QComboBox *cboTemas;
   QHash<int,QString> meses;

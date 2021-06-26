@@ -93,8 +93,10 @@ void NuevaEstMonitoreoDialog::on_btnGuardar_clicked()
   }
 
   QFile::copy(ui->txtPath1->text(),pathImage_1);
-  QFile::copy(ui->txtPath2->text(),pathImage_2);
-  QFile::copy(ui->txtPath3->text(),pathImage_3);
+  if(!pathImage_2.isEmpty())
+    QFile::copy(ui->txtPath2->text(),pathImage_2);
+  if(!pathImage_3.isEmpty())
+    QFile::copy(ui->txtPath3->text(),pathImage_3);
 
   QMessageBox::information(this,qApp->applicationName(),"Datos guardados.");
   //  qDebug()<<bLayer.lInsertId();
@@ -129,12 +131,13 @@ void NuevaEstMonitoreoDialog::setUpToolBtnClear()
   connect(closeAction1,&QAction::triggered,this,[=](){
     ui->txtPath2->clear();
     ui->txtPath3->clear();
+    pathImage_2.clear();
   });
   QAction *closeAction2=ui->txtPath3->addAction(QIcon(":/img/1916591.png"),
                                                   QLineEdit::TrailingPosition);
   connect(closeAction2,&QAction::triggered,this,[=](){
     ui->txtPath3->clear();
-
+    pathImage_3.clear();
   });
 
 }
@@ -154,31 +157,19 @@ void NuevaEstMonitoreoDialog::on_btnFoto1_clicked()
   if(fileName.isEmpty())
     return;
   QFileInfo info(fileName);
+  if(QFileInfo::exists(bLayer.relativePath().append("/").append(info.fileName()))){
+    QMessageBox::warning(this,qApp->applicationName(),tr("Ya existe una imagen con este nombre:\n %1").arg(
+                                                          info.fileName()));
+    return;
+  }
+
+  //  QFileInfo info(fileName);
   QString absolutePath;
   absolutePath.append(bLayer.relativePath());
   absolutePath.append("/");
   absolutePath.append(info.fileName());
   pathImage_1=absolutePath;
-  //  if((info.size()/1024)>2048){
-  //    QMessageBox::critical(this,qApp->applicationName(),
-  //                          "El archivo que está intentando guardar es muy grande.\n"
-  //                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
-
-  //    return;
-  //  }
-
-  //  QFile file(fileName);
-  //  if(!file.open(QFile::ReadOnly)){
-  //    QMessageBox::critical(this,qApp->applicationName(),
-  //                          "Error al abrir el archivo.\n"+file.errorString());
-  //    return;
-  //  }
-    ui->txtPath1->setText(fileName);
-  //  imagen_1=file.readAll();
-  //  file.close();
-  //  file.flush();
-  //  qDebug()<<imagen_1.size();
-  //  qDebug()<<info.size()/1024;
+  ui->txtPath1->setText(fileName);
 
 }
 
@@ -198,29 +189,20 @@ void NuevaEstMonitoreoDialog::on_btnFoto2_clicked()
     return;
   }
   QFileInfo info(fileName);
+  if(QFileInfo::exists(bLayer.relativePath().append("/").append(info.fileName()))){
+    QMessageBox::warning(this,qApp->applicationName(),tr("Ya existe una imagen con este nombre:\n %1").arg(
+                                                          info.fileName()));
+    return;
+  };
+
   QString absolutePath;
   absolutePath.append(bLayer.relativePath());
   absolutePath.append("/");
   absolutePath.append(info.fileName());
   pathImage_2=absolutePath;
-//  if((info.size()/1024)>2048){
-//    QMessageBox::critical(this,qApp->applicationName(),
-//                          "El archivo que está intentando guardar es muy grande.\n"
-//                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
-//    return;
-//  }
-
-//  QFile file(fileName);
-//  if(!file.open(QFile::ReadOnly)){
-//    QMessageBox::critical(this,qApp->applicationName(),
-//                          "Error al abrir el archivo.\n"+file.errorString());
-//    return;
-//  }
   ui->txtPath2->setText(fileName);
-//  imagen_2=file.readAll();
-//  file.close();
-//  file.flush();
-  //  qDebug()<<imagen_1.size();
+
+
 }
 
 
@@ -233,28 +215,18 @@ void NuevaEstMonitoreoDialog::on_btnFoto3_clicked()
     return;
   }
   QFileInfo info(fileName);
+  if(QFileInfo::exists(bLayer.relativePath().append("/").append(info.fileName()))){
+    QMessageBox::warning(this,qApp->applicationName(),tr("Ya existe una imagen con este nombre:\n %1").arg(
+                                                          info.fileName()));
+    return;
+  }
+
   QString absolutePath;
   absolutePath.append(bLayer.relativePath());
   absolutePath.append("/");
   absolutePath.append(info.fileName());
   pathImage_3=absolutePath;
-//  if((info.size()/1024)>2048){
-//    QMessageBox::critical(this,qApp->applicationName(),
-//                          "El archivo que está intentando guardar es muy grande.\n"
-//                          "Puede guardar archivos con un máximo de tamaño de 2 MB.");
-//    return;
-//  }
-//  QFile file(fileName);
-//  if(!file.open(QFile::ReadOnly)){
-//    QMessageBox::critical(this,qApp->applicationName(),
-//                          "Error al abrir el archivo.\n"+file.errorString());
-//    return;
-//  }
   ui->txtPath3->setText(fileName);
-//  imagen_3=file.readAll();
-//  file.close();
-//  file.flush();
-  //  qDebug()<<imagen_1.size();
 }
 
 

@@ -23,25 +23,7 @@ EditDataDialog::EditDataDialog(QWidget *parent) :
   else
     manageControls(2);
 
-  //  QObject::connect(ui->tableView->selectionModel(),&QItemSelectionModel::currentChanged,
-  //                   this,&EditDataDialog::datosMonitoreo);
-  QObject::connect(ui->lineEdit_2,&SWCustomTxt::clicked,this,[&](){
-
-    FotoDialog *fDialog=new FotoDialog(imagen_1,this);
-    fDialog->exec();
-  });
-  QObject::connect(ui->lineEdit_3,&SWCustomTxt::clicked,this,[&](){
-    if(!list.value(5).toString().isEmpty()){
-      FotoDialog *fDialog=new FotoDialog(imagen_2,this);
-      fDialog->exec();
-    }
-  });
-  QObject::connect(ui->lineEdit_4,&SWCustomTxt::clicked,this,[&](){
-    if(!list.value(6).toString().isEmpty()){
-      FotoDialog *fDialog=new FotoDialog(imagen_3,this);
-      fDialog->exec();
-    }
-  });
+  setupFotoDialog();
   setUpToolBtnClear();
   ui->dateEdit->setDate(QDate::currentDate());
   ui->timeEdit->setTime(QTime::currentTime());
@@ -275,8 +257,8 @@ void EditDataDialog::on_btnGuardar_clicked()
     if(!list.value(5).toString().isEmpty()){
       datos.append(newPath_2);
       QFile::remove(list.value(5).toString());
-    }
-    datos.append(newPath_2);
+    }else
+      datos.append(newPath_2);
   }else{
     if(!ui->lineEdit_3->text().isEmpty())
       datos.append(list.value(5).toString());
@@ -291,10 +273,10 @@ void EditDataDialog::on_btnGuardar_clicked()
   }
   if(!newPath_3.isEmpty()){
     if(!list.value(6).toString().isEmpty()){
-      datos.append(newPath_3);
       QFile::remove(list.value(6).toString());
-    }
-    datos.append(newPath_3);
+      datos.append(newPath_3);
+    }else
+      datos.append(newPath_3);
   }else{
     if(!ui->lineEdit_4->text().isEmpty())
       datos.append(list.value(6).toString());
@@ -375,7 +357,14 @@ void EditDataDialog::on_toolButton_clicked()
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
   if(fileName.isEmpty())
     return;
+
   QFileInfo info(fileName);
+  if(QFileInfo::exists(bLayer.relativePath().append("/").append(info.fileName()))){
+    QMessageBox::warning(this,qApp->applicationName(),tr("Ya existe una imagen con este nombre:\n %1").arg(
+                                                          info.fileName()));
+    return;
+  }
+
   QString absolutePath;
   absolutePath.append(bLayer.relativePath());
   absolutePath.append("/");
@@ -405,8 +394,12 @@ void EditDataDialog::on_toolButton_2_clicked()
                                                   "Imagenes (*.jpg *.jpeg *.png *.bmp)");
   if(fileName.isEmpty())
     return;
-
   QFileInfo info(fileName);
+  if(QFileInfo::exists(bLayer.relativePath().append("/").append(info.fileName()))){
+    QMessageBox::warning(this,qApp->applicationName(),tr("Ya existe una imagen con este nombre:\n %1").arg(
+                                                          info.fileName()));
+    return;
+  }
   QString absolutePath;
   absolutePath.append(bLayer.relativePath());
   absolutePath.append("/");
@@ -425,6 +418,11 @@ void EditDataDialog::on_toolButton_3_clicked()
     return;
 
   QFileInfo info(fileName);
+  if(QFileInfo::exists(bLayer.relativePath().append("/").append(info.fileName()))){
+    QMessageBox::warning(this,qApp->applicationName(),tr("Ya existe una imagen con este nombre:\n %1").arg(
+                                                          info.fileName()));
+    return;
+  }
   QString absolutePath;
   absolutePath.append(bLayer.relativePath());
   absolutePath.append("/");
@@ -485,6 +483,33 @@ void EditDataDialog::setUpToolBtnClear()
       newPath_3.clear();
     ui->lineEdit_4->clear();
 
+  });
+
+}
+
+void EditDataDialog::setupFotoDialog()
+{
+  QObject::connect(ui->lineEdit_2,&SWCustomTxt::clicked,this,[&](){
+    QString name=list.value(4).toString();
+    name=name.mid(name.lastIndexOf("/")+1);
+    FotoDialog *fDialog=new FotoDialog(name,imagen_1,this);
+    fDialog->exec();
+  });
+  QObject::connect(ui->lineEdit_3,&SWCustomTxt::clicked,this,[&](){
+    QString name=list.value(5).toString();
+    name=name.mid(name.lastIndexOf("/")+1);
+    if(!list.value(5).toString().isEmpty() && !ui->lineEdit_3->text().isEmpty()){
+      FotoDialog *fDialog=new FotoDialog("dsdds",imagen_2,this);
+      fDialog->exec();
+    }
+  });
+  QObject::connect(ui->lineEdit_4,&SWCustomTxt::clicked,this,[&](){
+    QString name=list.value(6).toString();
+    name=name.mid(name.lastIndexOf("/")+1);
+    if(!list.value(6).toString().isEmpty() && !ui->lineEdit_4->text().isEmpty()){
+      FotoDialog *fDialog=new FotoDialog("jkjkj",imagen_3,this);
+      fDialog->exec();
+    }
   });
 
 }

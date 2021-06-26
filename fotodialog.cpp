@@ -2,12 +2,12 @@
 #include "ui_fotodialog.h"
 #include <QDebug>
 
-FotoDialog::FotoDialog(QImage foto, QWidget *parent) :
+FotoDialog::FotoDialog(QString title, QImage foto, QWidget *parent) :
   QDialog(parent),ui(new Ui::FotoDialog)
 {
   ui->setupUi(this);
   setWindowFlags(Qt::Dialog|Qt::MSWindowsFixedSizeDialogHint);
-
+  setWindowTitle(title);
   _foto=foto;
   loadFoto();
 

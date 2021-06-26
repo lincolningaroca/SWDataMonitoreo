@@ -67,6 +67,7 @@ private:
   void setUpTableView();
   QString desc_punto;
   void setUpToolBtnClear();
+  void setupFotoDialog();
 
   // QPaintDevice interface
 public:

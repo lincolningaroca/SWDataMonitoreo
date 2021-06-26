@@ -41,9 +41,9 @@ private:
   QHash<int,QString> dataList;
   QHash<int,QString> dataListCliente;
 
-  QByteArray imagen_1;
-  QByteArray imagen_2;
-  QByteArray imagen_3;
+//  QByteArray imagen_1;
+//  QByteArray imagen_2;
+//  QByteArray imagen_3;
 
   QString pathImage_1;
   QString pathImage_2;

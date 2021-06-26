@@ -12,7 +12,7 @@ class FotoDialog : public QDialog
   Q_OBJECT
 
 public:
-  explicit FotoDialog(QImage foto,QWidget *parent = nullptr);
+  explicit FotoDialog(QString title,QImage foto,QWidget *parent = nullptr);
 
   ~FotoDialog();
 

@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 
   saveImageContextMenu();
-  ui->actionGuardar_foto->setDisabled(true);
-  ui->actionGuardar_foto_como->setDisabled(true);
+//  ui->actionGuardar_foto->setDisabled(true);
+//  ui->actionGuardar_foto_como->setDisabled(true);
   defaultImage();
 
   QObject::connect(ui->txtDesc_punto,&SWCustomTxt::clicked,this,[&](){
@@ -81,14 +81,22 @@ void MainWindow::loadDataEstMonitoreo()
                                         dataListCliente.key(ui->cboUnidad->currentText()));
 
   //  ui->lwEstaciones->addItems(dataList_2.values());
-  QStringList l=dataList_2.values();
-  for(int i=0;i<dataList_2.count();++i){
-    QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui-11-128.png"),l.value(i));
-    ui->lwEstaciones->addItem(item);
-  }
+  if(!dataList_2.isEmpty()){
+    QStringList l=dataList_2.values();
+    for(int i=0;i<dataList_2.count();++i){
+      QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui-11-128.png"),l.value(i));
+      ui->lwEstaciones->addItem(item);
+    }
 
-  QListWidgetItem *item=ui->lwEstaciones->item(0);
-  ui->lwEstaciones->setCurrentItem(item,QItemSelectionModel::Select);
+    QListWidgetItem *item=ui->lwEstaciones->item(0);
+    ui->lwEstaciones->setCurrentItem(item,QItemSelectionModel::Select);
+  }
+  if(dataList_2.isEmpty()){
+    cleanControls();
+    ui->actionGuardar_foto->setDisabled(true);
+    ui->actionGuardar_foto_como->setDisabled(true);
+    defaultImage();
+  }
 }
 
 void MainWindow::saveImageContextMenu()
@@ -98,8 +106,8 @@ void MainWindow::saveImageContextMenu()
   ui->lblfoto->addAction(ui->actionGuardar_foto);
   ui->lblfoto->addAction(ui->actionGuardar_foto_como);
 
-  ui->actionGuardar_foto->setEnabled(true);
-  ui->actionGuardar_foto_como->setEnabled(true);
+//  ui->actionGuardar_foto->setEnabled(true);
+//  ui->actionGuardar_foto_como->setEnabled(true);
   QObject::connect(ui->actionGuardar_foto,&QAction::triggered,[this](){
     QStringList paths=QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
     QString pathToSave=paths.first();
@@ -109,14 +117,45 @@ void MainWindow::saveImageContextMenu()
     pathToSave.append(ui->txtEstacion->text());
     pathToSave.append("_");
     pathToSave.append(ui->deFecha->date().toString());
-    pathToSave.append(".jpg");
-    if(!ui->lblfoto->pixmap(Qt::ReturnByValue).save(pathToSave,"JPG",90)){
-      QMessageBox::critical(this,qApp->applicationName(),"Error al guardar el archivo");
+    pathToSave.append("_");
+
+    QFile file;
+    QFileInfo info;
+
+    QString currentPicture=ui->lwFotos->currentItem()->data(Qt::DisplayRole).toString();
+    if(!currentPicture.isEmpty()){
+      if(currentPicture.compare("Foto 1")==0){
+        file.setFileName(dataList_monitoreo.value(4).toString());
+        info.setFile(file);
+        //        qDebug()<<currentPicture<<Qt::endl;
+        //        qDebug()<<dataList_monitoreo.value(4).toString();
+        pathToSave.append(info.fileName());
+
+      }
+      else if(currentPicture.compare("Foto 2")==0){
+        file.setFileName(dataList_monitoreo.value(5).toString());
+        info.setFile(file);
+        pathToSave.append(info.fileName());
+        //        qDebug()<<currentPicture<<Qt::endl;
+        //        qDebug()<<dataList_monitoreo.value(5).toString();
+      }else{
+        file.setFileName(dataList_monitoreo.value(6).toString());
+        info.setFile(file);
+        pathToSave.append(info.fileName());
+        //        qDebug()<<currentPicture<<Qt::endl;
+        //        qDebug()<<dataList_monitoreo.value(6).toString();
+      }
+    }
+
+    if(!file.copy(pathToSave)){
+      QMessageBox::warning(this,qApp->applicationName(),"Error al guardar el archivo\n"
+                                                          "No puede guardar el mismo archivo en la misma dirección.");
       return;
     }
-    QMessageBox::information(this,qApp->applicationName(),"Archivo guardado en:\n"+
-                                                              pathToSave);
+    QMessageBox::information(this,qApp->applicationName(),"Archivo guardado en:\n"+pathToSave);
   });
+
+
   QObject::connect(ui->actionGuardar_foto_como,&QAction::triggered,[this](){
     QStringList path=QStandardPaths::standardLocations(QStandardPaths::DocumentsLocation);
 
@@ -124,7 +163,18 @@ void MainWindow::saveImageContextMenu()
                                                     "Imagenes (*.jpg)");
     if(fileName.isEmpty())
       return;
-    if(!ui->lblfoto->pixmap(Qt::ReturnByValue).save(fileName,"JPG",90)){
+    QFile file;
+    QString currentPicture=ui->lwFotos->currentItem()->data(Qt::DisplayRole).toString();
+    if(!currentPicture.isEmpty()){
+      if(currentPicture.compare("Foto 1")==0)
+        file.setFileName(dataList_monitoreo.value(4).toString());
+      else if(currentPicture.compare("Foto 2")==0){
+        file.setFileName(dataList_monitoreo.value(5).toString());
+      }else{
+        file.setFileName(dataList_monitoreo.value(6).toString());
+      }
+    }
+    if(!file.copy(fileName)){
       QMessageBox::critical(this,qApp->applicationName(),"Error al guardar el archivo");
       return;
     }
@@ -248,30 +298,30 @@ void MainWindow::loadSettings()
 void MainWindow::datosMonitoreo()
 {
   int nro=bLayer.nro(dataList_2.key(ui->lwEstaciones->currentItem()->data(Qt::DisplayRole).toString()));
-  QVariantList dataList=bLayer.dataEstMonitoreo(nro);
-  ui->txtEstacion->setText(dataList.value(0).toString());
-  ui->deFecha->setDate(dataList.value(1).toDate());
-  ui->teHora->setTime(dataList.value(2).toTime());
-  ui->txtDescripcion->setPlainText(dataList.value(3).toString());
+  dataList_monitoreo=bLayer.dataEstMonitoreo(nro);
+  ui->txtEstacion->setText(dataList_monitoreo.value(0).toString());
+  ui->deFecha->setDate(dataList_monitoreo.value(1).toDate());
+  ui->teHora->setTime(dataList_monitoreo.value(2).toTime());
+  ui->txtDescripcion->setPlainText(dataList_monitoreo.value(3).toString());
   ui->lwFotos->clear();
 
-  if(!dataList.value(4).toString().isEmpty()){
+  if(!dataList_monitoreo.value(4).toString().isEmpty()){
     QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui_-42-128.png"),"Foto 1");
     ui->lwFotos->addItem(item);
-    foto_1=openPicture(dataList.value(4).toString());
+    foto_1=openPicture(dataList_monitoreo.value(4).toString());
   }
-  if(!dataList.value(5).toString().isEmpty()){
+  if(!dataList_monitoreo.value(5).toString().isEmpty()){
     QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui_-42-128.png"),"Foto 2");
     ui->lwFotos->addItem(item);
-    foto_2=openPicture(dataList.value(5).toString());
+    foto_2=openPicture(dataList_monitoreo.value(5).toString());
   }else{
     foto_2=QImage(":/img/default.png");
 
   }
-  if(!dataList.value(6).toString().isEmpty()){
+  if(!dataList_monitoreo.value(6).toString().isEmpty()){
     QListWidgetItem *item=new QListWidgetItem(QIcon(":/img/ui_-42-128.png"),"Foto 3");
     ui->lwFotos->addItem(item);
-    foto_3=openPicture(dataList.value(6).toString());
+    foto_3=openPicture(dataList_monitoreo.value(6).toString());
   }else{
     foto_3=QImage(":/img/default.png");
   }
@@ -279,19 +329,19 @@ void MainWindow::datosMonitoreo()
   QListWidgetItem *selectedItem=ui->lwFotos->item(0);
   ui->lwFotos->setCurrentItem(selectedItem);
   //coordenas}
-  ui->dsbEste->setValue(dataList.value(8).toDouble());
-  ui->dsbNorte->setValue(dataList.value(9).toDouble());
-  ui->dsbCota->setValue(dataList.value(10).toDouble());
+  ui->dsbEste->setValue(dataList_monitoreo.value(8).toDouble());
+  ui->dsbNorte->setValue(dataList_monitoreo.value(9).toDouble());
+  ui->dsbCota->setValue(dataList_monitoreo.value(10).toDouble());
   //descripcion del punto
-  ui->txtDesc_punto->setText(dataList.value(11).toString());
-  ui->txtDesc_punto->setToolTip(dataList.value(11).toString());
+  ui->txtDesc_punto->setText(dataList_monitoreo.value(11).toString());
+  ui->txtDesc_punto->setToolTip(dataList_monitoreo.value(11).toString());
 
 
   //datos de campo
-  ui->dsbPh->setValue(dataList.value(13).toDouble());
-  ui->dsbTemp->setValue(dataList.value(14).toDouble());
-  ui->dsbOd->setValue(dataList.value(15).toDouble());
-  ui->dsbCond->setValue(dataList.value(16).toDouble());
+  ui->dsbPh->setValue(dataList_monitoreo.value(13).toDouble());
+  ui->dsbTemp->setValue(dataList_monitoreo.value(14).toDouble());
+  ui->dsbOd->setValue(dataList_monitoreo.value(15).toDouble());
+  ui->dsbCond->setValue(dataList_monitoreo.value(16).toDouble());
 }
 
 void MainWindow::cleanControls()
@@ -333,7 +383,7 @@ QImage MainWindow::openPicture(QString f)
 
 void MainWindow::showFotoToControl(QListWidgetItem *item)
 {
-//  QPixmap pixMap;
+  //  QPixmap pixMap;
   if(item->data(Qt::DisplayRole).toString()=="Foto 1"){
     //    pixMap.loadFromData(foto_1);
     ui->lblfoto->setPixmap(QPixmap::fromImage(foto_1));
@@ -376,9 +426,9 @@ void MainWindow::on_cboMeses_activated(int index)
   loadDataEstMonitoreo();
   if(dataList_2.isEmpty()){
     cleanControls();
-    defaultImage();
     ui->actionGuardar_foto->setDisabled(true);
     ui->actionGuardar_foto_como->setDisabled(true);
+    defaultImage();
   }
 }
 
@@ -389,10 +439,9 @@ void MainWindow::on_cboAnios_activated(int index)
   loadDataEstMonitoreo();
   if(dataList_2.isEmpty()){
     cleanControls();
-    defaultImage();
     ui->actionGuardar_foto->setDisabled(true);
     ui->actionGuardar_foto_como->setDisabled(true);
-
+    defaultImage();
   }
 }
 
@@ -439,6 +488,7 @@ void MainWindow::on_lwEstaciones_itemSelectionChanged()
 void MainWindow::on_lwFotos_itemSelectionChanged()
 {
   showFotoToControl(ui->lwFotos->currentItem());
+
 }
 MainWindow *MainWindow::getInstance(){
   if(!instance)

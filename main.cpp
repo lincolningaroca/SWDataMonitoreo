@@ -23,6 +23,9 @@ int main(int argc, char *argv[])
     qDebug()<<"La carpeta fue creada";
 
 //  w.getInstance()->show();
+
+  //validar si ahy adtos en la Db--XdXdXd
+
   w.show();
   return a.exec();
 
