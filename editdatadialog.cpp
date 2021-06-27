@@ -217,8 +217,9 @@ void EditDataDialog::on_btnEliminar_clicked()
   QString codEstacion=list.value(0).toString();
 
   QMessageBox msgBox;
-  msgBox.setText(QString("Seguro que desea eliminar este registro:%1").arg(
-    "<p style=\"color:#CF1F25;\"><b>"+codEstacion+"</b></p>"));
+  msgBox.setText(QString("<p>Seguro que desea eliminar este registro:%1</p>").arg(
+    "<p style=\"color:#CF1F25;\"><b>"+codEstacion+"</b></p>\n")+
+                 "Recuerde que al eliminar un registro, tambien se eliminaran todos los datos que tenga asociado.");
   msgBox.setIcon(QMessageBox::Question);
   msgBox.addButton(new QPushButton("Eliminar registro"),QMessageBox::AcceptRole);
   msgBox.addButton(new QPushButton("Cancelar"),QMessageBox::RejectRole);
@@ -234,11 +235,20 @@ void EditDataDialog::on_btnEliminar_clicked()
                             bLayer.errorMessage()+"\n"+bLayer.errorCode());
     return;
   }
+  if(!list.value(4).toString().isEmpty())
+    QFile::remove(list.value(4).toString());
+  if(!list.value(5).toString().isEmpty())
+    QFile::remove(list.value(5).toString());
+  if(!list.value(6).toString().isEmpty())
+    QFile::remove(list.value(6).toString());
+
+
   QMessageBox::information(this,qApp->applicationName(),"Registro eliminado");
   //  accept();
-  //  cleanData();
+//    cleanData();
   dataModel();
-  datosMonitoreo();
+  if(model->rowCount()!=0)
+    datosMonitoreo();
 
 }
 
@@ -524,7 +534,7 @@ QPaintEngine *EditDataDialog::paintEngine() const
 
 void EditDataDialog::closeEvent(QCloseEvent *event)
 {
-  accept();
+//  accept();
   event->accept();
 
 }

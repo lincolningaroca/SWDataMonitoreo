@@ -45,10 +45,7 @@ private:
   QHash<int,QString> dataListCliente;
   QSqlQueryModel *model;
   QVariantList list;
-
-//  QString oldPath_1;
-//  QString oldPath_2;
-//  QString oldPath_3;
+  QString desc_punto;
 
   QString newPath_1;
   QString newPath_2;
@@ -59,13 +56,13 @@ private:
   QImage imagen_3;
 
   void dataModel();
-  void cleanData();
+//  void cleanData();
   void manageControls(int op);
   QImage openPicture(QString f);
 //  QImage removePicture(QString f);
   //funcoines privadas del programador
   void setUpTableView();
-  QString desc_punto;
+
   void setUpToolBtnClear();
   void setupFotoDialog();
 

@@ -217,7 +217,7 @@ void MainWindow::on_toolButton_2_clicked()
     loadDataListCliente();
     ui->lwEstaciones->clear();
     loadDataEstMonitoreo();
-    haveData();
+
   }
 
 }
@@ -237,6 +237,7 @@ void MainWindow::on_cboGrupo_activated(int index)
     ui->actionGuardar_foto_como->setDisabled(true);
     defaultImage();
   }
+  haveData();
 
 }
 void MainWindow::on_actionNuevo_punto_de_monitoreo_triggered()
@@ -262,6 +263,7 @@ void MainWindow::on_cboUnidad_activated(int index)
     ui->actionGuardar_foto_como->setDisabled(true);
     defaultImage();
   }
+  haveData();
 }
 
 void MainWindow::loadMesesAnios()
@@ -457,14 +459,14 @@ void MainWindow::on_actionActualizar_datos_triggered()
     loadGpoMinerolist();
     ui->cboUnidad->clear();
     loadDataListCliente();
+
   }
 
 }
 
 void MainWindow::on_actionEditar_datos_unidad_minera_triggered()
 {
-  QVariantList data=bLayer.selectData(dataListCliente.key(ui->cboUnidad->currentText()),
-                                        BussinesLayer::CLIENTE);
+  QVariantList data=bLayer.selectData(dataListCliente.key(ui->cboUnidad->currentText()),BussinesLayer::CLIENTE);
   NuevoDialog *dlgEditUnidad=new NuevoDialog(NuevoDialog::UPDATE_UNIDAD ,data,this);
   dlgEditUnidad->setWindowTitle("Editar datos - Unidad minera");
   if(dlgEditUnidad->exec()==QDialog::Accepted){
@@ -483,6 +485,7 @@ void MainWindow::on_actioneditar_datos_monitoreo_triggered()
   if(editDialog->exec()==QDialog::Accepted){
     ui->lwEstaciones->clear();
     loadDataEstMonitoreo();
+    haveData();
   }
 
 }

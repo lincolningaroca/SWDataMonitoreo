@@ -48,10 +48,13 @@
          <item>
           <widget class="QToolButton" name="toolButton">
            <property name="toolTip">
-            <string>Nuevo grupo minero</string>
+            <string>Nuevo grupo minero (Ctrl+Shift+A)</string>
            </property>
            <property name="text">
             <string>...</string>
+           </property>
+           <property name="shortcut">
+            <string>Ctrl+Shift+A</string>
            </property>
           </widget>
          </item>
@@ -72,10 +75,13 @@
          <item>
           <widget class="QToolButton" name="toolButton_2">
            <property name="toolTip">
-            <string>Nueva unidad minera</string>
+            <string>Nueva unidad minera (Ctrl+Shift+S)</string>
            </property>
            <property name="text">
             <string>...</string>
+           </property>
+           <property name="shortcut">
+            <string>Ctrl+Shift+S</string>
            </property>
           </widget>
          </item>
